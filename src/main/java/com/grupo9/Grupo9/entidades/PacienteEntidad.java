@@ -29,6 +29,9 @@ public class PacienteEntidad {
     private Integer telefono;
     
     //LinkedList<HistorialClinico> historialClinico;
+    
+    public PacienteEntidad(){
+    }
 
     public PacienteEntidad(Integer dni, String nombre, String apellido, Date fechaNacimiento, String sexo, String email, String obraSocial, Integer telefono) {
         this.dni = dni;
