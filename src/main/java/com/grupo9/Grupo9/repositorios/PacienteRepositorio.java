@@ -9,12 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PacienteRepositorio extends JpaRepository<PacienteEntidad, Integer>{
-    
-    long countByDni(Integer dni);
-    
-    boolean existsPacienteEmail(String email);
-    
-    @Query("SELECT p FROM PACIENTE p WHERE p.dni = :dni")
-    public Optional<PacienteEntidad> obtenerPerfil(@Param("dni") Integer dni);
+       
+    @Query("SELECT p FROM PacienteEntidad p WHERE p.email = :email")
+    public Optional<PacienteEntidad> findByEmail(@Param("email") String email);
     
 }
