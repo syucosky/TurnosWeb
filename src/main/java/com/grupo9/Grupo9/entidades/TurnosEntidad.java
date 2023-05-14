@@ -5,12 +5,15 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity  
+@Entity
+@Table(name = "turno")
 public class TurnosEntidad implements Serializable{
     
     @Id
@@ -19,5 +22,6 @@ public class TurnosEntidad implements Serializable{
     private String dia;
     private Date horario; // FALTA DEFINIR EL TIPO DATE PARA SABER COMO MANEJAR LOS HORARIOS 
     
-    
+    @OneToOne
+    private ProfesionalEntidad profesional;
 }

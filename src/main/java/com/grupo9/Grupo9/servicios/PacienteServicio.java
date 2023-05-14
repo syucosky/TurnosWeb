@@ -158,8 +158,7 @@ public class PacienteServicio {
         try{
             if(dni == null){
                 throw new MiExcepcion("DNI no fue cargado");
-            }else if(dni < 0 
-                    ){
+            }else if(dni < 0){
                 throw new MiExcepcion("DNI invalido, no puede ser un número negativo");
             }else if(Long.toString(dni).matches("^[0-9][^a-zA-Z]{6,9}$") == false){
                 throw new MiExcepcion("DNI invalido");
