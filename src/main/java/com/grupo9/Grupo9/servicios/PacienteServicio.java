@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PacienteServicio {
     
     @Autowired
-    private PacienteRepositorio pacienteRepositorio;
+    PacienteRepositorio pacienteRepositorio;
 //    @Autowired
 //    private HistorialClinicoServicio historialclinicoServicio;
     
@@ -158,11 +158,12 @@ public class PacienteServicio {
         try{
             if(dni == null){
                 throw new MiExcepcion("DNI no fue cargado");
-            }else if(dni < 0){
+            }else if(dni < 0 
+                    ){
                 throw new MiExcepcion("DNI invalido, no puede ser un número negativo");
             }else if(Long.toString(dni).matches("^[0-9][^a-zA-Z]{6,9}$") == false){
                 throw new MiExcepcion("DNI invalido");
-            }else if(pacienteRepositorio.countByDni(dni) > 0){
+            }else if(pacienteRepositorio.findById(dni) != null){
                 throw new MiExcepcion("DNI ingresado se encuentra asociado a una cuenta");
             }
         }catch(MiExcepcion ex){
@@ -189,7 +190,7 @@ public class PacienteServicio {
             throw new MiExcepcion("El Email no puede estar vacio.");
         }
 
-        if (pacienteRepositorio.existsPacienteEmail(email)) {
+        if (pacienteRepositorio.findByEmail(email) != null) {
             throw new MiExcepcion("Ya existe un usuario asociado al correo ingresado");
         }
         if (!(email.contains("@") && email.contains(".com"))) {
@@ -222,7 +223,7 @@ public class PacienteServicio {
     @Transactional(readOnly = true)
     public PacienteEntidad obtenerPerfil(Integer dni) throws Exception, MiExcepcion{
         try {
-            PacienteEntidad paciente = pacienteRepositorio.obtenerPerfil(dni).orElseThrow(() -> 
+            PacienteEntidad paciente = pacienteRepositorio.findById(dni).orElseThrow(() -> 
                     new MiExcepcion("Error al obtener datos del perfil"));
             return paciente;
         } catch (Exception e) {
