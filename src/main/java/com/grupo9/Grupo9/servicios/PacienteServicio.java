@@ -21,7 +21,7 @@ public class PacienteServicio {
     //Metodos CRUD
     @Transactional
     public void guardarPaciente(Integer dni, String nombre, String apellido, Date fechaNacimiento, 
-            String sexo, String email, String obraSocial, Integer telefono) throws Exception, MiExcepcion{
+            String sexo, String email, String obraSocial, Integer telefono, String password) throws Exception, MiExcepcion{
         
         try{
             
@@ -34,7 +34,7 @@ public class PacienteServicio {
             paciente.setTelefono(telefono);
             paciente.setEmail(email);
             paciente.setObraSocial(obraSocial);
-            
+            paciente.setPassword(password);
             pacienteRepositorio.save(paciente);
 //        }catch(MiExcepcion ex){
 //            throw ex;

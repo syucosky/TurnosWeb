@@ -23,7 +23,7 @@ public class ProfesionalEntidad implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int dni;
     private String nombre;
     private String especialidad;
     private String tipoAtencion;

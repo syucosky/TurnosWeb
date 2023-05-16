@@ -21,21 +21,20 @@ public class PacienteEntidad {
     private Integer dni;
     
     private String nombre;
-    private String apellido;
-    
-    @Temporal(TemporalType.DATE)
+    private String apellido;   
     private Date fechaNacimiento;
     private String sexo;
     private String email;
     private String obraSocial;
     private Integer telefono;
+    private String password;
     
     //LinkedList<HistorialClinico> historialClinico;
     
     public PacienteEntidad(){
     }
 
-    public PacienteEntidad(Integer dni, String nombre, String apellido, Date fechaNacimiento, String sexo, String email, String obraSocial, Integer telefono) {
+    public PacienteEntidad(Integer dni, String nombre, String apellido, Date fechaNacimiento, String sexo, String email, String obraSocial, Integer telefono, String password) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -44,6 +43,7 @@ public class PacienteEntidad {
         this.email = email;
         this.obraSocial = obraSocial;
         this.telefono = telefono;
+        this.password = password;
     }
     
     
