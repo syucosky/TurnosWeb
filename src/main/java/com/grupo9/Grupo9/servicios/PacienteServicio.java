@@ -1,5 +1,6 @@
 package com.grupo9.Grupo9.servicios;
 
+import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.repositorios.PacienteRepositorio;
 import com.grupo9.Grupo9.excepciones.MiExcepcion;
@@ -9,32 +10,22 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.grupo9.Grupo9.repositorios.ObraSocialRepositorio;
 
 @Service
 public class PacienteServicio {
     
     @Autowired
     PacienteRepositorio pacienteRepositorio;
+
 //    @Autowired
 //    private HistorialClinicoServicio historialclinicoServicio;
     
     //Metodos CRUD
     @Transactional
-    public void guardarPaciente(Integer dni, String nombre, String apellido, Date fechaNacimiento, 
-            String sexo, String email, String obraSocial, Integer telefono, String password) throws Exception, MiExcepcion{
+    public void guardarPaciente(PacienteEntidad paciente) throws Exception, MiExcepcion{
         
         try{
-            
-            PacienteEntidad paciente = new PacienteEntidad();
-            paciente.setNombre(nombre);
-            paciente.setApellido(apellido);
-            paciente.setDni(dni);
-            paciente.setFechaNacimiento(fechaNacimiento);
-            paciente.setSexo(sexo);
-            paciente.setTelefono(telefono);
-            paciente.setEmail(email);
-            paciente.setObraSocial(obraSocial);
-            paciente.setPassword(password);
             pacienteRepositorio.save(paciente);
 //        }catch(MiExcepcion ex){
 //            throw ex;

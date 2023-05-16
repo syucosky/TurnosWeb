@@ -1,6 +1,8 @@
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
+import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,8 @@ public class PacienteController {
     
     @Autowired
     PacienteServicio pacienteServicio;
-    
+    @Autowired
+    ObraSocialService obraSocialServicio;
     
     @PostMapping("/paciente")
     public String registrarPaciente(
@@ -24,14 +27,15 @@ public class PacienteController {
                                     @RequestParam("nombre") String nombre,
                                     @RequestParam("apellido") String apellido,
                                     @RequestParam("email") String email,
-                                    @RequestParam(value = "obras", required = false) String obras,
+                                    @RequestParam(value = "obras") String obras,
                                     @RequestParam("fNacimiento") Date fNacimiento,
                                     @RequestParam("telefono") Integer telefono,
                                     @RequestParam("sexo") String sexo,
                                     @RequestParam("password") String password){
         try {
-            pacienteServicio.guardarPaciente(dni, nombre, apellido,
-                fNacimiento, sexo, email, obras,telefono, password);
+            ObraSocialEntidad obraSocial = obraSocialServicio.buscarPorNombre(obras);
+            PacienteEntidad paciente = new PacienteEntidad(dni, nombre, apellido, fNacimiento, sexo, email, obraSocial, telefono, password);
+            pacienteServicio.guardarPaciente(paciente);
         } catch (Exception e) {
         }   
         return "index.html";
