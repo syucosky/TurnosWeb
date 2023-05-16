@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +27,11 @@ public class PacienteEntidad {
     private Date fechaNacimiento;
     private String sexo;
     private String email;
-    private String obraSocial;
+    
+    @ManyToOne
+    @JoinColumn(name="obraS_id")
+    private ObraSocialEntidad obraSocial;
+    
     private Integer telefono;
     private String password;
     
@@ -34,7 +40,7 @@ public class PacienteEntidad {
     public PacienteEntidad(){
     }
 
-    public PacienteEntidad(Integer dni, String nombre, String apellido, Date fechaNacimiento, String sexo, String email, String obraSocial, Integer telefono, String password) {
+    public PacienteEntidad(Integer dni, String nombre, String apellido, Date fechaNacimiento, String sexo, String email, ObraSocialEntidad obraSocial, Integer telefono, String password) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
