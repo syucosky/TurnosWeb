@@ -6,8 +6,8 @@
         <link href="css/one-page-wonder.min.css" rel="stylesheet">
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <link rel="icon" type="image/png" href="./img/icon.png">
-        <link rel="stylesheet" href="./css/lista_cliente.css">
+        <link rel="icon" type="image/png" href="../img/icon.png">
+        <link rel="stylesheet" href="../static/lista_pacientes.css">
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -19,7 +19,7 @@
         <nav class="navbar navbar-expand-lg navBar">
             <div class="containerImg">
                 <a href="/" class="navbar-brand d-flex align-items-center">
-                    <img class="logo" src="./img/logo.png" alt="Img logo MediLab">
+                    <img class="logo" src="../img/icon.png" alt="Img logo MediLab">
                 </a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,8 @@
                             <li><a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/libro/registrar}">Ver Paciente</a></li>
                             <li><hr class="dropdown-divider"></li>
 
-                            <li><a class="dropdown-item" th:href="@{/libro/lista}">Modificar Paciente</a></li>
+                            <li><a class="dropdown-item" th:href="@{/libro/lista}">Editar Paciente</a></li>
+                            <li><a class="dropdown-item" th:href="@{/libro/lista}">Eliminar Paciente</a></li>
                         </ul>
                     </li>
 
