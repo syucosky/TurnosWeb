@@ -32,10 +32,10 @@ public class PacienteController {
         return "lista-cliente.html";
     }
     
-    @DeleteMapping("/borrar/{dni}")
+    @GetMapping("/borrar/{dni}")
     public String borrarPorId(@PathVariable("dni") Integer dni){
         pacienteServicio.eliminar(dni);
         
-        return "lista-cliente.html";
+        return "redirect:/paciente";
     }
 }
