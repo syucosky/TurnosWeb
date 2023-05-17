@@ -5,39 +5,37 @@ import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/registrar")
+@RequestMapping("/paciente")
 public class PacienteController {
     
-    @Autowired
+    @Autowired  
     PacienteServicio pacienteServicio;
-    @Autowired
-    ObraSocialService obraSocialServicio;
     
-    @PostMapping("/paciente")
-    public String registrarPaciente(
-                                    @RequestParam("dni") Integer dni,
-                                    @RequestParam("nombre") String nombre,
-                                    @RequestParam("apellido") String apellido,
-                                    @RequestParam("email") String email,
-                                    @RequestParam(value = "obras") String obras,
-                                    @RequestParam("fNacimiento") Date fNacimiento,
-                                    @RequestParam("telefono") Integer telefono,
-                                    @RequestParam("sexo") String sexo,
-                                    @RequestParam("password") String password){
-        try {
-            ObraSocialEntidad obraSocial = obraSocialServicio.buscarPorNombre(obras);
-            PacienteEntidad paciente = new PacienteEntidad(dni, nombre, apellido, fNacimiento, sexo, email, obraSocial, telefono, password);
-            pacienteServicio.guardarPaciente(paciente);
-        } catch (Exception e) {
-        }   
-        return "index.html";
+    @GetMapping("")
+    public String listarClientes(ModelMap model){
+        List<PacienteEntidad> pacientes = pacienteServicio.todosLosPacientes();
+        model.addAttribute("pacientes",pacientes);
+        return "lista-cliente.html";
+    }
+    
+    @DeleteMapping("/borrar/{dni}")
+    public String borrarPorId(@PathVariable("dni") Integer dni){
+        pacienteServicio.eliminar(dni);
+        
+        return "lista-cliente.html";
     }
 }

@@ -31,10 +31,20 @@ public class PacienteServicio {
 //            throw ex;
         }catch(Exception e){
             throw e;
-        }
-        
+        }     
     }
-    
+     @Transactional(readOnly = true)
+     public List<PacienteEntidad> todosLosPacientes(){
+         return pacienteRepositorio.findAll();
+     }
+     @Transactional
+    public void eliminar(Integer dni) { 
+        try {
+            pacienteRepositorio.deleteById(dni);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     @Transactional
     public void editarNombre(String nombre, PacienteEntidad paciente) throws Exception, MiExcepcion{
         try{

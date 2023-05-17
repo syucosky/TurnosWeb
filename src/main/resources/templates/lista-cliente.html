@@ -90,38 +90,27 @@
 
         <div class="container m-5" >
 
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Nombre del Cliente</th>
-                        <th scope="col">Apellido del Cliente</th>
-                        <th scope ="col">email</th>
-                        <th scope ="col">Obra Social</th>
-                        <th scope ="col">nacimiento</th>
-                        <th scope ="col">sexo</th>
-                        <th> 
-                            
-                        </th>
-
-                    </tr>
-                </thead>
-                
-            
-                
-                <tbody th:each="autor : ${autores}"> 
-                    <tr>
-                        <th scope="row" th:text="${autor.id}"></th>
-                        <th th:text="${paciente.nombre}"></th>
-                        <th th:email="${paciente.email}"></th>
-                        <th th:text="${paciente.obra-social}"></th>
-                        <th th:date="${paciente.nacimiento}"></th>
-                        <th th:radio="${paciente.sexo}"></th>
-                       
-
-                    </tr>
-
-                </tbody>
-            </table>
+                <table class="table table" style="margin-top:20px;width:40%; border: 2px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Modificar</th>
+                            <th scope="col">Elminiar </th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="paciente : ${pacientes}">
+                        <tr>
+                            <th th:text="${paciente.nombre}" scope="row"></th>
+                            <th th:text="${paciente.apellido}" scope="row"></th>
+                                                        <td>
+                                <a th:href="@{/Modificar/__${paciente.dni}__}"  style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Modificar</a>
+                            </td>
+                            <td>
+                                <a th:href="@{/paciente/borrar/__${paciente.dni}__}" style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Eliminar</a>   
+                        </tr>                    
+                    </tbody>
+                </table>
 
             <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                 <div class="card-body">
@@ -136,36 +125,10 @@
                 </div>
             </div>
 
-            <section class="py-5 text-center container">
-                <div class="row py-lg-5">
-                    <div class="col-lg-6 col-md-8 mx-auto">
-                        <a th:href="@{/inicio }" class="btn btn-primary my-2">Modificar</a>
-                    </p>
-                            
-                                <a  th:href= "@{/autor/modificar/__${autor.id}__}" type="submit "sec:authorize="hasRole('ESPECIALISTA')"><i class="fas fa-feather-alt"></i> </a>
-                            </td>
-    
-                        </tr>
-                    </div>
-                <div class="row py-lg-5">
-                    <div class="col-lg-6 col-md-8 mx-auto">
-                        <a th:href="@{/inicio }" class="btn btn-primary my-2">Volver</a>
-                        </p>
-                    </div>
-                </div>
-            </section>
+
 
         </div>
 
-        <footer class="text-muted py-5">
-            <div class="containerFooter">
-                <p class="mb-1"></p>
-                <p class="mb-0"></a>.</p>
-                <p class="float-end mb-1">
-                    <a href="#" style="text-decoration:none"><span>⬆️</span> Back to top</a>
-                </p>
-            </div>
-        </footer>
 
 
 
