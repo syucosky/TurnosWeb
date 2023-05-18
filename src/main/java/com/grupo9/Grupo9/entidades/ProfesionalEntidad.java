@@ -31,6 +31,8 @@ public class ProfesionalEntidad implements Serializable{
     private String tipoAtencion;
     private String ubicacion;
     
+    private Boolean alta;
+    
     @ManyToOne
     @JoinColumn(nullable = false)
     private RolEntidad rol;
@@ -69,6 +71,5 @@ public class ProfesionalEntidad implements Serializable{
         this.cantidadDeCalificaciones = cantidadDeCalificaciones;
         this.calificacion = calificacion;
     }
-
     
 }
