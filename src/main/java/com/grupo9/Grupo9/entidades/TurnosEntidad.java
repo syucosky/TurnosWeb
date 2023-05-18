@@ -1,11 +1,9 @@
 package com.grupo9.Grupo9.entidades;
 
-
 //import java.io.Serializable;
 //import java.util.Date;
 //import javax.persistence.Entity;
 //import javax.persistence.Id;
-//import javax.persistence.OneToOne;
 //import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +41,10 @@ public class TurnosEntidad{
     @Column(nullable = false)
     private Boolean alta;
     
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private ProfesionalEntidad profesional;
+    
     @ManyToOne
     @JoinColumn(nullable = false)
     private EspecialidadEntidad especialidad;
@@ -55,3 +58,4 @@ public class TurnosEntidad{
 
     
 }
+
