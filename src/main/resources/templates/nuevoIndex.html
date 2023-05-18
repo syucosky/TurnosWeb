@@ -32,7 +32,12 @@
             <br />
             <h3 class="text-center">Ingrese sus datos</h3>
             <hr class="border-primary opacity-20" />
-            <form style="margin: 5%">
+            <form
+              class="formulario"
+              th:action="@{/logincheck}"
+              method="POST"
+              style="margin: 5%"
+            >
               <!--Receive Input-->
 
               <div class="mb-3">
@@ -40,15 +45,23 @@
                   >Dirección de correo electrónico</label
                 >
                 <input
-                  type="password"
+                  type="text"
                   class="form-control"
-                  id="inputPassword"
+                  name="usuario"
+                  placeholder="Correo Electronico"
                 />
               </div>
 
               <div class="mb-3">
-                <label for="inputDNI" class="form-label">Contraseña</label>
-                <input type="dni" class="form-control" id="DNI" id="inputDNI" />
+                <label for="inputContraseña" class="form-label"
+                  >Contraseña</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Contraseña"
+                />
               </div>
 
               <div class="form-text text-center">
@@ -96,6 +109,7 @@
         </div>
       </div>
     </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -103,3 +117,4 @@
     ></script>
   </body>
 </html>
+0
