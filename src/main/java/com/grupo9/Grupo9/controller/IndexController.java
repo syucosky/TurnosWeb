@@ -22,7 +22,7 @@ public class IndexController {
     
     @GetMapping("/")
     public String vista(){    
-        return "index.html";
+        return "login.html";
     }
     @GetMapping("/registrar")
     public String registro(){    
