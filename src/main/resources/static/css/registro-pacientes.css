@@ -1,0 +1,52 @@
+html,
+body {
+  background-color: #dae2ff;
+  font-family: "Open Sans", sans-serif;
+  line-height: 20px;
+
+  font-size: 300;
+  font-size: 16px;
+
+  min-height: 650px;
+}
+
+.mensajeExito {
+  width: 20%;
+  margin: auto;
+  text-align: center;
+}
+
+.mensajeError {
+  width: 20%;
+  margin: auto;
+  text-align: center;
+}
+
+.divVolver {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.botones:active {
+  box-shadow: none;
+}
+
+.form-control1 {
+  size: 3px;
+  text-align: center;
+  justify-content: center;
+}
+
+.card-title {
+  text-align: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.btn {
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
