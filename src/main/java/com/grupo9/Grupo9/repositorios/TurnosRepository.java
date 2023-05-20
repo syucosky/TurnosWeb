@@ -23,6 +23,21 @@ public interface TurnosRepository extends JpaRepository<TurnosEntidad,Integer> {
     @Query("UPDATE TurnosEntidad SET fecha = :fecha, hora = :hora, medico = :medico, lugar = :lugar WHERE id = :id")
     public void modificar(@Param("id") Integer id, @Param("fecha") LocalDate fecha, @Param("hora") LocalTime hora, @Param("medico") String medico, @Param("lugar") String lugar);
     
+<<<<<<< HEAD
     @Query("SELECT t FROM TurnosEntidad t  WHERE paciente_dni = :paciente_dni")
     public TurnosEntidad obtenerTurnosCliente(@Param("paciente_dni") Integer paciente_dni);
 }
+=======
+    @Query("SELECT t FROM TurnosEntidad t WHERE t.paciente.dni = :paciente_dni")
+    public List<TurnosEntidad> obtenerTurnosPaciente(@Param("paciente_dni") Integer paciente_dni);
+    
+    @Query("SELECT t FROM TurnosEntidad t WHERE t.paciente.dni = :paciente_dni")
+    public Optional<TurnosEntidad> obtenerTurnosPaciente(@Param("paciente_dni") Integer paciente_dni, @Param("turnosId") Integer turnosId);
+    
+    @Query("SELECT t FROM TurnosEntidad t WHERE t.paciente.dni = : paciente_dni AND MONTH(t.fecha)=MONTH(:fechadeHoy) AND YEAR(t.fecha) =YEAR(:fechadeHoy) AND t.alta = true")
+    public List<TurnosEntidad> obtenerTurnosMes(@Param("paciente_dni") Integer paciente_dni, @Param("fechadeHoy") LocalDate fechadeHoy);
+    
+    @Query("SELECT t FROM TurnosEntidad t WHERE t.paciente.dni = :paciente_dni AND (MONTH(t.fecha) != MONTH(:fechadeHoy) AND YEAR(t.fecha) !=YEAR(:fechadeHoy)) AND t.fecha > :fechadeHoy AND t.alta = true")
+    public List<TurnosEntidad> obtenerTurnosFuturo(@Param("paciente_dni") Integer paciente_dni, @Param("fechadeHoy") LocalDate fechadeHoy);
+}
+>>>>>>> 57fcfa9d7409807324e9c9a1d82876ee1f70a16a
