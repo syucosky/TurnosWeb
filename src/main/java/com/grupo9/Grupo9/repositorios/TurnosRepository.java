@@ -29,7 +29,7 @@ public interface TurnosRepository extends JpaRepository<TurnosEntidad,Integer> {
     public List<TurnosEntidad> obtenerTurnosPaciente(@Param("paciente_dni") Integer paciente_dni);
     
     @Query("SELECT t FROM TurnosEntidad t WHERE t.paciente.dni = :paciente_dni")
-    public Optional<TurnosEntidad> obtenerTurnosCliente(@Param("paciente_dni") Integer paciente_dni, @Param("turnosId") Integer turnosId);
+    public Optional<TurnosEntidad> obtenerTurnosPaciente(@Param("paciente_dni") Integer paciente_dni, @Param("turnosId") Integer turnosId);
     
     @Query("SELECT t FROM TurnosEntidad t WHERE t.paciente.dni = : paciente_dni AND MONTH(t.fecha)=MONTH(:fechadeHoy) AND YEAR(t.fecha) =YEAR(:fechadeHoy) AND t.alta = true")
     public List<TurnosEntidad> obtenerTurnosMes(@Param("paciente_dni") Integer paciente_dni, @Param("fechadeHoy") LocalDate fechadeHoy);
