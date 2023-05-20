@@ -11,11 +11,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad, Integer>{
-    Optional<ProfesionalEntidad> findByCorreo(String email);
-
-    boolean existsProfesionalByEmail(String email);
+//    Optional<ProfesionalEntidad> findByCorreo(String email);
+//
+//    boolean existsProfesionalByEmail(String email);
 
     @Modifying
-    @Query("UPDATE Profesional a SET a.alta = :alta WHERE a.id = :id")
-    void baja(@Param("id") Integer id, @Param("alta") Boolean alta);
+    @Query("UPDATE ProfesionalEntidad SET alta = :alta WHERE dni = :id")
+    public void baja(@Param("id") Integer id, @Param("alta") Boolean alta);
+    
 } 

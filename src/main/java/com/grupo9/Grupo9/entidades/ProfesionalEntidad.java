@@ -1,10 +1,13 @@
 package com.grupo9.Grupo9.entidades;
 
+import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,17 +33,17 @@ public class ProfesionalEntidad implements Serializable{
     private String email;
     private String password;
     
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+    
     private String tipoAtencion;
     private String ubicacion;
     
-    private Boolean alta;
+    private Boolean alta = false;
     
     @OneToMany(mappedBy="profesionales")
     private Set<EspecialidadEntidad> especialidad;    
     
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private RolEntidad rol;
     
     @ManyToMany(
             cascade = {
@@ -62,7 +65,7 @@ public class ProfesionalEntidad implements Serializable{
     public ProfesionalEntidad() {
     }
 
-    public ProfesionalEntidad(int dni, String nombre, String email, String password, String tipoAtencion, String ubicacion, RolEntidad rol, List<ObraSocialEntidad> obraSocial, int puntosRecibidos, int cantidadDeCalificaciones, int calificacion) {
+    public ProfesionalEntidad(int dni, String nombre, String email, String password, String tipoAtencion, String ubicacion, Rol rol, List<ObraSocialEntidad> obraSocial) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
@@ -71,9 +74,6 @@ public class ProfesionalEntidad implements Serializable{
         this.ubicacion = ubicacion;
         this.rol = rol;
         this.obraSocial = obraSocial;
-        this.puntosRecibidos = puntosRecibidos;
-        this.cantidadDeCalificaciones = cantidadDeCalificaciones;
-        this.calificacion = calificacion;
     }
     
 }

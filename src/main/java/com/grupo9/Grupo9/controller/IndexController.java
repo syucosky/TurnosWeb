@@ -26,7 +26,7 @@ public class IndexController {
     }
     @GetMapping("/registrar")
     public String registro(){    
-        return "registro.html";
+        return "seleccion-usuario.html";
     }
       @Autowired
     PacienteServicio pacienteServicio;

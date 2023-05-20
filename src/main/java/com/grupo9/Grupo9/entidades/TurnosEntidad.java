@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,12 +50,16 @@ public class TurnosEntidad{
     private ProfesionalEntidad profesional;
     
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private EspecialidadEntidad especialidad;
+    @JoinColumn(name="especialidad_id",insertable = false, updatable = false)
+    private EspecialidadEntidad especialidades;
+    @Column(name="especialidad_id",nullable=false)
+    private Integer id_especialidad;
     
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "paciente_dni",insertable = false, updatable = false)
     private PacienteEntidad paciente;
+    @Column(name = "paciente_dni", nullable = false)
+    private Integer dni_paciente;
 
     public TurnosEntidad() {
     }

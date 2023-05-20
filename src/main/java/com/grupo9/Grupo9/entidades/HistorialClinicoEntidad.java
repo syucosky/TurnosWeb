@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class HistorialClinicoEntidad {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -35,9 +36,6 @@ public class HistorialClinicoEntidad {
     private String enfermedades;
     private LocalDate ultimoChequeo;
     
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private PacienteEntidad paciente;
 
     public HistorialClinicoEntidad() {
     }
@@ -50,7 +48,6 @@ public class HistorialClinicoEntidad {
         this.altura = altura;
         this.enfermedades = enfermedades;
         this.ultimoChequeo = ultimoChequeo;
-        this.paciente = paciente;
     }
     
     
