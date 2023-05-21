@@ -22,6 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/")
 public class IndexController {
+    @Autowired
+    PacienteServicio pacienteServicio;
+    @Autowired
+    ObraSocialService obraSocialServicio;
+    
     
     @GetMapping("/")
     public String vista(){    
@@ -31,41 +36,14 @@ public class IndexController {
     public String seleccionUsuario(){    
         return "seleccion-usuario.html";
     }
-    @GetMapping("/registro-paciente")
-    public String registrarPaciente(ModelMap modelo){
-        List<ObraSocialEntidad> obras = new ArrayList();
-        obras = obraSocialServicio.buscarTodas();
-        modelo.addAttribute("obras",obras); 
-        return "registro-paciente.html";
-    }
-    @Autowired
-    PacienteServicio pacienteServicio;
-    @Autowired
-    ObraSocialService obraSocialServicio;
+
+
     @GetMapping("/Modificar/{id}")
     public String modificar(@PathVariable("dni") Integer dni){
         
         return "modificar.html";
     }
-    @PostMapping("/seleccion-usuario/registro-paciente")
-    public String registrarPaciente(
-                                    @RequestParam(value = "dni") Integer dni,
-                                    @RequestParam(value = "nombre") String nombre,
-                                    @RequestParam(value = "apellido") String apellido,
-                                    @RequestParam(value = "email") String email,
-                                    @RequestParam(value = "obraselec") String obraselec,
-                                    @RequestParam(value = "fechaNac") String fNacimiento,
-                                    @RequestParam(value = "telefono") Integer telefono,
-                                    @RequestParam(value = "sexo") String sexo,
-                                    @RequestParam(value = "password") String password){
-        try {
-            ObraSocialEntidad obraSocial = obraSocialServicio.buscarPorNombre(obraselec);
-            PacienteEntidad paciente = new PacienteEntidad(dni, nombre, apellido, fNacimiento, sexo, email, obraSocial, telefono, password);
-            pacienteServicio.guardarPaciente(paciente);
-        } catch (Exception e) {
-        }   
-        return "redirect:/paciente";
-    }
+
 
     
 }

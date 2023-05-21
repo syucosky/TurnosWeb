@@ -30,7 +30,7 @@
                         <div class="col-12">
                             <form
                                 class="formulario"
-                                th:action="@{/seleccion-usuario/registro-paciente}"
+                                th:action="@{/paciente/registro-paciente}"
                                 method="POST"
                                 enctype="multipart/form-data"
                                 
@@ -112,7 +112,8 @@
 
                                 <div class="row">
                                     <div class="d-grid gap-2 col-6 mx-auto" >
-                                        <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                                        <button type="submit" class="btn btn-primary btn-lg"
+                                                th:href="@{../login}">Registrar</button>
          
                                     </div>
                                     </form>
