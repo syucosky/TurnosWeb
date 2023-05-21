@@ -34,7 +34,7 @@ public class PacienteController {
         model.addAttribute("pacientes",pacientes);
         return "lista-cliente.html";
     }
-        @GetMapping("/registro-paciente")
+    @GetMapping("/registro-paciente")
     public String registrarPaciente(ModelMap modelo){
         List<ObraSocialEntidad> obras = new ArrayList();
         obras = obrasServicio.buscarTodas();

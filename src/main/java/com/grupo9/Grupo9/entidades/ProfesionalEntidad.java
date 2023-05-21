@@ -28,8 +28,9 @@ public class ProfesionalEntidad implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int dni;
+    private Integer dni;
     private String nombre;
+    private String apellido;
     private String email;
     private String password;
     
@@ -65,15 +66,12 @@ public class ProfesionalEntidad implements Serializable{
     public ProfesionalEntidad() {
     }
 
-    public ProfesionalEntidad(int dni, String nombre, String email, String password, String tipoAtencion, String ubicacion, Rol rol, List<ObraSocialEntidad> obraSocial) {
+    public ProfesionalEntidad(Integer dni, String nombre, String email, String password, String apellido) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
-        this.tipoAtencion = tipoAtencion;
-        this.ubicacion = ubicacion;
-        this.rol = rol;
-        this.obraSocial = obraSocial;
+        this.apellido = apellido;
     }
     
 }
