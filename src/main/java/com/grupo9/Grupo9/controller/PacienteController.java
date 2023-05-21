@@ -24,6 +24,8 @@ public class PacienteController {
     
     @Autowired  
     PacienteServicio pacienteServicio;
+    @Autowired
+    ObraSocialService obrasServicio;
     
     @GetMapping("")
     public String listarClientes(ModelMap model){
@@ -38,4 +40,41 @@ public class PacienteController {
         
         return "redirect:/paciente";
     }
+    
+    @PostMapping("/editar/{dni}")
+    public String editarPaciente(@PathVariable("dni")Integer dni,
+                                 @RequestParam String nombre,
+                                 @RequestParam String apellido,
+                                 @RequestParam String obras,
+                                 @RequestParam Integer telefono,
+                                 @RequestParam String email){
+        try {
+            PacienteEntidad nPaciente = pacienteServicio.buscarPorDNI(dni);
+            if(!nombre.isEmpty()){
+                nPaciente.setNombre(nombre);
+            }
+            if(!apellido.isEmpty()){
+                nPaciente.setApellido(apellido);
+            }
+            if(!obras.isEmpty()){
+                ObraSocialEntidad obraSocial = obrasServicio.buscarPorNombre(obras);
+                if(obraSocial != null){
+                    nPaciente.setObraSocial(obraSocial);
+                }else{
+                    ObraSocialEntidad sinObraSocial = obrasServicio.buscarPorNombre("Sin Obra Social");
+                    nPaciente.setObraSocial(sinObraSocial);
+                }
+            }
+            if(telefono != null){
+                nPaciente.setTelefono(telefono);
+            }
+            if(!email.isEmpty()){
+                nPaciente.setEmail(email);
+            }
+            pacienteServicio.guardarPaciente(nPaciente);
+        } catch (Exception e) {
+        }
+        return "lista-cliente.html";
+    }
 }
+

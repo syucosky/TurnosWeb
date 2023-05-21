@@ -24,7 +24,7 @@ public class EspecialidadServicio {
             EspecialidadEntidad especialidad = new EspecialidadEntidad();
             
             especialidad.setNombre(nombre);
-            especialidad.setIdProfesional(idProfesional);
+//            especialidad.setIdProfesional(idProfesional);
 //            especialidad.setAlta(true);
             
             especialidadRepositorio.save(especialidad);
@@ -60,19 +60,19 @@ public class EspecialidadServicio {
         }
     }
     
-    @Transactional(readOnly = true)
-    public List<EspecialidadEntidad> buscarPorProfesional(Integer id) throws Exception{
-        try{
-            return especialidadRepositorio.buscarPorProfesional(id);
-        }catch(Exception e){
-            throw e;
-        }
-    }
+//    @Transactional(readOnly = true)
+//    public List<EspecialidadEntidad> buscarPorProfesional(Integer id) throws Exception{
+//        try{
+//            return especialidadRepositorio.buscarPorProfesional(id);
+//        }catch(Exception e){
+//            throw e;
+//        }
+//    }
     
     @Transactional(readOnly = true)
     public EspecialidadEntidad obtenerEspecialidadIdPaciente(Integer especialidadId, Integer profesionalId) throws Exception{
         try{
-            Optional<EspecialidadEntidad> especialidadOptional = especialidadRepositorio.buscarPorId(especialidadId);
+            Optional<EspecialidadEntidad> especialidadOptional = especialidadRepositorio.findById(especialidadId);
             return especialidadOptional.orElse(null);
         }catch(Exception e){
             throw e;
@@ -94,15 +94,15 @@ public class EspecialidadServicio {
         especialidadRepositorio.deleteById(id);
     }
     
-    @Transactional
-    public void baja(Integer id){
-        especialidadRepositorio.baja(id, false);
-    }
-    
-    @Transactional
-    public void alta(Integer id){
-        especialidadRepositorio.baja(id, true);
-    }
+//    @Transactional
+//    public void baja(Integer id){
+//        especialidadRepositorio.baja(id, false);
+//    }
+//    
+//    @Transactional
+//    public void alta(Integer id){
+//        especialidadRepositorio.baja(id, true);
+//    }
     
     //Validaciones
     public void validacionNombre(String nombre, String tipo) throws Exception, MiExcepcion{

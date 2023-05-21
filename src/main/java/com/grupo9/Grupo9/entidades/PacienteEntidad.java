@@ -25,7 +25,7 @@ public class PacienteEntidad {
     
     private String nombre;
     private String apellido;   
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private String sexo;
     private String email;
     
@@ -42,7 +42,7 @@ public class PacienteEntidad {
     public PacienteEntidad(){
     }
 
-    public PacienteEntidad(Integer dni, String nombre, String apellido, Date fechaNacimiento, String sexo, String email, ObraSocialEntidad obraSocial, Integer telefono, String password) {
+    public PacienteEntidad(Integer dni, String nombre, String apellido, String fechaNacimiento, String sexo, String email, ObraSocialEntidad obraSocial, Integer telefono, String password) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;

@@ -13,7 +13,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../static/css/seleccion-usuario.css" />
+    <link rel="stylesheet" href="/css/seleccion-usuario.css" />
   </head>
   <body>
     <div clas="container">
@@ -30,7 +30,7 @@
           <!--CARD MEDICO-->
           <div class="card text-center" style="width: 18rem">
             <img
-              src="../static/img/seleccion-usuario/botiquin-medico.png"
+              src="/img/seleccion-usuario/botiquin-medico.png"
               class="card-img-top"
               alt="..."
             />
@@ -44,12 +44,12 @@
         <div class="col-6">
           <div class="card text-center" style="width: 18rem">
             <img
-              src="../static/img/seleccion-usuario/avatar-de-usuario.png"
+              src="/img/seleccion-usuario/avatar-de-usuario.png"
               class="card-img-top"
               alt="..."
             />
             <div class="card-body">
-              <a href="registro-paciente.html" class="btn btn-primary"
+              <a th:href="@{/registro-paciente}" class="btn btn-primary"
                 >PACIENTE</a
               >
             </div>

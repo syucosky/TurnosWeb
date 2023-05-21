@@ -27,8 +27,6 @@ public class PacienteServicio {
         
         try{
             pacienteRepositorio.save(paciente);
-//        }catch(MiExcepcion ex){
-//            throw ex;
         }catch(Exception e){
             throw e;
         }     
@@ -85,7 +83,7 @@ public class PacienteServicio {
     }
     
     @Transactional
-    public void editarFechaNacimiento(Date fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
+    public void editarFechaNacimiento(String fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
         try {
             validacionFechaNacimiento(fechaNacimiento);
             paciente.setFechaNacimiento(fechaNacimiento);
@@ -114,7 +112,7 @@ public class PacienteServicio {
     }
     
     @Transactional
-    public void editarPaciente(String nombre, String apellido, Integer dni, Date fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
+    public void editarPaciente(String nombre, String apellido, Integer dni, String fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
 
         try {
             validacionNombre(nombre, "Nombre");
@@ -173,7 +171,7 @@ public class PacienteServicio {
         }
     }
     
-    public void validacionFechaNacimiento(Date fechaNacimiento) throws Exception, MiExcepcion{
+    public void validacionFechaNacimiento(String fechaNacimiento) throws Exception, MiExcepcion{
         try{
             if(fechaNacimiento == null){
                 throw new MiExcepcion("La fecha de nacimiento no fue cargada");

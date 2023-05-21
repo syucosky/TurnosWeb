@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EspecialidadRepositorio extends JpaRepository<EspecialidadEntidad, Integer>{
     
-    
+//    @Query("SELECT e FROM EspecialidadEntidad e WHERE e.profesional_id = :id")
+//    public List<EspecialidadEntidad> buscarPorProfesional(@Param("id") Integer id);
 
     
  
