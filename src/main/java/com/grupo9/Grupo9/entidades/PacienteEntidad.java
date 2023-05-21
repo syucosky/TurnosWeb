@@ -1,7 +1,10 @@
 package com.grupo9.Grupo9.entidades;
 
+import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +31,8 @@ public class PacienteEntidad {
     private String fechaNacimiento;
     private String sexo;
     private String email;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
     
     @ManyToOne
     @JoinColumn(name="obraS_id")
@@ -52,6 +57,7 @@ public class PacienteEntidad {
         this.obraSocial = obraSocial;
         this.telefono = telefono;
         this.password = password;
+        this.rol = Rol.PACIENTE;
     }
     
     

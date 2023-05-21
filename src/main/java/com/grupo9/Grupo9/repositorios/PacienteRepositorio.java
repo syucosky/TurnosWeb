@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface PacienteRepositorio extends JpaRepository<PacienteEntidad, Integer>{
        
     @Query("SELECT p FROM PacienteEntidad p WHERE p.email = :email")
-    public Optional<PacienteEntidad> findByEmail(@Param("email") String email);
+    public PacienteEntidad findByEmail(@Param("email") String email);
     
 }

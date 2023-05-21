@@ -20,18 +20,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class IndexController {
     @Autowired
     PacienteServicio pacienteServicio;
     @Autowired
     ObraSocialService obraSocialServicio;
     
-    
-    @GetMapping("/")
-    public String vista(){    
+    @GetMapping("")
+    public String principio(){
         return "login.html";
     }
+    @GetMapping("/login")
+    public String login(@RequestParam(required = false)String error, ModelMap modelo){
+        if(error != null){
+            modelo.put("error", "Email o contraseña incorrecta");
+        }
+        return "login.html";
+    }
+    
+    @GetMapping("/inicio")
+    public String inicio(){
+        return "inicio.html";
+    }
+    
     @GetMapping("/seleccion-usuario")
     public String seleccionUsuario(){    
         return "seleccion-usuario.html";

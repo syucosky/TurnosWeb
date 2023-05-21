@@ -40,7 +40,7 @@ public class ProfesionalEntidad implements Serializable{
     private String tipoAtencion;
     private String ubicacion;
     
-    private Boolean alta = false;
+    private Boolean alta;
     
     @OneToMany(mappedBy="profesionales")
     private Set<EspecialidadEntidad> especialidad;    
@@ -72,6 +72,7 @@ public class ProfesionalEntidad implements Serializable{
         this.email = email;
         this.password = password;
         this.apellido = apellido;
+        this.alta = false;
     }
     
 }
