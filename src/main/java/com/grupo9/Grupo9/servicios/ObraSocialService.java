@@ -19,6 +19,11 @@ public class ObraSocialService {
     public ObraSocialEntidad buscarPorNombre(String nombre){     
         return obraSocialRepositorio.findByName(nombre);
     }
+    @Transactional(readOnly = true)
+    public List<ObraSocialEntidad> buscarTodas(){
+        List<ObraSocialEntidad> obras = obraSocialRepositorio.findAll();
+        return obras;
+    }
     
     
 }

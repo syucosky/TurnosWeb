@@ -11,9 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.grupo9.Grupo9.repositorios.ObraSocialRepositorio;
+import java.util.ArrayList;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
-public class PacienteServicio {
+public class PacienteServicio implements UserDetailsService{
     
     @Autowired
     PacienteRepositorio pacienteRepositorio;
@@ -26,12 +34,26 @@ public class PacienteServicio {
     public void guardarPaciente(PacienteEntidad paciente) throws Exception, MiExcepcion{
         
         try{
+            String passCod = paciente.getPassword();
+            paciente.setPassword(new BCryptPasswordEncoder().encode(passCod));
             pacienteRepositorio.save(paciente);
-//        }catch(MiExcepcion ex){
-//            throw ex;
         }catch(Exception e){
             throw e;
         }     
+    }
+    
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        PacienteEntidad paciente = pacienteRepositorio.findByEmail(email);
+        if (paciente != null){
+            List<GrantedAuthority> permisos = new ArrayList();
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"+paciente.getRol().toString());
+            permisos.add(p);
+            User user = new User(paciente.getEmail(), paciente.getPassword(),permisos);
+            return user;
+        }else{
+            return null;
+        }
     }
      @Transactional(readOnly = true)
      public List<PacienteEntidad> todosLosPacientes(){
@@ -85,7 +107,7 @@ public class PacienteServicio {
     }
     
     @Transactional
-    public void editarFechaNacimiento(Date fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
+    public void editarFechaNacimiento(String fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
         try {
             validacionFechaNacimiento(fechaNacimiento);
             paciente.setFechaNacimiento(fechaNacimiento);
@@ -114,7 +136,7 @@ public class PacienteServicio {
     }
     
     @Transactional
-    public void editarPaciente(String nombre, String apellido, Integer dni, Date fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
+    public void editarPaciente(String nombre, String apellido, Integer dni, String fechaNacimiento, PacienteEntidad paciente) throws Exception, MiExcepcion {
 
         try {
             validacionNombre(nombre, "Nombre");
@@ -173,7 +195,7 @@ public class PacienteServicio {
         }
     }
     
-    public void validacionFechaNacimiento(Date fechaNacimiento) throws Exception, MiExcepcion{
+    public void validacionFechaNacimiento(String fechaNacimiento) throws Exception, MiExcepcion{
         try{
             if(fechaNacimiento == null){
                 throw new MiExcepcion("La fecha de nacimiento no fue cargada");
@@ -240,6 +262,8 @@ public class PacienteServicio {
             throw e;
         }
     }
+
+ 
 
 }
 

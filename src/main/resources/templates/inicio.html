@@ -6,9 +6,9 @@
         <link href="css/one-page-wonder.min.css" rel="stylesheet">
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <link rel="icon" type="image/png" href="../img/icon.png">
+        <link rel="icon" type="image/png" href="/img/icon.png">
         <link rel="stylesheet" href="css/lista_pacientes.css">
-        
+
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
@@ -19,35 +19,43 @@
         <nav class="navbar navbar-expand-lg navBar">
             <div class="containerImg">
                 <a href="/" class="navbar-brand d-flex align-items-center">
-                    <img class="logo" src="../img/icon.png" alt="Img logo MediLab">
+                    <img class="logo" src="/img/icon.png" alt="Img logo MediLab">
                 </a>
             </div>
         </nav>
 
         <div class="container m-5" >
 
-                <table class="table table" style="margin-top:20px;width:40%; border: 2px solid black;">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido</th>
-                            <th scope="col">Modificar</th>
-                            <th scope="col">Elminiar </th>
-                        </tr>
-                    </thead>
-                    <tbody th:each="paciente : ${pacientes}">
-                        <tr>
-                            <th th:text="${paciente.nombre}" scope="row"></th>
-                            <th th:text="${paciente.apellido}" scope="row"></th>
-                                                        <td>
-                                <a th:href="@{/Modificar/__${paciente.dni}__}"  style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Modificar</a>
-                            </td>
-                            <td>
-                                <a th:href="@{/paciente/borrar/__${paciente.dni}__}" style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Eliminar</a>   
-                        </tr>                    
-                    </tbody>
-                </table>
-
+            <table class="table table" style="margin-top:20px;width:40%; border: 2px solid black;">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Modificar</th>
+                        <th scope="col">Elminiar </th>
+                    </tr>
+                </thead>
+                <tbody th:each="paciente : ${pacientes}">
+                    <tr>
+                        <th th:text="${paciente.nombre}" scope="row"></th>
+                        <th th:text="${paciente.apellido}" scope="row"></th>
+                        <td>
+                            <a th:href="@{/Modificar/__${paciente.dni}__}"  style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Modificar</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/paciente/borrar/__${paciente.dni}__}" style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Eliminar</a>   
+                    </tr>                    
+                </tbody>
+            </table>
+            <button class="btn btn-primary btn-lg" type="button">
+                <a
+                    th:href="@{/logout}"
+                    class="btn btn-primary"
+                    role="button"
+                    >
+                    Cerrar sesion</a
+                >
+            </button>
             <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                 <div class="card-body">
                     <h5 class="card-title">Exito ð</h5>
