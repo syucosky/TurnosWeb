@@ -33,6 +33,7 @@ public class ProfesionalEntidad implements Serializable{
     private String apellido;
     private String email;
     private String password;
+    private String telefono;
     
     @Enumerated(EnumType.STRING)
     private Rol rol;

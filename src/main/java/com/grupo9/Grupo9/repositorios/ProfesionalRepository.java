@@ -19,4 +19,7 @@ public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad,
     @Query("UPDATE ProfesionalEntidad SET alta = :alta WHERE dni = :id")
     public void baja(@Param("id") Integer id, @Param("alta") Boolean alta);
     
+    public boolean existByEmail(String email);
+    
+    
 } 
