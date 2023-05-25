@@ -1,10 +1,15 @@
 
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +22,15 @@ public class ProfesionalController {
    
     @Autowired
     ProfesionalService profesionalService;
+    @Autowired
+    ObraSocialService obrasServicio;
     
     @GetMapping("/registro-profesional")
-    public String registrarProfesional(){
-        
-        return "/registro-profesional";
+    public String registrarPaciente(ModelMap modelo){
+        List<ObraSocialEntidad> obras = new ArrayList();
+        obras = obrasServicio.buscarTodas();
+        modelo.addAttribute("obras",obras); 
+        return "registro-profesional.html";
     }
     
     
@@ -30,10 +39,20 @@ public class ProfesionalController {
                                       @RequestParam(value = "nombre")String nombre,
                                       @RequestParam(value = "apellido")String apellido,
                                       @RequestParam(value = "email")String email,
-                                      @RequestParam(value = "password")String password){
+                                      @RequestParam(value = "password")String password,
+                                      @RequestParam(value = "password2") String password2,
+                                      @RequestParam(value = "sexo")String sexo,
+                                      @RequestParam(value = "telefono")String telefono,
+                                      @RequestParam(value = "ubicacion")String ubicacion,
+                                      @RequestParam(value = "tipoAtencion")String tipoAtencion,
+                                      ModelMap modelo){
         try {
-            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido);     
+            if(password2.equals(password)){
+            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email,password,apellido,sexo,ubicacion, tipoAtencion);
             profesionalService.guardarProfesional(profesional);
+            }else{
+                modelo.put("error", "Las password deben coin");
+            }
         } catch (Exception e) {
             
         }

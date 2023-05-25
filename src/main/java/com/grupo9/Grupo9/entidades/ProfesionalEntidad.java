@@ -33,18 +33,17 @@ public class ProfesionalEntidad implements Serializable{
     private String apellido;
     private String email;
     private String password;
-    
+    private String sexo;
     @Enumerated(EnumType.STRING)
     private Rol rol;
     
     private String tipoAtencion;
     private String ubicacion;
     
-    private Boolean alta;
-    
-    @OneToMany(mappedBy="profesionales")
-    private Set<EspecialidadEntidad> especialidad;    
-    
+       
+    @ManyToOne
+    @JoinColumn(name="especialida_id", insertable = false, updatable = false)
+    private EspecialidadEntidad especialidad;
     
     @ManyToMany(
             cascade = {
@@ -65,14 +64,19 @@ public class ProfesionalEntidad implements Serializable{
 
     public ProfesionalEntidad() {
     }
-
-    public ProfesionalEntidad(Integer dni, String nombre, String email, String password, String apellido) {
+                                                      
+    public ProfesionalEntidad(Integer dni, String nombre, String email, 
+                             String password, String apellido,
+                             String sexo, String ubicacion, String tipoAtencion) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.apellido = apellido;
-        this.alta = false;
+        this.sexo = sexo;   
+        this.ubicacion = ubicacion;
+        this.tipoAtencion = tipoAtencion;
+        this.rol = Rol.PROFESIONALNOAPTO;
     }
     
 }

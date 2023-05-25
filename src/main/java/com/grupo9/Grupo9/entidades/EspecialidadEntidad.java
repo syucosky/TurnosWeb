@@ -12,12 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "especialidad")
 public class EspecialidadEntidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +29,8 @@ public class EspecialidadEntidad {
     
     private Boolean alta;
     
-    @ManyToOne
-    @JoinColumn(name="profesional_id", insertable = false, updatable = false)
-    private ProfesionalEntidad profesionales;
+    @OneToMany(mappedBy="especialidad")
+    private Set<ProfesionalEntidad> profesionales; 
     
     @Column(name = "profesional_id", nullable = false)
     private int profesional_dni;

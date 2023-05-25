@@ -1,6 +1,7 @@
 package com.grupo9.Grupo9.repositorios;
 
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,12 +12,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad, Integer>{
-//    Optional<ProfesionalEntidad> findByCorreo(String email);
-//
-//    boolean existsProfesionalByEmail(String email);
+
+    @Query("SELECT p FROM ProfesionalEntidad p WHERE p.email = :email")
+    public ProfesionalEntidad findByEmail(@Param("email") String email);
 
     @Modifying
-    @Query("UPDATE ProfesionalEntidad SET alta = :alta WHERE dni = :id")
-    public void baja(@Param("id") Integer id, @Param("alta") Boolean alta);
+    @Query("UPDATE ProfesionalEntidad SET rol = :rol WHERE dni = :id")
+    public void altaProfesional(@Param("dni") Integer dni, @Param("rol") Rol rol);
+    
     
 } 
