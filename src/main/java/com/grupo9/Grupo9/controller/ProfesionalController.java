@@ -34,9 +34,9 @@ public class ProfesionalController {
                                       @RequestParam(value = "password")String password,
                                       @RequestParam(value= "sexo")String sexo,
                                       @RequestParam(value="obraSocialId") Integer obraSocialId,
-                                      @RequestParam(value= "ubicación") String ubicacion,
-                                      @RequestParam(value="fechaNacimiento") Date fechaNacimiento
-    ){
+                                      @RequestParam(value= "ubicación") String ubicacion){
+                                      //@RequestParam(value="fechaNacimiento") Date fechaNacimiento
+    
         try {
             ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido);     
             profesionalService.guardarProfesional(profesional);

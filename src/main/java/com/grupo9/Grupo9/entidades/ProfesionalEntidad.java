@@ -75,6 +75,10 @@ public class ProfesionalEntidad implements Serializable{
         this.apellido = apellido;
         this.alta = false;
     }
+    public void agregarObraSocial(ObraSocialEntidad oSocial){
+        this.obraSocial.add(oSocial);
+    
+    }
     
 }
 

@@ -1,5 +1,6 @@
 package com.grupo9.Grupo9.servicios;
 
+import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.excepciones.MiExcepcion;
 import com.grupo9.Grupo9.repositorios.ProfesionalRepository;
@@ -58,24 +59,24 @@ public class ProfesionalService {
         }
     }
 
-    public void validacionFechaNacimiento(String fechaNacimiento) throws Exception, MiExcepcion {
-        try {
-            if (fechaNacimiento == null) {
-                throw new MiExcepcion("La fecha de nacimiento no fue cargada");
-            }
-        } catch (MiExcepcion ex) {
-            throw ex;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
+//    public void validacionFechaNacimiento(String fechaNacimiento) throws Exception, MiExcepcion {
+//        try {
+//            if (fechaNacimiento == null) {
+//                throw new MiExcepcion("La fecha de nacimiento no fue cargada");
+//            }
+//        } catch (MiExcepcion ex) {
+//            throw ex;
+//        } catch (Exception e) {
+//            throw e;
+//        }
+//    }
 
     public void validarEmail(String email) throws MiExcepcion {
         if (email == null || email.trim().isEmpty()) {
             throw new MiExcepcion("El Email no puede estar vacio.");
         }
 
-        if (profesionalRepositorio.existByEmail(email)) {
+        if (profesionalRepositorio.findByEmail(email)!=null) {
             throw new MiExcepcion("Ya existe un usuario asociado al correo ingresado");
         }
         if (!(email.contains("@") && email.contains(".com"))) {
@@ -93,6 +94,9 @@ public class ProfesionalService {
         } catch (Exception e) {
             throw e;
         }
+    }
+    public void validarObraSocial(ProfesionalEntidad profesional) throws Exception, MiExcepcion{
+    
     }
 
     //Metodos CRUD
@@ -161,16 +165,18 @@ public class ProfesionalService {
     }
 
     @Transactional
-    public void editarProfesional(String nombre, String apellido, Integer dni, String fechaNacimiento, ProfesionalEntidad profesional) throws Exception, MiExcepcion {
+    public void editarProfesional(String nombre, String apellido, Integer dni,ObraSocialEntidad obraSocial, ProfesionalEntidad profesional) throws Exception, MiExcepcion {
 
         try {
             validacionNombre(nombre, "Nombre");
             validacionNombre(apellido, "Apellido");
-            validacionFechaNacimiento(fechaNacimiento);
+            validacionDNI(dni);
+            validarObraSocial(profesional);            //validacionFechaNacimiento(fechaNacimiento);
 
             profesional.setNombre(nombre);
             profesional.setApellido(apellido);
             profesional.setDni(dni);
+            profesional.agregarObraSocial(obraSocial);
             //  profesional.setFechaNacimiento(fechaNacimiento);
 
             //historiacliniaServicio.modificarEdad(Period.between(cliente.getFechaNacimiento(), LocalDate.now()).getYears(), cliente);
@@ -181,4 +187,6 @@ public class ProfesionalService {
             throw e;
         }
     }
+    
+   
 }
