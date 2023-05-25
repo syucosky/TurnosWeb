@@ -43,7 +43,7 @@ public class PacienteController {
                                  @RequestParam String nombre,
                                  @RequestParam String apellido,
                                  @RequestParam String obras,
-                                 @RequestParam Integer telefono,
+                                 @RequestParam String telefono,
                                  @RequestParam String email){
         try {
             PacienteEntidad nPaciente = pacienteServicio.buscarPorDNI(dni);
@@ -81,7 +81,7 @@ public class PacienteController {
                                     @RequestParam(value = "email") String email,
                                     @RequestParam(value = "obraselec") String obraselec,
                                     @RequestParam(value = "fechaNac") String fNacimiento,
-                                    @RequestParam(value = "telefono") Integer telefono,
+                                    @RequestParam(value = "telefono") String telefono,
                                     @RequestParam(value = "sexo") String sexo,
                                     @RequestParam(value = "password") String password){
         try {

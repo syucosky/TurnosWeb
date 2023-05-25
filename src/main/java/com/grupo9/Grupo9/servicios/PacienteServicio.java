@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
-public class PacienteServicio implements UserDetailsService{
+public class PacienteServicio{
     
     @Autowired
     PacienteRepositorio pacienteRepositorio;
@@ -42,19 +42,7 @@ public class PacienteServicio implements UserDetailsService{
         }     
     }
     
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        PacienteEntidad paciente = pacienteRepositorio.findByEmail(email);
-        if (paciente != null){
-            List<GrantedAuthority> permisos = new ArrayList();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"+paciente.getRol().toString());
-            permisos.add(p);
-            User user = new User(paciente.getEmail(), paciente.getPassword(),permisos);
-            return user;
-        }else{
-            return null;
-        }
-    }
+    
      @Transactional(readOnly = true)
      public List<PacienteEntidad> todosLosPacientes(){
          return pacienteRepositorio.findAll();

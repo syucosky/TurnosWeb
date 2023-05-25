@@ -1,6 +1,7 @@
 package com.grupo9.Grupo9.entidades;
 
 import com.grupo9.Grupo9.enumeraciones.Rol;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
 @Setter
@@ -38,7 +40,7 @@ public class PacienteEntidad {
     @JoinColumn(name="obraS_id")
     private ObraSocialEntidad obraSocial;
     
-    private Integer telefono;
+    private String telefono;
     private String password;
     
     @OneToOne
@@ -47,7 +49,7 @@ public class PacienteEntidad {
     public PacienteEntidad(){
     }
 
-    public PacienteEntidad(Integer dni, String nombre, String apellido, String fechaNacimiento, String sexo, String email, ObraSocialEntidad obraSocial, Integer telefono, String password) {
+    public PacienteEntidad(Integer dni, String nombre, String apellido, String fechaNacimiento, String sexo, String email, ObraSocialEntidad obraSocial, String telefono, String password) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -60,7 +62,6 @@ public class PacienteEntidad {
         this.rol = Rol.PACIENTE;
     }
     
-    
-    
+     
     
 }

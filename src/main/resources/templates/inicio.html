@@ -36,7 +36,7 @@
                 <tbody th:each="profesional : ${profesionales}">
                     <tr>
                         <th th:text="${profesional.nombre}" scope="row"></th>
-                        <th th:text="${profesional.apellido}" scope="row"></th>
+                        <th th:text="${profesional.entidad_id}" scope="row"></th>
                         <td>
                             <a th:href="@{/Modificar/__${paciente.dni}__}"  style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Modificar</a>
                         </td>

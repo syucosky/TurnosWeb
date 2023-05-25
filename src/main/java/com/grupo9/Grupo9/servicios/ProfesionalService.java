@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProfesionalService implements UserDetailsService {
+public class ProfesionalService{
     @Autowired
     ProfesionalRepository profesionalRepositorio;
     
@@ -33,20 +33,10 @@ public class ProfesionalService implements UserDetailsService {
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        ProfesionalEntidad profesional = profesionalRepositorio.findByEmail(email);
-        if(profesional != null){
-            List<GrantedAuthority> permisos = new ArrayList();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"+profesional.getRol().toString());
-            permisos.add(p);
-            User user = new User(profesional.getEmail(), profesional.getPassword(),permisos);
-            return user;
-        }else{
-            return null;
-        }
+
+    public String buscarPorEmail(String email){
+        return profesionalRepositorio.findByEmail(email).getEmail();
     }
-    
     public void dardeAlta(Integer dni){
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
     }
