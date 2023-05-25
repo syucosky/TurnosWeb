@@ -44,9 +44,8 @@ public class ProfesionalController {
                                       @RequestParam(value = "telefono")String telefono,
                                       @RequestParam(value = "ubicacion")String ubicacion,
                                       @RequestParam(value = "tipoAtencion")String tipoAtencion,
-                                   
-                                      @RequestParam(value="obraSocialId") Integer obraSocialId,
-                                      @RequestParam(value= "ubicación") String ubicacion){
+                                      @RequestParam(value="obraSocialId") Integer obraSocialId)
+                                      {
                                       
     
         try {
