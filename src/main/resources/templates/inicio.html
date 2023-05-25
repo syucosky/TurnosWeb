@@ -19,7 +19,7 @@
         <nav class="navbar navbar-expand-lg navBar">
             <div class="containerImg">
                 <a href="/" class="navbar-brand d-flex align-items-center">
-                    <img class="logo" src="/img/icon.png" alt="Img logo MediLab">
+                    <img class="logo" src="/img/login/fondo.jpg" alt="Img logo MediLab">
                 </a>
             </div>
         </nav>
@@ -31,14 +31,12 @@
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
-                        <th scope="col">Modificar</th>
-                        <th scope="col">Elminiar </th>
                     </tr>
                 </thead>
-                <tbody th:each="paciente : ${pacientes}">
+                <tbody th:each="profesional : ${profesionales}">
                     <tr>
-                        <th th:text="${paciente.nombre}" scope="row"></th>
-                        <th th:text="${paciente.apellido}" scope="row"></th>
+                        <th th:text="${profesional.nombre}" scope="row"></th>
+                        <th th:text="${profesional.apellido}" scope="row"></th>
                         <td>
                             <a th:href="@{/Modificar/__${paciente.dni}__}"  style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Modificar</a>
                         </td>
@@ -47,6 +45,15 @@
                     </tr>                    
                 </tbody>
             </table>
+                        <button class="btn btn-primary btn-lg" type="button">
+                <a
+                    th:href="@{/logout}"
+                    class="btn btn-primary"
+                    role="button"
+                    >
+                    Pedir Turno</a
+                >
+            </button>
             <button class="btn btn-primary btn-lg" type="button">
                 <a
                     th:href="@{/logout}"

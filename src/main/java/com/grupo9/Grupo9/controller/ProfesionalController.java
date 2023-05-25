@@ -1,11 +1,15 @@
 
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +22,15 @@ public class ProfesionalController {
    
     @Autowired
     ProfesionalService profesionalService;
+    @Autowired
+    ObraSocialService obrasServicio;
     
     @GetMapping("/registro-profesionales")
-    public String registrarProfesional(){
-        
-        return "/registro-profesionales";
+    public String registrarPaciente(ModelMap modelo){
+        List<ObraSocialEntidad> obras = new ArrayList();
+        obras = obrasServicio.buscarTodas();
+        modelo.addAttribute("obras",obras); 
+        return "registro-profesional.html";
     }
     
     
@@ -31,15 +39,20 @@ public class ProfesionalController {
                                       @RequestParam(value = "nombre")String nombre,
                                       @RequestParam(value = "apellido")String apellido,
                                       @RequestParam(value = "email")String email,
-                                      @RequestParam(value = "password")String password,
-                                      @RequestParam(value= "sexo")String sexo,
+                                      @RequestParam(value = "password")String password,                                    
+                                      @RequestParam(value = "sexo")String sexo,
+                                      @RequestParam(value = "telefono")String telefono,
+                                      @RequestParam(value = "ubicacion")String ubicacion,
+                                      @RequestParam(value = "tipoAtencion")String tipoAtencion,
+                                   
                                       @RequestParam(value="obraSocialId") Integer obraSocialId,
                                       @RequestParam(value= "ubicación") String ubicacion){
-                                      //@RequestParam(value="fechaNacimiento") Date fechaNacimiento
+                                      
     
         try {
-            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido);     
+            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email,password,apellido,sexo,ubicacion, tipoAtencion);
             profesionalService.guardarProfesional(profesional);
+
         } catch (Exception e) {
             
         }

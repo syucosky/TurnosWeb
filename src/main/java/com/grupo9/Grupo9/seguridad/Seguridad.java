@@ -2,6 +2,7 @@
 package com.grupo9.Grupo9.seguridad;
 
 import com.grupo9.Grupo9.servicios.PacienteServicio;
+import com.grupo9.Grupo9.servicios.ProfesionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,12 +17,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Seguridad extends WebSecurityConfigurerAdapter{
    
-    @Autowired
+   @Autowired
    PacienteServicio pacienteServicio;
+   @Autowired
+   ProfesionalService profesionalServicio;
    
    @Autowired
    public void configureGlobal(AuthenticationManagerBuilder auth)throws Exception{
-       auth.userDetailsService(pacienteServicio).passwordEncoder(new BCryptPasswordEncoder());
+       auth.userDetailsService(profesionalServicio).passwordEncoder(new BCryptPasswordEncoder());
+//       auth.userDetailsService(pacienteServicio).passwordEncoder(new BCryptPasswordEncoder());
+       
    }
    
     
