@@ -28,26 +28,15 @@ public class PacienteController {
     @Autowired
     ObraSocialService obrasServicio;
     
-    @GetMapping("")
-    public String listarClientes(ModelMap model){
-        List<PacienteEntidad> pacientes = pacienteServicio.todosLosPacientes();
-        model.addAttribute("pacientes",pacientes);
-        return "lista-cliente.html";
-    }
+
     @GetMapping("/registro-paciente")
     public String registrarPaciente(ModelMap modelo){
         List<ObraSocialEntidad> obras = new ArrayList();
         obras = obrasServicio.buscarTodas();
         modelo.addAttribute("obras",obras); 
         return "registro-paciente.html";
-    }
+    } 
     
-    @GetMapping("/borrar/{dni}")
-    public String borrarPorId(@PathVariable("dni") Integer dni){
-        pacienteServicio.eliminar(dni);
-        
-        return "redirect:/paciente";
-    }
     
     @PostMapping("/editar/{dni}")
     public String editarPaciente(@PathVariable("dni")Integer dni,

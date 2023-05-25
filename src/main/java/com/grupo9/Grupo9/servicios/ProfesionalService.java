@@ -53,5 +53,9 @@ public class ProfesionalService implements UserDetailsService {
     public void dardeBaja(Integer dni){
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALNOAPTO);
     }
+    public List<ProfesionalEntidad> listarProfesionales(){
+        
+        return profesionalRepositorio.findAll();
+    }
     
 }

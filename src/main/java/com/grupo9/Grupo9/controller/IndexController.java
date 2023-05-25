@@ -1,10 +1,12 @@
-
+ 
 package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
+import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
+import com.grupo9.Grupo9.servicios.ProfesionalService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +29,8 @@ public class IndexController {
     PacienteServicio pacienteServicio;
     @Autowired
     ObraSocialService obraSocialServicio;
+    @Autowired
+    ProfesionalService profesionalServicio;
     
     @GetMapping("")
     public String principio(){
@@ -40,9 +44,12 @@ public class IndexController {
         return "login.html";
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_PACIENTE','ROLE_PROFESIONAL','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_PACIENTE','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(){
+    public String inicio(ModelMap modelo){
+        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();
+        modelo.addAttribute("profesionales", profesionales);
+        
         return "inicio.html";
     }
     
@@ -50,13 +57,7 @@ public class IndexController {
     public String seleccionUsuario(){    
         return "seleccion-usuario.html";
     }
-
-
-    @GetMapping("/Modificar/{id}")
-    public String modificar(@PathVariable("dni") Integer dni){
-        
-        return "modificar.html";
-    }
+    
 
 
     

@@ -39,20 +39,15 @@ public class ProfesionalController {
                                       @RequestParam(value = "nombre")String nombre,
                                       @RequestParam(value = "apellido")String apellido,
                                       @RequestParam(value = "email")String email,
-                                      @RequestParam(value = "password")String password,
-                                      @RequestParam(value = "password2") String password2,
+                                      @RequestParam(value = "password")String password,                                    
                                       @RequestParam(value = "sexo")String sexo,
                                       @RequestParam(value = "telefono")String telefono,
                                       @RequestParam(value = "ubicacion")String ubicacion,
-                                      @RequestParam(value = "tipoAtencion")String tipoAtencion,
-                                      ModelMap modelo){
+                                      @RequestParam(value = "tipoAtencion")String tipoAtencion){
         try {
-            if(password2.equals(password)){
             ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email,password,apellido,sexo,ubicacion, tipoAtencion);
             profesionalService.guardarProfesional(profesional);
-            }else{
-                modelo.put("error", "Las password deben coin");
-            }
+
         } catch (Exception e) {
             
         }

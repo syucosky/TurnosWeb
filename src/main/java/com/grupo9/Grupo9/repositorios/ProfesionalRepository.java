@@ -17,8 +17,8 @@ public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad,
     public ProfesionalEntidad findByEmail(@Param("email") String email);
 
     @Modifying
-    @Query("UPDATE ProfesionalEntidad SET rol = :rol WHERE dni = :id")
-    public void altaProfesional(@Param("dni") Integer dni, @Param("rol") Rol rol);
+    @Query("UPDATE ProfesionalEntidad SET rol = :rol WHERE dni = :dni")
+    public ProfesionalEntidad altaProfesional(@Param("dni") Integer dni, @Param("rol") Rol rol);
     
     
 } 
