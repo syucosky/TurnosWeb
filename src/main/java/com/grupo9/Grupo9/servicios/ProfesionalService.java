@@ -31,8 +31,10 @@ public class ProfesionalService implements UserDetailsService {
     @Transactional
     public void guardarProfesional(ProfesionalEntidad profesional, Long obraSocialId) {
         try {
-            ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
-            profesional.getObraSocial().add(oSocial);
+            if (obraSocialId != null) {
+                ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
+                profesional.getObraSocial().add(oSocial);
+            }
 
             String passCod = profesional.getPassword();
             profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
@@ -56,7 +58,7 @@ public class ProfesionalService implements UserDetailsService {
         }
     }
 
-    public ProfesionalEntidad buscarPorEmail(String email){
+    public ProfesionalEntidad buscarPorEmail(String email) {
         return profesionalRepositorio.findByEmail(email);
     }
 
@@ -73,10 +75,10 @@ public class ProfesionalService implements UserDetailsService {
         return profesionalRepositorio.findAll();
     }
 
-    public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni){
+    public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni) {
         profesionalRepositorio.setEspecialidad(especialidad, dni);
     }
-    
+
 
     /*Validación de profesional*/
     public void validacionNombre(String nombre, String tipo) throws Exception, MiExcepcion {

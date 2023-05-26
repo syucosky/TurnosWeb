@@ -29,13 +29,13 @@ public class TurnosEntidad{
     @JoinColumn(name = "profesional_id")
     private ProfesionalEntidad profesional;
    
-    //@ManyToOne
-//    @JoinColumn(name = "dia_id")
-//    private DiaEntidad dia;
-//    
-//    @ManyToOne
-//    @JoinColumn(name = "horario_id")
-//    private HorarioEntidad horario;
+    @ManyToOne
+    @JoinColumn(name = "dia_id")
+    private DiaEntidad dia;
+    
+    @ManyToOne
+    @JoinColumn(name = "horario_id")
+    private HorarioEntidad horario;
 
     
 
