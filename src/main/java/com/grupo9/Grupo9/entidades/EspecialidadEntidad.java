@@ -1,5 +1,6 @@
 package com.grupo9.Grupo9.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -20,20 +21,17 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "especialidad")
-public class EspecialidadEntidad {
+public class EspecialidadEntidad  implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     private String nombre;
     
-    private Boolean alta;
-    
-    @OneToMany(mappedBy="especialidad")
-    private Set<ProfesionalEntidad> profesionales; 
-    
-    @Column(name = "profesional_id", nullable = false)
-    private int profesional_dni;
+    // Relación uno a muchos con Profesional
+    @OneToMany(mappedBy = "especialidad")
+    private List<ProfesionalEntidad> profesionales;
     
     @OneToMany(mappedBy="especialidades")
     private Set<TurnosEntidad> turnos;
@@ -43,8 +41,7 @@ public class EspecialidadEntidad {
     public EspecialidadEntidad() {
     }
 
-    public EspecialidadEntidad(Integer id, String nombre) {
-        this.id = id;
+    public EspecialidadEntidad(String nombre) {
         this.nombre = nombre;
     }  
     

@@ -1,6 +1,7 @@
 
 package com.grupo9.Grupo9.servicios;
 
+import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import com.grupo9.Grupo9.repositorios.ProfesionalRepository;
@@ -34,8 +35,8 @@ public class ProfesionalService{
     }
 
 
-    public String buscarPorEmail(String email){
-        return profesionalRepositorio.findByEmail(email).getEmail();
+    public ProfesionalEntidad buscarPorEmail(String email){
+        return profesionalRepositorio.findByEmail(email);
     }
     public void dardeAlta(Integer dni){
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
@@ -46,6 +47,10 @@ public class ProfesionalService{
     public List<ProfesionalEntidad> listarProfesionales(){
         
         return profesionalRepositorio.findAll();
+    }
+    
+    public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni){
+        profesionalRepositorio.setEspecialidad(especialidad, dni);
     }
     
 }

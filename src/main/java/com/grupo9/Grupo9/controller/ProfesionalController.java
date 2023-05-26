@@ -1,8 +1,10 @@
 
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class ProfesionalController {
     ProfesionalService profesionalService;
     @Autowired
     ObraSocialService obrasServicio;
+    @Autowired
+    EspecialidadServicio especialidadServicio;
     
     @GetMapping("/registro-profesional")
     public String registrarPaciente(ModelMap modelo){
@@ -52,8 +56,40 @@ public class ProfesionalController {
             
         }
             
-        return "redirect:/";
+        return "perfil-profesional.html";
     }
     
+    @GetMapping("/perfil")
+    public String perfilProfesional(ModelMap modelo){
+        try {      
+            List<EspecialidadEntidad> especialidades = new ArrayList();
+            especialidades = especialidadServicio.obtenerEspecialidades();
+            modelo.addAttribute("especialidades",especialidades);
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+        return "perfil-profesional.html";
+    }
+    
+    @PostMapping("/perfil")
+    public String seleccionarEspecialidad(@RequestParam(value = "especialidad") String especialidad,
+                                          @RequestParam(value = "email") String email){
+        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
+        EspecialidadEntidad espe = especialidadServicio.buscarPorNombre(especialidad);
+        profesional.setEspecialidad(espe);
+        profesionalService.guardarProfesional(profesional);
+        
+        return "redirecto:/profesional/perfil";
+    }
+    
+    
+    // ENDPOINT QUE VA A IR PARA EL PERFIL DE ADMIN
+    @PostMapping("/crearEspe")
+    public String crearEsp(@RequestParam(value = "nombre") String nombre){
+        EspecialidadEntidad espe = new EspecialidadEntidad();
+        espe.setNombre(nombre);
+        especialidadServicio.crearEspecialidad(espe);
+        return "perfil-profesional.html";
+    }
    
 }

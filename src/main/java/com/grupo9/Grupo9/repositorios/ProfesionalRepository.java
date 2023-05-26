@@ -1,5 +1,6 @@
 package com.grupo9.Grupo9.repositorios;
 
+import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.util.Optional;
@@ -20,5 +21,8 @@ public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad,
     @Query("UPDATE ProfesionalEntidad SET rol = :rol WHERE dni = :dni")
     public ProfesionalEntidad altaProfesional(@Param("dni") Integer dni, @Param("rol") Rol rol);
     
+    @Modifying
+    @Query("UPDATE ProfesionalEntidad SET especialidad = :especialidad WHERE dni = :dni")
+    public ProfesionalEntidad setEspecialidad(@Param("especialidad")EspecialidadEntidad especialidad,@Param("dni") Integer dni);
     
 } 
