@@ -92,5 +92,6 @@ public class PacienteController {
         }   
         return "redirect:/";
     }
+    
 }
 

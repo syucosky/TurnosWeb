@@ -3,6 +3,7 @@ package com.grupo9.Grupo9.entidades;
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -36,6 +37,7 @@ public class ProfesionalEntidad implements Serializable{
     private String apellido;
     private String email;
     private String password;
+    private String telefono;
     private String sexo;
     @Enumerated(EnumType.STRING)
     private Rol rol;
@@ -58,7 +60,7 @@ public class ProfesionalEntidad implements Serializable{
             joinColumns = @JoinColumn(name = "profesional_id"),
             inverseJoinColumns = @JoinColumn(name = "osocial_id")
     )
-    private List<ObraSocialEntidad> obraSocial;
+    private List<ObraSocialEntidad> obraSocial = new ArrayList<ObraSocialEntidad>();
 
     @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
     private List<TurnosEntidad> turnos;
@@ -72,7 +74,7 @@ public class ProfesionalEntidad implements Serializable{
                                                       
     public ProfesionalEntidad(Integer dni, String nombre, String email, 
                              String password, String apellido,
-                             String sexo, String ubicacion, String tipoAtencion) {
+                             String sexo, String ubicacion, String tipoAtencion, String telefono) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
@@ -82,6 +84,7 @@ public class ProfesionalEntidad implements Serializable{
         this.ubicacion = ubicacion;
         this.tipoAtencion = tipoAtencion;
         this.rol = Rol.PROFESIONALNOAPTO;
+        this.telefono = telefono;
     }
 
     
