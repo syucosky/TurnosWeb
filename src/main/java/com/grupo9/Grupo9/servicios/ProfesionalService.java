@@ -53,7 +53,7 @@ public class ProfesionalService implements UserDetailsService {
         } else {
             return null;
         }
-
+    }
     public String buscarPorEmail(String email){
         return profesionalRepositorio.findByEmail(email).getEmail();
     }
