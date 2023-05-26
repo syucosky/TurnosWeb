@@ -94,16 +94,16 @@
                                         <input
                                             type="text"
                                             class="form-control"
-                                            name="tipoAtencion"
-                                            placeholder="Lugar de Atención"
+                                            name="ubicacion"
+                                            placeholder="Ubicación"
                                             required/>
                                     </div>
                                     <div class="form-group my-3">
-                                        <select id="ubicacion" name="ubicacion" required>
-                                            <option selected>Tipo de Atención</option>
-                                            <option th:value="${Virtual}">Virtual</option>
-                                            <option value="${Presencial}">Presencial</option>
-                                            <option value="${Ambas}">Ambas</option>
+                                        <label for="tipoAtencion">Tipo de atención </label>
+                                        <select id="tipoAtencion" name="tipoAtencion" required>
+                                            <option value="Virtual">Virtual</option>
+                                            <option value="Presencial">Presencial</option>
+                                            <option value="Ambas">Ambas</option>
                                         </select>
                                     </div>
                                     <div class="form-group my-3" >
