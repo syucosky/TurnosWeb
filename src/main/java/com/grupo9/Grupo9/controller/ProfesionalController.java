@@ -44,18 +44,16 @@ public class ProfesionalController {
                                       @RequestParam(value = "telefono")String telefono,
                                       @RequestParam(value = "ubicacion")String ubicacion,
                                       @RequestParam(value = "tipoAtencion")String tipoAtencion,
-                                      @RequestParam(value="obraSocialId") Integer obraSocialId)
+                                      @RequestParam(value="obraSocialId") Long obraSocialId)
                                       {
                                       
     
-        try {
+     
             ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email,password,apellido,sexo,ubicacion, tipoAtencion);
-            profesionalService.guardarProfesional(profesional);
 
-        } catch (Exception e) {
-            
-        }
-            
+            profesionalService.guardarProfesional(profesional, obraSocialId);
+
+
         return "redirect:/";
     }
     

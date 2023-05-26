@@ -25,5 +25,7 @@ public class ObraSocialService {
         return obras;
     }
     
-    
+    public ObraSocialEntidad buscarPorId(Long id){
+    return obraSocialRepositorio.findById(id).get();
+    }
 }

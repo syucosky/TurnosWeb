@@ -2,6 +2,7 @@ package com.grupo9.Grupo9.entidades;
 
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -56,7 +57,7 @@ public class ProfesionalEntidad implements Serializable{
             joinColumns = @JoinColumn(name = "profesional_id"),
             inverseJoinColumns = @JoinColumn(name = "osocial_id")
     )
-    private List<ObraSocialEntidad> obraSocial;
+    private List<ObraSocialEntidad> obraSocial = new ArrayList<ObraSocialEntidad>();
 
     
     private int puntosRecibidos; // SUMA DE LOS PUNTOS RECIBIDOS
@@ -79,10 +80,7 @@ public class ProfesionalEntidad implements Serializable{
         this.tipoAtencion = tipoAtencion;
         this.rol = Rol.PROFESIONALNOAPTO;
     }
-    public void agregarObraSocial(ObraSocialEntidad oSocial){
-        this.obraSocial.add(oSocial);
-    
-    }
+
     
 }
 

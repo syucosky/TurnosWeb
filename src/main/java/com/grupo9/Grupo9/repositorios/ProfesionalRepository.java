@@ -21,6 +21,7 @@ public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad,
     public ProfesionalEntidad altaProfesional(@Param("dni") Integer dni, @Param("rol") Rol rol);
     
     
+    
    
     
     

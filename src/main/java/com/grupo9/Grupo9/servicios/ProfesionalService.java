@@ -20,12 +20,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProfesionalService implements UserDetailsService {
+
     @Autowired
     ProfesionalRepository profesionalRepositorio;
-    
+
+    @Autowired
+    ObraSocialService obrasServicio;
+
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional){
+    public void guardarProfesional(ProfesionalEntidad profesional, Long obraSocialId) {
         try {
+            ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
+             profesional.getObraSocial().add(oSocial);
+
             String passCod = profesional.getPassword();
             profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
             profesionalRepositorio.save(profesional);
@@ -37,28 +44,30 @@ public class ProfesionalService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ProfesionalEntidad profesional = profesionalRepositorio.findByEmail(email);
-        if(profesional != null){
+        if (profesional != null) {
             List<GrantedAuthority> permisos = new ArrayList();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"+profesional.getRol().toString());
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + profesional.getRol().toString());
             permisos.add(p);
-            User user = new User(profesional.getEmail(), profesional.getPassword(),permisos);
+            User user = new User(profesional.getEmail(), profesional.getPassword(), permisos);
             return user;
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public void dardeAlta(Integer dni){
+
+    public void dardeAlta(Integer dni) {
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
     }
-    public void dardeBaja(Integer dni){
+
+    public void dardeBaja(Integer dni) {
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALNOAPTO);
     }
-    public List<ProfesionalEntidad> listarProfesionales(){
-        
+
+    public List<ProfesionalEntidad> listarProfesionales() {
+
         return profesionalRepositorio.findAll();
     }
-    
+
 
     /*Validación de profesional*/
     public void validacionNombre(String nombre, String tipo) throws Exception, MiExcepcion {
@@ -97,24 +106,12 @@ public class ProfesionalService implements UserDetailsService {
         }
     }
 
-//    public void validacionFechaNacimiento(String fechaNacimiento) throws Exception, MiExcepcion {
-//        try {
-//            if (fechaNacimiento == null) {
-//                throw new MiExcepcion("La fecha de nacimiento no fue cargada");
-//            }
-//        } catch (MiExcepcion ex) {
-//            throw ex;
-//        } catch (Exception e) {
-//            throw e;
-//        }
-//    }
-
     public void validarEmail(String email) throws MiExcepcion {
         if (email == null || email.trim().isEmpty()) {
             throw new MiExcepcion("El Email no puede estar vacio.");
         }
 
-        if (profesionalRepositorio.findByEmail(email)!=null) {
+        if (profesionalRepositorio.findByEmail(email) != null) {
             throw new MiExcepcion("Ya existe un usuario asociado al correo ingresado");
         }
         if (!(email.contains("@") && email.contains(".com"))) {
@@ -133,8 +130,9 @@ public class ProfesionalService implements UserDetailsService {
             throw e;
         }
     }
-    public void validarObraSocial(ProfesionalEntidad profesional) throws Exception, MiExcepcion{
-    
+
+    public void validarObraSocial(ProfesionalEntidad profesional) throws Exception, MiExcepcion {
+
     }
 
     //Metodos CRUD
@@ -177,19 +175,6 @@ public class ProfesionalService implements UserDetailsService {
         }
     }
 
-//    @Transactional
-//    public void editarFechaNacimiento(String fechaNacimiento, ProfesionalEntidad profesional) throws Exception, MiExcepcion {
-//        try {
-//            validacionFechaNacimiento(fechaNacimiento);
-//            profesional.setFechaNacimiento(fechaNacimiento);
-//            //hisotoriaclinicaServicio.modificarEdad(Period.between(cliente.getFechaNacimiento(), LocalDate.now()).getYears(), cliente);
-//            profesionalRepositorio.save(profesional);
-////        } catch (MiExcepcion ex) {
-////            throw ex;
-//        } catch (Exception e) {
-//            throw e;
-//        }
-//    }
     @Transactional
     public void editarEmail(String email, ProfesionalEntidad profesional) throws Exception {
         try {
@@ -203,7 +188,7 @@ public class ProfesionalService implements UserDetailsService {
     }
 
     @Transactional
-    public void editarProfesional(String nombre, String apellido, Integer dni,ObraSocialEntidad obraSocial, ProfesionalEntidad profesional) throws Exception, MiExcepcion {
+    public void editarProfesional(String nombre, String apellido, Integer dni, ObraSocialEntidad obraSocial, ProfesionalEntidad profesional) throws Exception, MiExcepcion {
 
         try {
             validacionNombre(nombre, "Nombre");
@@ -214,8 +199,8 @@ public class ProfesionalService implements UserDetailsService {
             profesional.setNombre(nombre);
             profesional.setApellido(apellido);
             profesional.setDni(dni);
-            profesional.agregarObraSocial(obraSocial);
-            //  profesional.setFechaNacimiento(fechaNacimiento);
+           
+            
 
             //historiacliniaServicio.modificarEdad(Period.between(cliente.getFechaNacimiento(), LocalDate.now()).getYears(), cliente);
             profesionalRepositorio.save(profesional);
@@ -225,6 +210,9 @@ public class ProfesionalService implements UserDetailsService {
             throw e;
         }
     }
-    
-   
+
+    /*DELETE*/
+    public void eliminarProfesional(Integer dni) {
+        profesionalRepositorio.deleteById(dni);
+    }
 }
