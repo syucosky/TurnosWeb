@@ -1,9 +1,11 @@
  
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
@@ -31,7 +33,9 @@ public class IndexController {
     ObraSocialService obraSocialServicio;
     @Autowired
     ProfesionalService profesionalServicio;
-    
+    @Autowired
+    EspecialidadServicio especialidadServicio;
+            
     @GetMapping("")
     public String principio(){
         return "login.html";
@@ -47,9 +51,10 @@ public class IndexController {
    
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo){
-//        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();
-//        modelo.addAttribute("profesionales", profesionales);
-//        
+        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();
+        
+        modelo.addAttribute("profesionales", profesionales);
+        
         return "inicio.html";
     }
     

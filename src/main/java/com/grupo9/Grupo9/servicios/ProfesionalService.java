@@ -1,5 +1,6 @@
 package com.grupo9.Grupo9.servicios;
 
+import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
@@ -55,8 +56,8 @@ public class ProfesionalService implements UserDetailsService {
         }
     }
 
-    public String buscarPorEmail(String email) {
-        return profesionalRepositorio.findByEmail(email).getEmail();
+    public ProfesionalEntidad buscarPorEmail(String email){
+        return profesionalRepositorio.findByEmail(email);
     }
 
     public void dardeAlta(Integer dni) {
@@ -72,6 +73,10 @@ public class ProfesionalService implements UserDetailsService {
         return profesionalRepositorio.findAll();
     }
 
+    public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni){
+        profesionalRepositorio.setEspecialidad(especialidad, dni);
+    }
+    
 
     /*Validación de profesional*/
     public void validacionNombre(String nombre, String tipo) throws Exception, MiExcepcion {

@@ -28,38 +28,22 @@ import lombok.Setter;
 public class TurnosEntidad{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id;   
     
-    @Column(nullable = false) //la base de datos no puede contener valores nulos
-    private LocalDate fecha;
-    
-    @Column(nullable = false)
-    private LocalTime hora;
-    
-    @Column(nullable = false)
-    private String medico;
-    
-    @Column(nullable = false)
-    private String lugar;
-    
-    @Column(nullable = false)
-    private Boolean alta;
-    
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "profesional_id")
     private ProfesionalEntidad profesional;
+   
+    @ManyToOne
+    @JoinColumn(name = "dia_id")
+    private DiaEntidad dia;
     
     @ManyToOne
-    @JoinColumn(name="especialidad_id",insertable = false, updatable = false)
-    private EspecialidadEntidad especialidades;
-    @Column(name="especialidad_id",nullable=false)
-    private Integer id_especialidad;
+    @JoinColumn(name = "horario_id")
+    private HorarioEntidad horario;
+
     
-    @ManyToOne
-    @JoinColumn(name = "paciente_dni",insertable = false, updatable = false)
-    private PacienteEntidad paciente;
-    @Column(name = "paciente_dni", nullable = false)
-    private Integer dni_paciente;
+
 
     public TurnosEntidad() {
     }

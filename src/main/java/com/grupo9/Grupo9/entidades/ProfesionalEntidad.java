@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,7 +47,7 @@ public class ProfesionalEntidad implements Serializable{
     
        
     @ManyToOne
-    @JoinColumn(name="especialida_id", insertable = false, updatable = false)
+    @JoinColumn(name = "especialidad_id")
     private EspecialidadEntidad especialidad;
     
     @ManyToMany(
@@ -61,6 +62,8 @@ public class ProfesionalEntidad implements Serializable{
     )
     private List<ObraSocialEntidad> obraSocial = new ArrayList<ObraSocialEntidad>();
 
+    @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
+    private List<TurnosEntidad> turnos;
     
     private int puntosRecibidos; // SUMA DE LOS PUNTOS RECIBIDOS
     private int cantidadDeCalificaciones; // SUMA DE CADA PACIENTE QUE VOTO
