@@ -31,7 +31,7 @@ public class ProfesionalService implements UserDetailsService {
     public void guardarProfesional(ProfesionalEntidad profesional, Long obraSocialId) {
         try {
             ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
-             profesional.getObraSocial().add(oSocial);
+            profesional.getObraSocial().add(oSocial);
 
             String passCod = profesional.getPassword();
             profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
@@ -54,10 +54,12 @@ public class ProfesionalService implements UserDetailsService {
             return null;
         }
     }
-    public String buscarPorEmail(String email){
+
+    public String buscarPorEmail(String email) {
         return profesionalRepositorio.findByEmail(email).getEmail();
     }
-    public void dardeAlta(Integer dni){
+
+    public void dardeAlta(Integer dni) {
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
     }
 
@@ -201,8 +203,6 @@ public class ProfesionalService implements UserDetailsService {
             profesional.setNombre(nombre);
             profesional.setApellido(apellido);
             profesional.setDni(dni);
-           
-            
 
             //historiacliniaServicio.modificarEdad(Period.between(cliente.getFechaNacimiento(), LocalDate.now()).getYears(), cliente);
             profesionalRepositorio.save(profesional);
@@ -217,4 +217,10 @@ public class ProfesionalService implements UserDetailsService {
     public void eliminarProfesional(Integer dni) {
         profesionalRepositorio.deleteById(dni);
     }
+
+    public ProfesionalEntidad buscarPorDni(Integer dni) {
+        return profesionalRepositorio.findById(dni).get();
+
+    }
+
 }

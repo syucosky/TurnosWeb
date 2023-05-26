@@ -71,7 +71,7 @@ public class ProfesionalEntidad implements Serializable{
                                                       
     public ProfesionalEntidad(Integer dni, String nombre, String email, 
                              String password, String apellido,
-                             String sexo, String ubicacion, String tipoAtencion) {
+                             String sexo, String ubicacion, String tipoAtencion, String telefono) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
@@ -81,6 +81,7 @@ public class ProfesionalEntidad implements Serializable{
         this.ubicacion = ubicacion;
         this.tipoAtencion = tipoAtencion;
         this.rol = Rol.PROFESIONALNOAPTO;
+        this.telefono = telefono;
     }
 
     
