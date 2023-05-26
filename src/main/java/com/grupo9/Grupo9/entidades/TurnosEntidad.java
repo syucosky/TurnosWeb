@@ -28,15 +28,18 @@ public class TurnosEntidad{
     @ManyToOne
     @JoinColumn(name = "profesional_id")
     private ProfesionalEntidad profesional;
-   
+    
     @ManyToOne
+    @JoinColumn(name="especialidad_id")
+    private EspecialidadEntidad especialidad;
+   /* @ManyToOne
     @JoinColumn(name = "dia_id")
     private DiaEntidad dia;
     
     @ManyToOne
     @JoinColumn(name = "horario_id")
     private HorarioEntidad horario;
-
+*/
     
 
 

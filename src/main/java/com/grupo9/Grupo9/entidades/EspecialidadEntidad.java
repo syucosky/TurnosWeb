@@ -33,7 +33,7 @@ public class EspecialidadEntidad  implements Serializable{
     @OneToMany(mappedBy = "especialidad")
     private List<ProfesionalEntidad> profesionales;
     
-    @OneToMany(mappedBy="especialidades")
+    @OneToMany(mappedBy="especialidad")
     private Set<TurnosEntidad> turnos;
     
 
