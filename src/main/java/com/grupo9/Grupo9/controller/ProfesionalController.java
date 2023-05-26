@@ -1,7 +1,9 @@
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
 import java.util.ArrayList;
@@ -54,31 +56,32 @@ public class ProfesionalController {
 
         return "perfil-profesional.html";
     }
-    
+
     @GetMapping("/perfil")
-    public String perfilProfesional(ModelMap modelo){
-        try {      
+    public String perfilProfesional(ModelMap modelo) {
+        try {
             List<EspecialidadEntidad> especialidades = new ArrayList();
             especialidades = especialidadServicio.obtenerEspecialidades();
-            modelo.addAttribute("especialidades",especialidades);
+            modelo.addAttribute("especialidades", especialidades);
         } catch (Exception e) {
             System.out.println("error");
         }
         return "perfil-profesional.html";
     }
-    
+
     @PostMapping("/perfil")
-    public String seleccionarEspecialidad(@RequestParam(value = "especialidad") String especialidad,
-                                          @RequestParam(value = "email") String email){
+    public String seleccionarEspecialidad(
+            @RequestParam(value = "especialidad") String especialidad,
+            @RequestParam(value = "email") String email) {
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
         EspecialidadEntidad espe = especialidadServicio.buscarPorNombre(especialidad);
         profesional.setEspecialidad(espe);
-        profesionalService.guardarProfesional(profesional);
-        
+        profesionalService.guardarProfesional(profesional, null);
+
         return "redirecto:/profesional/perfil";
     }
 
-     @PostMapping("/editar")
+    @PostMapping("/editar")
     public String editarProfesional(@RequestParam(value = "dni") Integer dni,
             @RequestParam(value = "nombre") String nombre,
             @RequestParam(value = "apellido") String apellido,
@@ -111,16 +114,16 @@ public class ProfesionalController {
         List<ObraSocialEntidad> obras = new ArrayList();
         obras = obrasServicio.buscarTodas();
         modelo.addAttribute("obras", obras);
+        return "registro-profesional.html";
+    }
 
     // ENDPOINT QUE VA A IR PARA EL PERFIL DE ADMIN
     @PostMapping("/crearEspe")
-    public String crearEsp(@RequestParam(value = "nombre") String nombre){
+    public String crearEsp(@RequestParam(value = "nombre") String nombre) {
         EspecialidadEntidad espe = new EspecialidadEntidad();
         espe.setNombre(nombre);
         especialidadServicio.crearEspecialidad(espe);
         return "perfil-profesional.html";
     }
-   
-        return "registro-profesional.html";
-    }
+
 }
