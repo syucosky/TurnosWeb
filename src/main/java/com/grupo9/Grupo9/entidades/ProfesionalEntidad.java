@@ -2,6 +2,7 @@ package com.grupo9.Grupo9.entidades;
 
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
 @Setter

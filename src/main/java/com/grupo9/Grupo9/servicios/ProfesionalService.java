@@ -53,9 +53,11 @@ public class ProfesionalService implements UserDetailsService {
         } else {
             return null;
         }
-    }
 
-    public void dardeAlta(Integer dni) {
+    public String buscarPorEmail(String email){
+        return profesionalRepositorio.findByEmail(email).getEmail();
+    }
+    public void dardeAlta(Integer dni){
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
     }
 
