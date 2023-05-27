@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil Profesional</title>
-</head>
-<body>
-    <h1>Perfil Profesional</h1>
+    <head>
+        <meta charset="UTF-8">
+        <title>Perfil Profesional</title>
+    </head>
+    <body>
+        <h1>Perfil Profesional</h1>
 
-    <!-- Formulario para seleccionar una especialidad -->
-    <form th:action="@{/profesional/perfil/seleccionarEspecialidad}" method="POST">
-        <div>
-            <label for="especialidad">Especialidad:</label>
-            <select id="especialidad" name="especialidad">
-                <option th:each="especialidad : ${especialidades}" th:value="${especialidad.nombre}" th:text="${especialidad.nombre}"></option>
-            </select>
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <button type="submit">Seleccionar Especialidad</button>
-    </form>
-    <!-- Formulario para crear una especialidad -->
-    <form th:action="@{/profesional/crearEspe}" method="post">
-        <div>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-        </div>
-        <button type="submit">Crear Especialidad</button>
-    </form>
-</body>
+        <!-- Formulario para seleccionar una especialidad -->
+        <form th:action="@{/profesional/perfil/seleccionarEspecialidad}" method="POST">
+            <div>
+                <label for="especialidad">Especialidad:</label>
+                <select id="especialidad" name="especialidad">
+                    <option th:each="especialidad : ${especialidades}" th:value="${especialidad.nombre}" th:text="${especialidad.nombre}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit">Seleccionar Especialidad</button>
+        </form>
+        <!-- Formulario para crear una especialidad -->
+        <form th:action="@{/profesional/crearEspe}" method="post">
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <button type="submit">Crear Especialidad</button>
+        </form>
+        <form th:action="@{/guardar-turno}" method="post">
+    <div>
+        <label for="dia">Día:</label>
+        <select id="dia" name="dia">
+            <option th:each="dia : ${dias}" th:value="${dia}" th:text="${dia}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="horario">Horario:</label>
+        <select id="horario" name="horario">
+            <option th:each="horario : ${horarios}" th:value="${horario}" th:text="${horario}"></option>
+        </select>
+    </div>
+    <button type="submit">Guardar</button>
+</form>
+    </body>
 </html>

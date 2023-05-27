@@ -4,9 +4,11 @@ package com.grupo9.Grupo9.controller;
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
+import com.grupo9.Grupo9.servicios.TurnosService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class ProfesionalController {
     ObraSocialService obrasServicio;
     @Autowired
     EspecialidadServicio especialidadServicio;
+    @Autowired
+    TurnosService turnosService;
     
     @GetMapping("/registro-profesional")
     public String registrarPaciente(ModelMap modelo){
@@ -65,6 +69,8 @@ public class ProfesionalController {
             List<EspecialidadEntidad> especialidades = new ArrayList();
             especialidades = especialidadServicio.obtenerEspecialidades();
             modelo.addAttribute("especialidades",especialidades);
+            List<TurnosEntidad> turnos = turnosService.obtenerTurnos();
+            modelo.addAttribute("turnos",turnos);
         } catch (Exception e) {
             System.out.println("error");
         }
@@ -91,5 +97,4 @@ public class ProfesionalController {
         especialidadServicio.crearEspecialidad(espe);
         return "perfil-profesional.html";
     }
-   
 }

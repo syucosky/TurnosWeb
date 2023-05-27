@@ -1,6 +1,7 @@
 package com.grupo9.Grupo9.entidades;
 
 import com.grupo9.Grupo9.enumeraciones.Rol;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Setter
 @Entity
 @Table(name = "paciente")
-public class PacienteEntidad {
+public class PacienteEntidad implements Serializable {
     
     @Id
     private Integer dni;
