@@ -1,0 +1,24 @@
+<!-- perfil-profesional.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Turnos Disponibles</title>
+</head>
+<body>
+    <h1>Turnos Disponibles</h1>
+    <table>
+        <tr th:each="turno : ${turnos}">
+            <td th:text="${turno.fecha}"></td>
+            <td th:text="${turno.hora}"></td>
+            <!-- Otros datos del turno -->
+            <td>
+                <form th:action="@{/profesionales/{profesionalId}/turnos/seleccionar(profesionalId=${profesionalId})}" method="post">
+                    <input type="hidden" th:name="turnoSeleccionado.id" th:value="${turno.id}" />
+                    <button type="submit">Seleccionar</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
