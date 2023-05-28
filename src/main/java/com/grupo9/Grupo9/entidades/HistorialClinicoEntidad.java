@@ -52,6 +52,6 @@ public class HistorialClinicoEntidad {
         this.ultimoChequeo = ultimoChequeo;
         this.paciente = paciente;
     }
-    
+   
     
 }
