@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HistorialClinicoRepositorio extends JpaRepository<HistorialClinicoEntidad, Integer>{
     
-    @Query("SELECT h FROM HistorialClinicoEntidad h WHERE h.paciente.dni = :dni")
+    @Query("SELECT h FROM HistorialClinicoEntidad h WHERE h.paciente_dni = :dni")
     public Optional<HistorialClinicoEntidad> obtenerHistorialClinico(@Param("dni") Integer dni);
     
 }
