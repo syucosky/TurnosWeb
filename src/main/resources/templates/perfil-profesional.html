@@ -8,7 +8,7 @@
         <h1>Perfil Profesional</h1>
 
         <!-- Formulario para seleccionar una especialidad -->
-        <form th:action="@{/profesional/perfil/seleccionarEspecialidad}" method="POST">
+        <form th:action="@{/profesional/perfil}" method="POST">
             <div>
                 <label for="especialidad">Especialidad:</label>
                 <select id="especialidad" name="especialidad">
@@ -53,7 +53,7 @@
                             <input type="checkbox" th:name="turnosSelec" th:value="${turno.id}" />
                         </span>
                     </td>
-                    <td></td>
+   
                 </tr>
                 <div>
                 <label for="email">Email:</label>

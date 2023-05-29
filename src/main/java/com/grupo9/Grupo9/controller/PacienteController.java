@@ -2,8 +2,12 @@ package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
+import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
+import com.grupo9.Grupo9.servicios.ProfesionalService;
+import com.grupo9.Grupo9.servicios.TurnosService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +31,11 @@ public class PacienteController {
     PacienteServicio pacienteServicio;
     @Autowired
     ObraSocialService obrasServicio;
+    @Autowired
+    ProfesionalService profesionalService;
+    @Autowired
+    TurnosService turnosService;
     
-
     @GetMapping("/registro-paciente")
     public String registrarPaciente(ModelMap modelo){
         List<ObraSocialEntidad> obras = new ArrayList();
@@ -91,6 +98,16 @@ public class PacienteController {
         } catch (Exception e) {
         }   
         return "redirect:/";
+    }
+    
+    @GetMapping("/turnos")
+    public String reservarTurno(ModelMap modelo,
+                                @RequestParam(value = "profe") String profe){
+        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(profe);
+        List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
+        modelo.addAttribute("turnos",turnos);
+        
+        return "turnos.html";  
     }
 }
 

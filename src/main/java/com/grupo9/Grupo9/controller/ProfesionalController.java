@@ -91,7 +91,7 @@ public class ProfesionalController {
         profesional.setEspecialidad(espe);
         profesionalService.guardarProfesional(profesional);
         
-        return "redirecto:/profesional/perfil";
+        return "perfil-profesional.html";
     }
     
     

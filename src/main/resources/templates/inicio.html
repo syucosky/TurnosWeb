@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
-
+        <script src="/js/checkboxone.js"></script>
     </head>
 
     <body>
@@ -26,43 +26,40 @@
 
         <div class="container m-5" >
 
-            <table class="table table" style="margin-top:20px;width:40%; border: 2px solid black;">
-                <thead>
-                    <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Especialización</th>
-                    </tr>
-                </thead>
-                <tbody th:each="profesional : ${profesionales}">
-                    <tr>
-                        <th th:text="${profesional.nombre}" scope="row"></th>
-                        <th th:text="${profesional.especialidad.nombre}" scope="row"></th>
-                        <td>
-                            <a th:href=""  style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Modificar</a>
-                        </td>
-                        <td>
-                            <a th:href="" style="padding: 3px 3px; border-radius: 30%; background-color: #007bff; color:white; text-decoration: none;">Eliminar</a>   
-                        </td>       
-                    </tr>                    
-                </tbody>
-            </table>
-                        <button class="btn btn-primary btn-lg" type="button">
-                <a
-                    th:href="@{/logout}"
-                    class="btn btn-primary"
+            <h1>Lista de Profesionales</h1>
+            <form th:action="@{/paciente/turnos}" method="Get">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especialidad</th>
+                            <th>Seleccionar</th>
+                            <!-- Agrega aquí los encabezados adicionales que necesites -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="profesional : ${profesionales}">
+                            <td th:text="${profesional.nombre}"></td>
+                            <td th:text="${profesional.especialidad.nombre}"></td>
+                            <td>
+                                <input type="radio" th:name="profe" th:value="${profesional.email}" />
+                            </td>
+                            <!-- Agrega aquí las columnas adicionales que necesites -->
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <button
+                    class="btn btn-primary btn-lg"
                     role="button"
                     >
                     Pedir Turno</a
-                >
-            </button>
-            <button class="btn btn-primary btn-lg" type="button">
-                <a
-                    th:href="@{/logout}"
-                    class="btn btn-primary"
-                    role="button"
                     >
-                    Cerrar sesion</a
-                >
+                </button>
+            </form>
+
+            <button class="btn btn-primary btn-lg" type="button">
+                Cerrar sesion
             </button>
             <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                 <div class="card-body">
@@ -92,6 +89,7 @@
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     </body>
 
 </html>

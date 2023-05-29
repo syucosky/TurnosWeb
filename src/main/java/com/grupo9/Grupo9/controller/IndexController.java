@@ -48,11 +48,10 @@ public class IndexController {
         return "login.html";
     }
     
-   
+    @PreAuthorize("hasAnyRole('ROLE_PACIENTE','ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo){
-        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();
-        
+        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();       
         modelo.addAttribute("profesionales", profesionales);
         
         return "inicio.html";
