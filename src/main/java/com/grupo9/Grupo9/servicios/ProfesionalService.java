@@ -3,10 +3,13 @@ package com.grupo9.Grupo9.servicios;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import com.grupo9.Grupo9.repositorios.ProfesionalRepository;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,5 +55,7 @@ public class ProfesionalService{
     public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni){
         profesionalRepositorio.setEspecialidad(especialidad, dni);
     }
-    
+    public ProfesionalEntidad obtenerProfesionalPorId(Integer dni) {
+        return profesionalRepositorio.findById(dni).get();
+    }
 }

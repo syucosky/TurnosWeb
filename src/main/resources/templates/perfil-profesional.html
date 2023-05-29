@@ -21,6 +21,14 @@
             </div>
             <button type="submit">Seleccionar Especialidad</button>
         </form>
+        <!--//-->
+        <form th:action="@{/profesional/turnosElegidos}" method="GET">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit">Ver turno por medico</button>
+        </form>
         <!-- Formulario para crear una especialidad -->
         <form th:action="@{/profesional/crearEspe}" method="post">
             <div>
@@ -29,20 +37,30 @@
             </div>
             <button type="submit">Crear Especialidad</button>
         </form>
-        <form th:action="@{/guardar-turno}" method="post">
-    <div>
-        <label for="dia">Día:</label>
-        <select id="dia" name="dia">
-            <option th:each="dia : ${dias}" th:value="${dia}" th:text="${dia}"></option>
-        </select>
-    </div>
-    <div>
-        <label for="horario">Horario:</label>
-        <select id="horario" name="horario">
-            <option th:each="horario : ${horarios}" th:value="${horario}" th:text="${horario}"></option>
-        </select>
-    </div>
-    <button type="submit">Guardar</button>
-</form>
+        
+        <form th:action="@{/profesional/turnosSeleccionados}" method="post">
+            <table>
+                <tr>
+                    <th>Día</th>
+                    <th>Horario</th>
+                    <th>Seleccionar</th>
+                </tr>
+                <tr th:each="turno : ${turnos}">
+                    <td th:text="${turno.dia}"></td>
+                    <td>
+                        <span th:each="horario : ${turno.horario}">
+                            <label th:text="${horario}"></label>
+                            <input type="checkbox" th:name="turnosSelec" th:value="${turno.id}" />
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+                <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            </table>
+            <button type="submit">Guardar</button>
+        </form>
     </body>
 </html>

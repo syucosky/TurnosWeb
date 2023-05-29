@@ -9,12 +9,17 @@ import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
 import com.grupo9.Grupo9.servicios.TurnosService;
+import com.grupo9.Grupo9.servicios.UsuarioServicio;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/profesional")
 public class ProfesionalController {
    
+
     @Autowired
     ProfesionalService profesionalService;
     @Autowired
@@ -97,4 +103,25 @@ public class ProfesionalController {
         especialidadServicio.crearEspecialidad(espe);
         return "perfil-profesional.html";
     }
+    @PostMapping("/turnosSeleccionados")
+    public String guardarTurnos(@RequestParam(value = "turnosSelec") List<String> turnosSelec,
+                                @RequestParam(value = "email") String email){
+        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
+        for (String t : turnosSelec) {
+            TurnosEntidad turno = turnosService.findById(Integer.parseInt(t));
+            profesional.getTurnos().add(turno);
+        }
+        profesionalService.guardarProfesional(profesional);        
+        return "turnos-profesional.html";
+    }
+    @GetMapping("/turnosElegidos")
+    public String mostrarTurnos(ModelMap modelo,
+                                @RequestParam(value = "email") String email){
+        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
+        List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
+        modelo.addAttribute("turnos",turnos);
+        
+        return "turnos-profesional.html";
+    }
+
 }

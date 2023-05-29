@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Turnos del profesional</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>        
+           <form th:action="@{/profesional/turnosElegidos}" method="Get">
+            <table>
+                <tr>
+                    <th>Día</th>
+                    <th>Horario</th>
+                </tr>
+                <tr th:each="turno : ${turnos}">
+                    <td th:text="${turno.dia}"></td>
+                    <td>
+                        <span th:each="horario : ${turno.horario}">
+                            <label th:text="${horario}"></label>
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

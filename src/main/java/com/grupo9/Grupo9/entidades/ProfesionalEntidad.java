@@ -59,8 +59,13 @@ public class ProfesionalEntidad implements Serializable{
             inverseJoinColumns = @JoinColumn(name = "osocial_id")
     )
     private List<ObraSocialEntidad> obraSocial;
-
-    @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
+    
+    @ManyToMany
+    @JoinTable(
+        name = "turno_profesional",
+        joinColumns = @JoinColumn(name = "profesional_id"),
+        inverseJoinColumns = @JoinColumn(name = "turno_id")
+    )
     private List<TurnosEntidad> turnos;
     
     private int puntosRecibidos; // SUMA DE LOS PUNTOS RECIBIDOS

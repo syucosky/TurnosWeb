@@ -1,17 +1,16 @@
 package com.grupo9.Grupo9.entidades;
 
 
-//import java.io.Serializable;
-//import java.util.Date;
-//import javax.persistence.Entity;
-//import javax.persistence.Id;
-//import javax.persistence.OneToOne;
+
 import java.io.Serializable;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,17 +34,10 @@ public class TurnosEntidad implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;   
     
-    @ManyToMany
-    @JoinTable(
-        name = "turno_dia_horario",
-        joinColumns = @JoinColumn(name = "turno_id"),
-        inverseJoinColumns = @JoinColumn(name = "dia_horario_id")
-    )
-    private Set<DiaHorario> diasHorarios = new HashSet<>();
-
+    private String dia;
     
-
-
-    public TurnosEntidad() {
-    }
+    private String horario;  
+    
+    @ManyToMany(mappedBy = "turnos", cascade = CascadeType.ALL)
+    private List<ProfesionalEntidad> profesionales;
 }
