@@ -114,14 +114,15 @@ public class ProfesionalController {
         profesionalService.guardarProfesional(profesional);        
         return "turnos-profesional.html";
     }
-    @GetMapping("/turnosElegidos")
-    public String mostrarTurnos(ModelMap modelo,
-                                @RequestParam(value = "email") String email){
-        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
-        List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
-        modelo.addAttribute("turnos",turnos);
-        
-        return "turnos-profesional.html";
-    }
+//    METODO YA IMPLEMENTADO EN PACIENTE CONTROLLER
+//    @GetMapping("/turnosElegidos")
+//    public String mostrarTurnos(ModelMap modelo,
+//                                @RequestParam(value = "email") String email){
+//        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
+//        List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
+//        modelo.addAttribute("turnos",turnos);
+//        
+//        return "turnos-profesional.html";
+//    }
 
 }

@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 public interface TurnosRepository extends JpaRepository<TurnosEntidad,Integer> {
    
     @Query("SELECT t FROM TurnosEntidad t INNER JOIN t.profesionales ab WHERE ab.id = :profId")
-//    @Query("SELECT a FROM EntityA a INNER JOIN a.entitiesAB ab WHERE ab.entityB = :entityB")
     public List<TurnosEntidad> turnosIdProf(@Param("profId") Integer profId);
 }
 

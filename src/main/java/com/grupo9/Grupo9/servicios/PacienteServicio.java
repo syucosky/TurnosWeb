@@ -30,6 +30,14 @@ public class PacienteServicio{
 //    private HistorialClinicoServicio historialclinicoServicio;
     
     //Metodos CRUD
+    
+    public List<Integer> turnosPorIdProf(Integer profId){
+        
+        return pacienteRepositorio.turnosPorIdProf(profId);
+    }
+    public PacienteEntidad buscarPorEmail(String email){
+        return pacienteRepositorio.findByEmail(email);
+    }
     @Transactional
     public void guardarPaciente(PacienteEntidad paciente) throws Exception, MiExcepcion{
         

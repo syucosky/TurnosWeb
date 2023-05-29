@@ -105,9 +105,39 @@ public class PacienteController {
                                 @RequestParam(value = "profe") String profe){
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(profe);
         List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
-        modelo.addAttribute("turnos",turnos);
+        List<Integer> pacienteTurno = pacienteServicio.turnosPorIdProf(profesional.getDni());
+        
+        if(!pacienteTurno.isEmpty()){
+            for (Integer idTurno : pacienteTurno) {
+                for (TurnosEntidad turno : turnos) {
+                    if(turno.getId() == idTurno){
+                        turnos.remove(turno);
+                    }
+                }
+            }
+            modelo.addAttribute("turnos",turnos);
+        }else{
+            modelo.addAttribute("turnos",turnos);
+        }
         
         return "turnos.html";  
     }
+    // PARA RESERVAR TURNO TENGO QUE GUARDAR EN PACIENTE ID DE TURNO E ID PROFESIONAL
+    @PostMapping("/turnos/reservar")
+    public String reservarTurno(@RequestParam(value = "idTurno")Integer idTurno,
+                                @RequestParam(value = "idProf") Integer idProf,
+                                @RequestParam(value = "email")String email){
+        try {
+            PacienteEntidad paciente = pacienteServicio.buscarPorEmail(email);
+            paciente.setTurnoId(idTurno);
+            paciente.setProfesionalId(idProf);
+            pacienteServicio.guardarPaciente(paciente);
+        } catch (Exception e) {
+        }
+        
+        return "inicio.html";
+    }
+            
+            
 }
 
