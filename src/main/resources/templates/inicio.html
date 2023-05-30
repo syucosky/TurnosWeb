@@ -27,7 +27,7 @@
         <div class="container m-5" >
 
             <h1>Lista de Profesionales</h1>
-            <form th:action="@{/paciente/turnos}" method="Get">
+            <form th:action="@{/paciente/turnos}" method="GET">
                 <table>
                     <thead>
                         <tr>
@@ -52,15 +52,15 @@
                 <button
                     class="btn btn-primary btn-lg"
                     role="button"
-                    >
-                    Pedir Turno</a
-                    >
-                </button>
+                    type="submit">Pedir Turno</button>
             </form>
 
-            <button class="btn btn-primary btn-lg" type="button">
+            <a  th:href="@{../logout}"  class="btn btn-primary btn-lg" type="button">
                 Cerrar sesion
-            </button>
+            </a>
+            <a  th:href="@{../profesional/perfil}"  class="btn btn-primary btn-lg" type="button">
+                Ir al perfil profesional
+            </a>
             <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                 <div class="card-body">
                     <h5 class="card-title">Exito ð</h5>

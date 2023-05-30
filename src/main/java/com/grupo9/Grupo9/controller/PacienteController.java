@@ -10,6 +10,7 @@ import com.grupo9.Grupo9.servicios.ProfesionalService;
 import com.grupo9.Grupo9.servicios.TurnosService;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,7 +76,7 @@ public class PacienteController {
             if(!email.isEmpty()){
                 nPaciente.setEmail(email);
             }
-            pacienteServicio.guardarPaciente(nPaciente);
+            pacienteServicio.guardarPaciente(nPaciente,false);
         } catch (Exception e) {
         }
         return "lista-cliente.html";
@@ -94,31 +95,34 @@ public class PacienteController {
         try {
             ObraSocialEntidad obraSocial = obrasServicio.buscarPorNombre(obraselec);
             PacienteEntidad paciente = new PacienteEntidad(dni, nombre, apellido, fNacimiento, sexo, email, obraSocial, telefono, password);
-            pacienteServicio.guardarPaciente(paciente);
+            pacienteServicio.guardarPaciente(paciente,true);
         } catch (Exception e) {
         }   
         return "redirect:/";
     }
     
     @GetMapping("/turnos")
-    public String reservarTurno(ModelMap modelo,
+    public String reservarTurno(ModelMap modelo,ModelMap modeloDos,
                                 @RequestParam(value = "profe") String profe){
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(profe);
         List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
         List<Integer> pacienteTurno = pacienteServicio.turnosPorIdProf(profesional.getDni());
-        
-        if(!pacienteTurno.isEmpty()){
-            for (Integer idTurno : pacienteTurno) {
-                for (TurnosEntidad turno : turnos) {
-                    if(turno.getId() == idTurno){
-                        turnos.remove(turno);
-                    }
-                }
-            }
-            modelo.addAttribute("turnos",turnos);
-        }else{
-            modelo.addAttribute("turnos",turnos);
+        for (TurnosEntidad objeto : turnos) {
+            System.out.println("Imprimi antes del el iterator "+objeto.getId());
         }
+        Iterator<TurnosEntidad> iterator = turnos.iterator();
+        while (iterator.hasNext()) {
+            TurnosEntidad objeto = iterator.next();
+            if (pacienteTurno.contains(objeto.getId())) {
+                iterator.remove();
+            }
+        }
+        for (TurnosEntidad objeto : turnos) {
+            System.out.println("Imprimi dsp del el iterator "+objeto.getId());
+        }
+
+            modelo.addAttribute("turnos",turnos);
+            modeloDos.addAttribute("profesional",profesional);
         
         return "turnos.html";  
     }
@@ -131,13 +135,16 @@ public class PacienteController {
             PacienteEntidad paciente = pacienteServicio.buscarPorEmail(email);
             paciente.setTurnoId(idTurno);
             paciente.setProfesionalId(idProf);
-            pacienteServicio.guardarPaciente(paciente);
+            pacienteServicio.guardarPaciente(paciente,false);
         } catch (Exception e) {
         }
         
-        return "inicio.html";
+        return "redirect:/inicio";
     }
-            
+//    @GetMapping("/turno/cancelar")
+//    public String cancelarTurno(@RequestParam(value = "email")String email){
+//        
+//    }
             
 }
 

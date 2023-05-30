@@ -39,12 +39,16 @@ public class PacienteServicio{
         return pacienteRepositorio.findByEmail(email);
     }
     @Transactional
-    public void guardarPaciente(PacienteEntidad paciente) throws Exception, MiExcepcion{
+    public void guardarPaciente(PacienteEntidad paciente,Boolean ok) throws Exception, MiExcepcion{
         
         try{
-            String passCod = paciente.getPassword();
-            paciente.setPassword(new BCryptPasswordEncoder().encode(passCod));
-            pacienteRepositorio.save(paciente);
+            if(ok){
+                String passCod = paciente.getPassword();
+                paciente.setPassword(new BCryptPasswordEncoder().encode(passCod));
+                pacienteRepositorio.save(paciente);
+            }else{
+                pacienteRepositorio.save(paciente);
+            }
         }catch(Exception e){
             throw e;
         }     

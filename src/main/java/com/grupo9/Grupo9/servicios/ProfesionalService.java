@@ -2,6 +2,7 @@
 package com.grupo9.Grupo9.servicios;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
@@ -27,16 +28,24 @@ public class ProfesionalService{
     ProfesionalRepository profesionalRepositorio;
     
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional){
+    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok){
         try {
-            String passCod = profesional.getPassword();
-            profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
-            profesionalRepositorio.save(profesional);
+            if(ok){
+                String passCod = profesional.getPassword();
+                profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
+                profesionalRepositorio.save(profesional);
+            }else{
+                profesionalRepositorio.save(profesional);
+            }
+           
         } catch (Exception e) {
             throw e; 
         }
     }
-
+    
+    public PacienteEntidad buscarPaciente(Integer dni){
+        return profesionalRepositorio.buscarPaciente(dni);
+    }
 
     public ProfesionalEntidad buscarPorEmail(String email){
         return profesionalRepositorio.findByEmail(email);
@@ -52,8 +61,8 @@ public class ProfesionalService{
         return profesionalRepositorio.findAll();
     }
     
-    public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni){
-        profesionalRepositorio.setEspecialidad(especialidad, dni);
+    public void setEspecialidad(Integer espeId, Integer dni){
+        profesionalRepositorio.setEspecialidad(espeId, dni);
     }
     public ProfesionalEntidad obtenerProfesionalPorId(Integer dni) {
         return profesionalRepositorio.findById(dni).get();
