@@ -51,8 +51,7 @@ public class IndexController {
    
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo){
-        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();
-        
+        List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();       
         modelo.addAttribute("profesionales", profesionales);
         
         return "inicio.html";

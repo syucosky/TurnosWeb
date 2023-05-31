@@ -1,15 +1,19 @@
 package com.grupo9.Grupo9.servicios;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.entidades.ImagenEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import com.grupo9.Grupo9.repositorios.ImagenRepository;
 import com.grupo9.Grupo9.excepciones.MiExcepcion;
 import com.grupo9.Grupo9.repositorios.ProfesionalRepository;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,22 +37,33 @@ public class ProfesionalService implements UserDetailsService {
      @Autowired
 ImagenRepository imagenRepository;
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional, ImagenEntidad img, Long obraSocialId) {
+    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, ImagenEntidad img, Long obraSocialId) {
         try {
+            
+           
             if (obraSocialId != null) {
                 ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
                 profesional.getObraSocial().add(oSocial);
             }
 
-            String passCod = profesional.getPassword();
-            profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
             
             ImagenEntidad imagen = imagenRepository.save(img);
             profesional.setImagen(imagen);
-            profesionalRepositorio.save(profesional);
+            
+            if(ok){
+                String passCod = profesional.getPassword();
+                profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
+                profesionalRepositorio.save(profesional);
+            }else{
+                profesionalRepositorio.save(profesional);
+            }
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public PacienteEntidad buscarPaciente(Integer dni){
+        return profesionalRepositorio.buscarPaciente(dni);
     }
 
     @Override
@@ -81,9 +96,12 @@ ImagenRepository imagenRepository;
 
         return profesionalRepositorio.findAll();
     }
-
-    public void setEspecialidad(EspecialidadEntidad especialidad, Integer dni) {
-        profesionalRepositorio.setEspecialidad(especialidad, dni);
+    
+    public void setEspecialidad(Integer espeId, Integer dni){
+        profesionalRepositorio.setEspecialidad(espeId, dni);
+    }
+    public ProfesionalEntidad obtenerProfesionalPorId(Integer dni) {
+        return profesionalRepositorio.findById(dni).get();
     }
 
 

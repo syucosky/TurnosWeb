@@ -1,10 +1,13 @@
 package com.grupo9.Grupo9.repositorios;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
+import java.util.List;
 import java.util.Optional;
-//import static javafx.scene.input.KeyCode.T;
+import static javafx.scene.input.KeyCode.T;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +17,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad, Integer>{
-
+    
+    @Query("SELECT p FROM PacienteEntidad p WHERE p.profesionalId = :dni")
+    public PacienteEntidad buscarPaciente(@Param("dni") Integer dni);
+    
     @Query("SELECT p FROM ProfesionalEntidad p WHERE p.email = :email")
     public ProfesionalEntidad findByEmail(@Param("email") String email);
 
@@ -24,10 +30,6 @@ public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad,
     
     @Modifying
     @Query("UPDATE ProfesionalEntidad SET especialidad = :especialidad WHERE dni = :dni")
-    public ProfesionalEntidad setEspecialidad(@Param("especialidad")EspecialidadEntidad especialidad,@Param("dni") Integer dni);
-    
-    
-   
-    
+    public void setEspecialidad(@Param("especialidad")Integer espeId,@Param("dni") Integer dni);
     
 } 

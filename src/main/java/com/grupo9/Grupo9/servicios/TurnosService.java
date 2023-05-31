@@ -13,16 +13,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TurnosService {
-    @Autowired
-    private TurnosRepository turnosRepositorio;
-    
-    @Autowired
-    private EspecialidadRepositorio especialidadRepositorio;
-    
-    @Autowired
-    private PacienteRepositorio pacienteRepositorio;
-
-    public List<TurnosEntidad> obtenerTurnos(){
-        return turnosRepositorio.findAll();
-    }
+   @Autowired
+   TurnosRepository turnosRepository;
+   
+   public List<TurnosEntidad> obtenerTurnos(){
+       return turnosRepository.findAll();
+   }
+   public TurnosEntidad findById(Integer id){
+       
+       return turnosRepository.findById(id).get();
+   }
+   public List<TurnosEntidad> turnosIdProf(Integer id){
+       return turnosRepository.turnosIdProf(id);
+   }
 }

@@ -43,7 +43,11 @@ public class PacienteEntidad implements Serializable {
     
     private String telefono;
     private String password;
-    
+    @JoinColumn(name = "turno_id")
+    private Integer turnoId;
+    @JoinColumn(name ="profesional_id")
+    private Integer profesionalId;
+            
     @OneToOne
     private HistorialClinicoEntidad historialClinico;
     

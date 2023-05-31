@@ -2,10 +2,15 @@ package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
+import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
+import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
+import com.grupo9.Grupo9.servicios.ProfesionalService;
+import com.grupo9.Grupo9.servicios.TurnosService;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +32,11 @@ public class PacienteController {
     PacienteServicio pacienteServicio;
     @Autowired
     ObraSocialService obrasServicio;
+    @Autowired
+    ProfesionalService profesionalService;
+    @Autowired
+    TurnosService turnosService;
     
-
     @GetMapping("/registro-paciente")
     public String registrarPaciente(ModelMap modelo){
         List<ObraSocialEntidad> obras = new ArrayList();
@@ -68,7 +76,7 @@ public class PacienteController {
             if(!email.isEmpty()){
                 nPaciente.setEmail(email);
             }
-            pacienteServicio.guardarPaciente(nPaciente);
+            pacienteServicio.guardarPaciente(nPaciente,false);
         } catch (Exception e) {
         }
         return "lista-cliente.html";
@@ -87,11 +95,56 @@ public class PacienteController {
         try {
             ObraSocialEntidad obraSocial = obrasServicio.buscarPorNombre(obraselec);
             PacienteEntidad paciente = new PacienteEntidad(dni, nombre, apellido, fNacimiento, sexo, email, obraSocial, telefono, password);
-            pacienteServicio.guardarPaciente(paciente);
+            pacienteServicio.guardarPaciente(paciente,true);
         } catch (Exception e) {
         }   
         return "redirect:/";
     }
     
+    @GetMapping("/turnos")
+    public String reservarTurno(ModelMap modelo,ModelMap modeloDos,
+                                @RequestParam(value = "profe") String profe){
+        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(profe);
+        List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
+        List<Integer> pacienteTurno = pacienteServicio.turnosPorIdProf(profesional.getDni());
+        for (TurnosEntidad objeto : turnos) {
+            System.out.println("Imprimi antes del el iterator "+objeto.getId());
+        }
+        Iterator<TurnosEntidad> iterator = turnos.iterator();
+        while (iterator.hasNext()) {
+            TurnosEntidad objeto = iterator.next();
+            if (pacienteTurno.contains(objeto.getId())) {
+                iterator.remove();
+            }
+        }
+        for (TurnosEntidad objeto : turnos) {
+            System.out.println("Imprimi dsp del el iterator "+objeto.getId());
+        }
+
+            modelo.addAttribute("turnos",turnos);
+            modeloDos.addAttribute("profesional",profesional);
+        
+        return "turnos.html";  
+    }
+    // PARA RESERVAR TURNO TENGO QUE GUARDAR EN PACIENTE ID DE TURNO E ID PROFESIONAL
+    @PostMapping("/turnos/reservar")
+    public String reservarTurno(@RequestParam(value = "idTurno")Integer idTurno,
+                                @RequestParam(value = "idProf") Integer idProf,
+                                @RequestParam(value = "email")String email){
+        try {
+            PacienteEntidad paciente = pacienteServicio.buscarPorEmail(email);
+            paciente.setTurnoId(idTurno);
+            paciente.setProfesionalId(idProf);
+            pacienteServicio.guardarPaciente(paciente,false);
+        } catch (Exception e) {
+        }
+        
+        return "redirect:/inicio";
+    }
+//    @GetMapping("/turno/cancelar")
+//    public String cancelarTurno(@RequestParam(value = "email")String email){
+//        
+//    }
+            
 }
 

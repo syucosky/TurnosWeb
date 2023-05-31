@@ -30,13 +30,25 @@ public class PacienteServicio{
 //    private HistorialClinicoServicio historialclinicoServicio;
     
     //Metodos CRUD
+    
+    public List<Integer> turnosPorIdProf(Integer profId){
+        
+        return pacienteRepositorio.turnosPorIdProf(profId);
+    }
+    public PacienteEntidad buscarPorEmail(String email){
+        return pacienteRepositorio.findByEmail(email);
+    }
     @Transactional
-    public void guardarPaciente(PacienteEntidad paciente) throws Exception, MiExcepcion{
+    public void guardarPaciente(PacienteEntidad paciente,Boolean ok) throws Exception, MiExcepcion{
         
         try{
-            String passCod = paciente.getPassword();
-            paciente.setPassword(new BCryptPasswordEncoder().encode(passCod));
-            pacienteRepositorio.save(paciente);
+            if(ok){
+                String passCod = paciente.getPassword();
+                paciente.setPassword(new BCryptPasswordEncoder().encode(passCod));
+                pacienteRepositorio.save(paciente);
+            }else{
+                pacienteRepositorio.save(paciente);
+            }
         }catch(Exception e){
             throw e;
         }     
