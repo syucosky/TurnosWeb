@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pacientes</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/paciente.css" />
+  </head>
+  <body>
+    <table class="table table" style="margin-top: 20px; width: 40%">
+      <thead>
+        <tr>
+          <th scope="col">DNI</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="paciente : ${pacientes}">
+          <td th:text="${paciente.dni}"></td>
+          <td th:text="${paciente.nombre}"></td>
+          <td th:text="${paciente.apellido}"></td>
+          <!-- Otros campos relevantes para el paciente -->
+
+          <td>
+            <a th:href="@{/modificar/{id}(id=${paciente.dni})}" class="btn"
+              >Modificar</a
+            >
+
+            <a
+              th:href="@{../EliminarPaciente/{id}(id=${paciente.dni})}"
+              class="btn"
+              >Eliminar</a
+            >
+          </td>
+        </tr>
+      </tbody>
+      <!--
+      <tbody th:each="noticia : ${noticias}">
+        <tr>
+          <th th:text="${noticia.titulo}" scope="row"></th>
+          <td>
+            <a
+              th:href="@{../VistaNoticia/__${noticia.titulo}__}"
+              th:text="${noticia.titulo}"
+              style="padding: 5px5px; background-color: lightblue"
+            ></a>
+          </td>
+          <td>
+            <a
+              th:href="@{../Modificar/__${noticia.titulo}__}"
+              style="
+                padding: 3px 3px;
+                border-radius: 30%;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+              "
+              >Modificar</a
+            >
+          </td>
+          <td>
+            <a
+              th:href="@{../Modificar/__${noticia.titulo}__}"
+              style="
+                padding: 3px 3px;
+                border-radius: 30%;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+              "
+              >Eliminar</a
+            >
+          </td>
+        </tr>
+      </tbody>-->
+    </table>
+  </body>
+</html>

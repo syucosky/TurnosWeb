@@ -5,7 +5,9 @@ import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.repositorios.PacienteRepositorio;
 import com.grupo9.Grupo9.excepciones.MiExcepcion;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -230,13 +232,34 @@ public class PacienteServicio{
     
     //Metodos de consulta
     @Transactional(readOnly = true)
-    public List<PacienteEntidad> obtenerPacientes() throws Exception{
-        try{
-            return pacienteRepositorio.findAll();
-        }catch(Exception e){
-            throw e;
-        }
+    public List<PacienteEntidad> obtenerPacientes() throws Exception {
+      try {
+        return pacienteRepositorio.findAll();
+      } catch (Exception e) {
+        throw e;
+      }
     }
+    
+     @Transactional(readOnly = true)
+public List<Map<String, String>> obtenerPacientesADMI() throws Exception {
+    try {
+        List<PacienteEntidad> pacientesEntidad = pacienteRepositorio.findAll();
+        List<Map<String, String>> pacientes = new ArrayList<>();
+
+        for (PacienteEntidad pacienteEntidad : pacientesEntidad) {
+            Map<String, String> paciente = new HashMap<>();
+            paciente.put("dni", pacienteEntidad.getDni().toString());
+            paciente.put("nombre", pacienteEntidad.getNombre());
+            paciente.put("apellido", pacienteEntidad.getApellido());
+            pacientes.add(paciente);
+        }
+
+        return pacientes;
+    } catch (Exception e) {
+        throw e;
+    }
+}
+
     
     @Transactional(readOnly = true)
     public PacienteEntidad obtenerPerfil(Integer dni) throws Exception, MiExcepcion{

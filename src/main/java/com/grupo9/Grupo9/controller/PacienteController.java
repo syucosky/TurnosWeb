@@ -11,6 +11,8 @@ import com.grupo9.Grupo9.servicios.TurnosService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/paciente")
@@ -37,13 +40,27 @@ public class PacienteController {
     TurnosService turnosService;
     
     @GetMapping("/registro-paciente")
-    public String registrarPaciente(ModelMap modelo){
-        List<ObraSocialEntidad> obras = new ArrayList();
-        obras = obrasServicio.buscarTodas();
-        modelo.addAttribute("obras",obras); 
-        return "registro-paciente.html";
-    } 
+    public String registrarPaciente(ModelMap modelo) {
+      List<ObraSocialEntidad> obras = new ArrayList();
+      obras = obrasServicio.buscarTodas();
+      modelo.addAttribute("obras", obras);
+      return "registro-paciente.html";
+    }
     
+    //ESTO TRAE TODOS LOS PACIENTES PARA EL HTML PACIENTES.HTML HAY QUE VERIFICAR PORQUE ME PARECE QUE VA EN LA ENTIDAD ADMI PORQUE SERIA ESA FUNCIONALIDAD, PERO TODAVIA NO ESTA IMPLEMENTADA
+      @GetMapping("/pacientes")
+      public ModelAndView obtenerPacientes() throws Exception {
+        List<Map<String, String>> pacientes = pacienteServicio.obtenerPacientesADMI();
+        ModelAndView modelAndView = new ModelAndView("lista_pacientes");
+        modelAndView.addObject("pacientes", pacientes);
+        return modelAndView;
+      }
+    //ELIMINAR UN PACIENTE POR DNI EN EL HTML ELIMINARPACIENTE QUE SERIA PARA EL ADMI 
+      @GetMapping("/EliminarPaciente/{dni}")
+  public String eliminarPaciente(@PathVariable Integer dni) {
+    pacienteServicio.eliminar(dni);
+    return "redirect:/pacientes";
+  }
     
     @PostMapping("/editar/{dni}")
     public String editarPaciente(@PathVariable("dni")Integer dni,
