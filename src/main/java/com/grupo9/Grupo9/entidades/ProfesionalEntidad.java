@@ -68,6 +68,10 @@ public class ProfesionalEntidad implements Serializable{
     private int puntosRecibidos; // SUMA DE LOS PUNTOS RECIBIDOS
     private int cantidadDeCalificaciones; // SUMA DE CADA PACIENTE QUE VOTO
     private int calificacion;  // PUNTAJE FINAL DEL PROFESIONAL
+    
+    @OneToOne
+    @JoinColumn(name = "imagen_id", referencedColumnName ="id")
+    private ImagenEntidad imagen;
 
     public ProfesionalEntidad() {
     }
@@ -85,7 +89,10 @@ public class ProfesionalEntidad implements Serializable{
         this.tipoAtencion = tipoAtencion;
         this.rol = Rol.PROFESIONALNOAPTO;
         this.telefono = telefono;
+        
     }
+    
+    
 
     
 }

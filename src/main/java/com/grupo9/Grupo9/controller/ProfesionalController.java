@@ -1,6 +1,7 @@
 package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.ImagenEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.entidades.TurnosEntidad;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/profesional")
@@ -43,16 +45,27 @@ public class ProfesionalController {
     }
 
     @PostMapping("/registro-profesional")
-    public String registrarProfesional(@RequestParam(value = "dni") Integer dni,
-            @RequestParam() String nombre,
-            @RequestParam() String apellido,
-            @RequestParam() String email,
-            @RequestParam() String password,
-            @RequestParam() String sexo,
-            @RequestParam() String telefono,
-            @RequestParam() String ubicacion,
-            @RequestParam() String tipoAtencion,
-            @RequestParam() Long obraSocialId) {
+    public String registrarProfesiona(@RequestParam(value = "dni" )Integer dni,
+                                      @RequestParam(value = "nombre")String nombre,
+                                      @RequestParam(value = "apellido")String apellido,
+                                      @RequestParam(value = "email")String email,
+                                      @RequestParam(value = "password")String password,                                    
+                                      @RequestParam(value = "sexo")String sexo,
+                                      @RequestParam(value = "telefono")String telefono,
+                                      @RequestParam(value = "ubicacion")String ubicacion,
+                                      @RequestParam(value = "tipoAtencion")String tipoAtencion,
+                                      
+            @RequestParam() Long obraSocialId,
+                                      @RequestParam()MultipartFile imagen){
+        try {
+            
+            ImagenEntidad img = new ImagenEntidad();
+            img.setNombre(imagen.getName());
+            img.setMime(imagen.getContentType());
+            img.setContenido(imagen.getBytes());         
+            
+            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email,password,apellido,sexo,ubicacion, tipoAtencion);
+            profesionalService.guardarProfesional(profesional,obraSocialId, img);
 
         ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido, sexo, ubicacion, tipoAtencion, telefono
         );

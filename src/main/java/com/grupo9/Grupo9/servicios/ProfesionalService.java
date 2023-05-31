@@ -1,9 +1,11 @@
 package com.grupo9.Grupo9.servicios;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.ImagenEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.enumeraciones.Rol;
+import com.grupo9.Grupo9.repositorios.ImagenRepository;
 import com.grupo9.Grupo9.excepciones.MiExcepcion;
 import com.grupo9.Grupo9.repositorios.ProfesionalRepository;
 import java.util.ArrayList;
@@ -24,12 +26,14 @@ public class ProfesionalService implements UserDetailsService {
 
     @Autowired
     ProfesionalRepository profesionalRepositorio;
+   
 
     @Autowired
     ObraSocialService obrasServicio;
-
+     @Autowired
+ImagenRepository imagenRepository;
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional, Long obraSocialId) {
+    public void guardarProfesional(ProfesionalEntidad profesional, ImagenEntidad img, Long obraSocialId) {
         try {
             if (obraSocialId != null) {
                 ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
@@ -38,6 +42,9 @@ public class ProfesionalService implements UserDetailsService {
 
             String passCod = profesional.getPassword();
             profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
+            
+            ImagenEntidad imagen = imagenRepository.save(img);
+            profesional.setImagen(imagen);
             profesionalRepositorio.save(profesional);
         } catch (Exception e) {
             throw e;
@@ -229,5 +236,7 @@ public class ProfesionalService implements UserDetailsService {
         return profesionalRepositorio.findById(dni).get();
 
     }
+    
+    
 
 }
