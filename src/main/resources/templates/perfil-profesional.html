@@ -3,11 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Perfil Profesional</title>
+        <link rel="stylesheet" href="/css/perfil-profesional.css">
     </head>
     <body>
         <a th:href="@{../logout}"  class="btn btn-primary btn-lg" type="button">
                 Cerrar sesion</a>
         <h1>Perfil Profesional</h1>
+        <img class="img" src="/img/Login/fondoPerfilProfesinal.png" alt="">
 
         <!-- Formulario para seleccionar una especialidad -->
         <form th:action="@{/profesional/perfil}" method="POST">
