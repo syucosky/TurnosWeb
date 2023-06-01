@@ -60,7 +60,8 @@
                                 <label for="obraSocialId">Obra Social:</label>
                                 <select id="obraSocialId" name="obraSocialId" required>
                                     <option value="0">Seleccionar</option>
-                                    <option th:each="obra : ${obras}" th:value="${obra.id}" th:text="${obra.nombre}">
+                                    <option th:selected="${datosProfesional?.obraSocial.get(0).id} == ${obra.id}"
+                                            th:each="obra : ${obras}" th:value="${obra.id}" th:text="${obra.nombre}">
                                     </option>
                                 </select>
                             </div>
@@ -84,8 +85,10 @@
                                     <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" type="email"
                                         class="form-control" name="email" placeholder="Email" required />
                                 </div>
+                                <div class="form-group my-3">
+                                <label th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
                                 <input type="file" name="imagen" accept="image/png, image/jpeg" />
-
+                                </div>
                                 <div class="form-group my-3" th:if="${modo == 'registrar'}">
                                     <input type="password" class="form-control" name="password" placeholder="Contraseña"
                                         required />

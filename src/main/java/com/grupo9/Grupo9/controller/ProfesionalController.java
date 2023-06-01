@@ -7,6 +7,7 @@ import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.entidades.TurnosEntidad;
 import com.grupo9.Grupo9.servicios.EspecialidadServicio;
+import com.grupo9.Grupo9.servicios.ImagenServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
 import com.grupo9.Grupo9.servicios.TurnosService;
@@ -31,7 +32,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/profesional")
 public class ProfesionalController {
-   
 
     @Autowired
     ProfesionalService profesionalService;
@@ -41,6 +41,8 @@ public class ProfesionalController {
     EspecialidadServicio especialidadServicio;
     @Autowired
     TurnosService turnosService;
+    @Autowired
+    ImagenServicio imagenServicio;
 
     @GetMapping("/registro-profesionales")
     public String registrarProfesional(ModelMap modelo) {
@@ -51,65 +53,9 @@ public class ProfesionalController {
 
         return "registro-profesional.html";
     }
-    
+
     @PostMapping("/registro-profesional")
-    public String registrarProfesiona(@RequestParam(value = "dni" )Integer dni,
-                                      @RequestParam(value = "nombre")String nombre,
-                                      @RequestParam(value = "apellido")String apellido,
-                                      @RequestParam(value = "email")String email,
-                                      @RequestParam(value = "password")String password,                                    
-                                      @RequestParam(value = "sexo")String sexo,
-                                      @RequestParam(value = "telefono")String telefono,
-                                      @RequestParam(value = "ubicacion")String ubicacion,
-                                      @RequestParam(value = "tipoAtencion")String tipoAtencion,
-                                      
-            @RequestParam() Long obraSocialId,
-                                      @RequestParam()MultipartFile imagen){
-        try {
-            
-            ImagenEntidad img = new ImagenEntidad();
-            img.setNombre(imagen.getName());
-            img.setMime(imagen.getContentType());
-            img.setContenido(imagen.getBytes());         
-            
-            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email,password,apellido,sexo,ubicacion, tipoAtencion);
-            profesionalService.guardarProfesional(profesional,true,obraSocialId, img);
-
-        } catch (Exception e) {
-            
-        }
-            
-        return "redirect:/profesional/perfil";
-    }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
-    @GetMapping("/perfil")
-    public String perfilProfesional(ModelMap modelo) {
-        try {
-            List<EspecialidadEntidad> especialidades = new ArrayList();
-            especialidades = especialidadServicio.obtenerEspecialidades();
-            modelo.addAttribute("especialidades", especialidades);
-            List<TurnosEntidad> turnos = turnosService.obtenerTurnos();
-            modelo.addAttribute("turnos",turnos);
-        } catch (Exception e) {
-            System.out.println("error");
-        }
-        return "perfil-profesional.html";
-    }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
-    @PostMapping("/perfil")
-    public String seleccionarEspecialidad(
-            @RequestParam(value = "especialidad") String especialidad,
-            @RequestParam(value = "email") String email) {
-        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
-        EspecialidadEntidad espe = especialidadServicio.buscarPorNombre(especialidad);
-        profesional.setEspecialidad(espe);
-        profesionalService.guardarProfesional(profesional,false, null);
-
-        return "redirect:/profesional/perfil";
-    }
-
-    @PostMapping("/editar")
-    public String editarProfesional(@RequestParam(value = "dni") Integer dni,
+    public String registrarProfesiona(@RequestParam(value = "dni") Integer dni,
             @RequestParam(value = "nombre") String nombre,
             @RequestParam(value = "apellido") String apellido,
             @RequestParam(value = "email") String email,
@@ -118,15 +64,71 @@ public class ProfesionalController {
             @RequestParam(value = "telefono") String telefono,
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
-            @RequestParam(value = "obraSocialId") Long obraSocialId) {
+            @RequestParam() Long obraSocialId,
+            @RequestParam() MultipartFile imagen) {
+        try {
+
+        
+
+            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido, sexo, ubicacion, tipoAtencion, telefono);
+            
+            profesional.setImagen( imagenServicio.guardar(imagen));
+            
+            profesionalService.guardarProfesional(profesional, true, obraSocialId);
+
+        } catch (Exception e) {
+
+        }
+
+        return "redirect:/profesional/perfil";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
+    @GetMapping("/perfil")
+    public String perfilProfesional(ModelMap modelo) {
+        try {
+            List<EspecialidadEntidad> especialidades = new ArrayList();
+            especialidades = especialidadServicio.obtenerEspecialidades();
+            modelo.addAttribute("especialidades", especialidades);
+            List<TurnosEntidad> turnos = turnosService.obtenerTurnos();
+            modelo.addAttribute("turnos", turnos);
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+        return "perfil-profesional.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
+    @PostMapping("/perfil")
+    public String seleccionarEspecialidad(
+            @RequestParam(value = "especialidad") String especialidad,
+            @RequestParam(value = "email") String email) {
+        ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
+        EspecialidadEntidad espe = especialidadServicio.buscarPorNombre(especialidad);
+        profesional.setEspecialidad(espe);
+        profesionalService.guardarProfesional(profesional, false,  null);
+
+        return "redirect:/profesional/perfil";
+    }
+
+    @PostMapping("/editar")
+    public String editarProfesional(
+            @RequestParam(value = "dni") Integer dni,
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "telefono") String telefono,
+            @RequestParam(value = "ubicacion") String ubicacion,
+            @RequestParam(value = "tipoAtencion") String tipoAtencion,
+            @RequestParam(value = "obraSocialId") Long obraSocialId,
+            @RequestParam() MultipartFile imagen) throws Exception {
 
         ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
+        profesional.setImagen(imagenServicio.guardar(imagen));
         profesional.setEmail(email);
         profesional.setUbicacion(ubicacion);
         profesional.setTelefono(telefono);
         profesional.setTipoAtencion(tipoAtencion);
 
-        profesionalService.guardarProfesional(profesional, obraSocialId);
+        profesionalService.guardarProfesional(profesional,false, obraSocialId);
 
         return "redirect:/";
     }
@@ -159,26 +161,28 @@ public class ProfesionalController {
         profesionalService.eliminarProfesional(dni);
         return "redirect:/";
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @PostMapping("/turnosSeleccionados")
     public String guardarTurnos(@RequestParam(value = "turnosSelec") List<String> turnosSelec,
-                                @RequestParam(value = "email") String email){
+            @RequestParam(value = "email") String email) {
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
         for (String t : turnosSelec) {
             TurnosEntidad turno = turnosService.findById(Integer.parseInt(t));
             profesional.getTurnos().add(turno);
         }
-        profesionalService.guardarProfesional(profesional,false);        
+        profesionalService.guardarProfesional(profesional, false, null);
         return "redirect:/profesional/perfil";
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/turnosReservados")
-    public String mostrarTurnosAgendados(ModelMap modelo,@RequestParam(value = "email")String email){
+    public String mostrarTurnosAgendados(ModelMap modelo, @RequestParam(value = "email") String email) {
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
         PacienteEntidad paciente = profesionalService.buscarPaciente(profesional.getDni());
         TurnosEntidad turno = turnosService.findById(paciente.getTurnoId());
-        modelo.addAttribute("turno",turno);
-        modelo.addAttribute("paciente",paciente);
+        modelo.addAttribute("turno", turno);
+        modelo.addAttribute("paciente", paciente);
         return "profesionalTurnosReservados.html";
     }
 }

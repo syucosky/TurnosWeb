@@ -30,39 +30,35 @@ public class ProfesionalService implements UserDetailsService {
 
     @Autowired
     ProfesionalRepository profesionalRepositorio;
-   
 
     @Autowired
     ObraSocialService obrasServicio;
-     @Autowired
-ImagenRepository imagenRepository;
+    @Autowired
+    ImagenRepository imagenRepository;
+
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, ImagenEntidad img, Long obraSocialId) {
+    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long obraSocialId) {
         try {
-            
-           
+
             if (obraSocialId != null) {
                 ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
                 profesional.getObraSocial().add(oSocial);
             }
 
             
-            ImagenEntidad imagen = imagenRepository.save(img);
-            profesional.setImagen(imagen);
-            
-            if(ok){
+            if (ok) {
                 String passCod = profesional.getPassword();
                 profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
                 profesionalRepositorio.save(profesional);
-            }else{
+            } else {
                 profesionalRepositorio.save(profesional);
             }
         } catch (Exception e) {
             throw e;
         }
     }
-    
-    public PacienteEntidad buscarPaciente(Integer dni){
+
+    public PacienteEntidad buscarPaciente(Integer dni) {
         return profesionalRepositorio.buscarPaciente(dni);
     }
 
@@ -96,10 +92,11 @@ ImagenRepository imagenRepository;
 
         return profesionalRepositorio.findAll();
     }
-    
-    public void setEspecialidad(Integer espeId, Integer dni){
+
+    public void setEspecialidad(Integer espeId, Integer dni) {
         profesionalRepositorio.setEspecialidad(espeId, dni);
     }
+
     public ProfesionalEntidad obtenerProfesionalPorId(Integer dni) {
         return profesionalRepositorio.findById(dni).get();
     }
@@ -254,7 +251,5 @@ ImagenRepository imagenRepository;
         return profesionalRepositorio.findById(dni).get();
 
     }
-    
-    
 
 }
