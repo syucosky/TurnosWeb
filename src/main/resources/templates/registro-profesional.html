@@ -44,8 +44,8 @@
                                 <input type="text" class="form-control" name="apellido" placeholder="Apellido"
                                     required />
                             </div>
-                            <div class="form-group my-3" th:if="${modo == 'registrar'}">
-                                <input type="number" class="form-control" name="dni" placeholder="Dni" required />
+                            <div class="form-group my-3" >
+                                <input th:value="${datosProfesional.dni}" type="number" class="form-control" name="dni" placeholder="Dni" required />
                             </div>
                             <div class="form-group my-3" th:if="${modo == 'registrar'}">
                                 <input type="text" class="form-control" name="sexo" placeholder="Sexo" required />
