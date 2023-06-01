@@ -36,6 +36,8 @@ public class PacienteController {
     ProfesionalService profesionalService;
     @Autowired
     TurnosService turnosService;
+     @Autowired
+    PacienteEntidad pacienteEntidad;
     
     @GetMapping("/registro-paciente")
     public String registrarPaciente(ModelMap modelo){
@@ -81,6 +83,20 @@ public class PacienteController {
         }
         return "lista-cliente.html";
     }
+    
+    
+    @GetMapping("/editar")
+    public String editarPaciente (ModelMap modelo, @RequestParam() Integer dni) {
+
+        PacienteEntidad paciente = pacienteServicio.buscarPorDNI(dni);
+        modelo.addAttribute("modo", "editar");
+        modelo.addAttribute("datosPaciente", paciente);
+
+       
+        return "registro-profesional.html";
+    }
+    
+    
     @PostMapping("/registro-paciente")
     public String registrarPaciente(
                                     @RequestParam(value = "dni") Integer dni,

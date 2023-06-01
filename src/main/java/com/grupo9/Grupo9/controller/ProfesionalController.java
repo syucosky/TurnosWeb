@@ -47,10 +47,12 @@ public class ProfesionalController {
     @GetMapping("/registro-profesionales")
     public String registrarProfesional(ModelMap modelo) {
         List<ObraSocialEntidad> obras = new ArrayList();
+        List<EspecialidadEntidad> especialidades = new ArrayList();
         obras = obrasServicio.buscarTodas();
+        especialidades = especialidadServicio.obtenerEspecialidades();
         modelo.addAttribute("obras", obras);
         modelo.addAttribute("modo", "registrar");
-
+        modelo.addAttribute("especialidades", especialidades);
         return "registro-profesional.html";
     }
 
@@ -65,7 +67,8 @@ public class ProfesionalController {
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
             @RequestParam() Long obraSocialId,
-            @RequestParam() MultipartFile imagen) {
+            @RequestParam() MultipartFile imagen,
+            @RequestParam() String especialidadId) {
         try {
 
         
