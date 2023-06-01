@@ -32,4 +32,8 @@ public interface ProfesionalRepository extends JpaRepository<ProfesionalEntidad,
     @Query("UPDATE ProfesionalEntidad SET especialidad = :especialidad WHERE dni = :dni")
     public void setEspecialidad(@Param("especialidad")Integer espeId,@Param("dni") Integer dni);
     
+    @Query("SELECT p FROM ProfesionalEntidad p WHERE p.especialidad = : especialidad AND p.obraSocial = : obraSocial")
+   public List<ProfesionalEntidad> getProfesionalesByEspecialidadAndOSocial(@Param("especialidad") String especialidad, @Param("obraSocial") String obraSocial);
+
+
 } 

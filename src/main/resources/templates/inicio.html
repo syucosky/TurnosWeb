@@ -32,7 +32,15 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Especialidad</th>
+                    <form th:action ="@{/paciente/buscar-profesionales}" method="get">
+                        <label for="especialidad">Especialidad:</label>
+                        <input type="text" id="especialidad" name="especialidad" th:value="${filtro.especialidad}">
+                        
+                        <label for="obraSocial">ObraSocial:</label>
+                        <input type="text" id="obraSocial" name="obraSocial" th:value="${filtro.obraSocial}">
+                        
+                        <button type="submit"> Buscar </button>
+                        <th>ObraSocial</th>
                             <th>Seleccionar</th>
                             <!-- Agrega aquí los encabezados adicionales que necesites -->
                         </tr>
