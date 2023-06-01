@@ -27,20 +27,21 @@
         <div class="container m-5" >
 
             <h1>Lista de Profesionales</h1>
-            <form th:action="@{/paciente/turnos}" method="GET">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                    <form th:action ="@{/paciente/buscar-profesionales}" method="get">
+            <form th:action ="@{/profesional/filtrar}" method="get">
                         <label for="especialidad">Especialidad:</label>
                         <input type="text" id="especialidad" name="especialidad" th:value="${filtro.especialidad}">
                         
                         <label for="obraSocial">ObraSocial:</label>
                         <input type="text" id="obraSocial" name="obraSocial" th:value="${filtro.obraSocial}">
                         
-                        <button type="submit"> Buscar </button>
-                        <th>ObraSocial</th>
+                        <button type="submit"> Buscar </button> </form>
+           <form th:action="@{/paciente/turnos}" method="GET">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especialidad<th>
+                            <th>ObraSocial</th>
                             <th>Seleccionar</th>
                             <!-- Agrega aquí los encabezados adicionales que necesites -->
                         </tr>
@@ -49,7 +50,7 @@
                         <tr th:each="profesional : ${profesionales}">
                             <td th:text="${profesional.nombre}"></td>
                             <td th:text="${profesional.especialidad.nombre}"></td>
-                            <td>
+                            <td th:text="${profesional.obraSocial}"></td>
                                 <input type="radio" th:name="profe" th:value="${profesional.email}" />
                             </td>
                             <!-- Agrega aquí las columnas adicionales que necesites -->

@@ -71,7 +71,7 @@ public class ProfesionalController {
             
         return "redirect:/profesional/perfil";
     }
-    @GetMapping("/buscar-profesionales")
+    @GetMapping("/filtrar")
      public String inicio(@ModelAttribute("filtro")Filtro filtro, ModelMap modelo){
 	List<ProfesionalEntidad> listaFiltrada;
         listaFiltrada = profesionalService.buscarProfesionales(filtro.getEspecialidad(), filtro.getObraSocial());

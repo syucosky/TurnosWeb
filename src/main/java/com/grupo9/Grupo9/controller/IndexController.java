@@ -1,6 +1,7 @@
  
 package com.grupo9.Grupo9.controller;
 
+import com.grupo9.Grupo9.entidades.Filtro;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
@@ -46,6 +47,7 @@ public class IndexController {
     public String inicio(ModelMap modelo){
         List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();       
         modelo.addAttribute("profesionales", profesionales);
+        modelo.addAttribute("filtro", new Filtro());
         
         return "inicio.html";
     }
