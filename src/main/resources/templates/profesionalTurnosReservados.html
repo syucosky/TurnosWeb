@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Tabla de Pacientes y Turnos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Tabla de Pacientes y Turnos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre Paciente</th>
+                <th>Horario Turno</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí vamos a iterar sobre la lista de pacientes y turnos -->
+            <tr th:each="paciente : ${pacientes}">
+                <td th:text="${paciente.nombre}"></td>
+                <td th:text="${turnos.horario}"></td>
+            </tr>
+        </tbody>
+    </table>
+    </body>
+</html>

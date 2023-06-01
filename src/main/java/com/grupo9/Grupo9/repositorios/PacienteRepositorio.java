@@ -18,4 +18,5 @@ public interface PacienteRepositorio extends JpaRepository<PacienteEntidad, Inte
     
     @Query("SELECT turnoId FROM PacienteEntidad p WHERE p.profesionalId = :profesionalId")
     public List<Integer> turnosPorIdProf(@Param("profesionalId") Integer profesionalId);
+    
 }
