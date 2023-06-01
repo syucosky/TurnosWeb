@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: lightblue;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+img{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 300px;
+    height: auto;
+}
+
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+select, input[type="email"], input[type="text"] {
+    padding: 5px;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+button[type="submit"] {
+    padding: 8px 12px;
+    background-color: limegreen;
+    color: white;
+    border: none;
+    cursor: pointer;
+    
+}
+
+button:hover{
+    background-color: #4CAF50;
+}
+
+table {
+    width: 65%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: inherit;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px none;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-lg {
+    font-size: 18px;
+    padding: 10px 16px;
+}
+
