@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
     <head>
@@ -37,25 +37,28 @@
                                 >
                                 <h3 th:text="${modo}== 'editar'? 'Editar perfil':'Registar Profesional'"
                                     class="card-title text-center"></h3>
-                               
+
 
                                 <div class="form-group my-3">
+                                    <label for="nombre" class="form-label">Nombres</label>
                                     <input
                                         type="text"
                                         class="form-control"
                                         th:name="nombre"
-                                        placeholder="Nombre"
+                                        placeholder="ej. Juan"
                                         required/>
                                 </div>
                                 <div class="form-group my-3">
+                                    <label for="apellido" class="form-label">Apellidos</label>
                                     <input
                                         type="text"
                                         class="form-control"
                                         th:name="apellido"
-                                        placeholder="Apellido"
+                                        placeholder="ej. Aguirre"
                                         required/>
                                 </div>
                                 <div class="form-group my-3">
+                                    <label for="dni" class="form-label">Documento</label>
                                     <input
                                         type="number"
                                         class="form-control"
@@ -63,44 +66,65 @@
                                         placeholder="Dni"
                                         required/>
                                 </div>
-                                <div class="form-group my-3">
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        th:name="sexo"
-                                        placeholder="Sexo"
-                                        required/>
-                                </div>
-                                <div class="form-group my-3">
-                                    <!-- Campo de entrada de fecha -->
-                                    Selecciona su fecha de nacimiento:
-                                    <input type="date" name="fechaNac"  required/>
-                                </div>
 
+                                <!--                                Telefono-->
                                 <div class="form-group my-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
                                     <input
                                         type="number"
                                         class="form-control"
                                         th:name="telefono"
-                                        placeholder="Telefono"
+                                        placeholder="Teléfono"
                                         required/>
                                 </div>
+
+
+                                <!--                                    Email-->
                                 <div class="form-group my-3">
-                                    <label for="obraselec">Obra Social:</label>
-                                    <select id="obraselec" name="obraselec" required>
-                                        <option value="0">Seleccionar</option>
-                                        <option th:each="obra : ${obras}" th:value="${obra.nombre}" th:text="${obra.nombre}"></option>
-                                    </select>
-                                </div>
-                                <div class="form-group my-3">
+                                    <label for="email" class="form-label">Email</label>
                                     <input
                                         type="email"
                                         class="form-control"
                                         name="email"
-                                        placeholder="Email"
+                                        placeholder="ejemplo@mail.com"
                                         required/>
                                 </div>
+
+
+
                                 <div class="form-group my-3">
+
+                                    <label for="sexo" class="form-label">Genero</label>
+                                    <select class="form-select" id="sexo" name="sexo" required>
+                                        <option >Seleccionar</option>
+                                        <option>Femenino</option>
+                                        <option>Masculino</option>
+                                        <option>No definido</option>
+                                    </select>
+
+
+                                    <div class="form-group my-3">
+                                        <label for="obraselec" class="form-label">Obra Social</label>
+                                        <select id="obraselec" name="obraselec" class="form-select" required>
+                                            <option value="0">Seleccionar</option>
+                                            <option th:each="obra : ${obras}" th:value="${obra.nombre}" th:text="${obra.nombre}"></option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                
+                                <div class="form-group my-3">
+                                    <label for="fechaNac" class="form-label">Fecha de nacimiento</label>
+                                    <!-- Campo de entrada de fecha -->
+
+                                    <input type="date" name="fechaNac"  required/>
+                                </div>
+
+
+
+
+                                <div class="form-group my-3">
+                                    <label for="password" class="form-label">Contraseña</label>
                                     <input
                                         type="password"
                                         class="form-control"

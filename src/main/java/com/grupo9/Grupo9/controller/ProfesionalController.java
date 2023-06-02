@@ -92,7 +92,7 @@ public class ProfesionalController {
         return "redirect:/profesional/perfil";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/perfil")
     public String perfilProfesional(ModelMap modelo) {
         try {

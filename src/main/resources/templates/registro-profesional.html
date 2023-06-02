@@ -38,30 +38,36 @@
                                 </div>
 
                                 <div class="form-group my-3" th:if="${modo == 'registrar'}">
-                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" required />
+                                    <label for="nombre" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" name="nombre" placeholder="ej. Juan" required />
                                 </div>
                                 <div class="form-group my-3" th:if="${modo == 'registrar'}">
-                                    <input type="text" class="form-control" name="apellido" placeholder="Apellido"
+                                    <label for="apellido" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" name="apellido" placeholder="ej. Aguirre"
                                            required />
                                 </div>
                                 <div class="form-group my-3" >
+                                    <label for="dni" class="form-label">Documento</label>
                                     <input th:value="${datosProfesional?.dni}" th:readonly="${modo}=='editar'" type="number" class="form-control" name="dni" placeholder="Dni" required />
                                 </div>
 
                                 <div class="form-group my-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
                                     <input th:value="${modo}== 'editar' ? ${datosProfesional.telefono}:''" type="text"
-                                           class="form-control" name="telefono" placeholder="Telefono" required />
+                                           class="form-control" name="telefono" placeholder="Teléfono" required />
 
                                 </div>
 
                                 <div class="form-group my-3">
+                                    <label for="ubicacion" class="form-label">Ubicación</label>
                                     <input th:value="${modo}== 'editar' ? ${datosProfesional.ubicacion}:''" type="text"
-                                           class="form-control" name="ubicacion" placeholder="Ubicación" required />
+                                           class="form-control" name="ubicacion" placeholder="Dirección 123" required />
                                 </div>
 
                                 <div class="form-group my-3">
+                                    <label for="email" class="form-label">Email</label>
                                     <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" type="email"
-                                           class="form-control" name="email" placeholder="Email" required />
+                                           class="form-control" name="email" placeholder="ejemplo@mail.com" required />
                                 </div>
 
 
@@ -73,41 +79,45 @@
 
 
                                 <div class="form-group my-3">
-                                    <label for="sexo">Genero: </label>
-                                    <select id="sexo" name="obraSocialId" required>
+
+                                    <label for="sexo" class="form-label">Genero</label>
+                                    <select class="form-select" id="sexo" name="obraSocialId" required>
                                         <option >Seleccionar</option>
                                         <option>Femenino</option>
                                         <option>Masculino</option>
                                         <option>No definido</option>
                                     </select>
+
                                 </div>
 
-
                                 <div class="form-group my-3">
-                                    <label for="obraSocialId">Obra Social:</label>
-                                    <select id="obraSocialId" name="obraSocialId" required>
+                                    <label for="obraSocialId" class="form-label">Obra Social:</label>
+                                    <select class="form-select" id="obraSocialId" name="obraSocialId" required>
                                         <option value="0">Seleccionar</option>
                                         <option th:selected="${datosProfesional?.obraSocial?.get(0)?.id} == ${obra.id}"
                                                 th:each="obra : ${obras}" th:value="${obra.id}" th:text="${obra.nombre}">
                                         </option>
                                     </select>
                                 </div>
+
+
                                 <div class="form-group my-3">
-                                    <label for="especialidadId">Especialidad:</label>
-                                    <select  name="especialidadId" required>
+                                    <label for="especialidadId" class="form-label" >Especialidad:</label>
+                                    <select class="form-select" name="especialidadId" required>
                                         <option value="0">Seleccionar</option>
                                         <option th:selected="${datosProfesional?.especialidad?.id} == ${especialidad.id}"
                                                 th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.nombre}">
                                         </option>
                                     </select>
-                                </div>
+                                </div>                             
+
 
 
                                 <div class="form-group my-3">
 
                                     <div class="form-group my-3">
-                                        <label for="tipoAtencion">Tipo de atención: </label>
-                                        <select id="tipoAtencion" name="tipoAtencion" required>
+                                        <label for="tipoAtencion" class="form-label" >Tipo de atención: </label>
+                                        <select class="form-select" id="tipoAtencion" name="tipoAtencion" required>
                                             <option th:selected="${datosProfesional?.tipoAtencion=='Virtual'}"
                                                     value="Virtual">Virtual</option>
                                             <option th:selected="${datosProfesional?.tipoAtencion=='Presencial'}"
@@ -117,12 +127,12 @@
                                         </select>
                                     </div>
 
-<!--                                    <div class="form-group my-3">
-                                        <label th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
-                                        <input type="file" name="imagen" accept="image/png, image/jpeg" />
-                                    </div>-->
+                                    <!--                                    <div class="form-group my-3">
+                                                                            <label th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
+                                                                            <input type="file" name="imagen" accept="image/png, image/jpeg" />
+                                                                        </div>-->
 
-                                    
+
 
 
                                     <div class="form-group my-3" th:if="${modo == 'registrar'}">
