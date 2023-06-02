@@ -31,7 +31,6 @@ import org.springframework.security.core.GrantedAuthority;
 public class ProfesionalEntidad implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer dni;
     private String nombre;
     private String apellido;
@@ -39,6 +38,7 @@ public class ProfesionalEntidad implements Serializable{
     private String password;
     private String telefono;
     private String sexo;
+    
     @Enumerated(EnumType.STRING)
     private Rol rol;
     
@@ -77,7 +77,7 @@ public class ProfesionalEntidad implements Serializable{
     @OneToOne
     @JoinColumn(name = "imagen_id", referencedColumnName ="id")
     private ImagenEntidad imagen;
-
+    private int precioConsulta;
     public ProfesionalEntidad() {
     }
                                                       

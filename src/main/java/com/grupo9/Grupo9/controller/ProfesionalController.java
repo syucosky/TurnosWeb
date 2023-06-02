@@ -68,7 +68,7 @@ public class ProfesionalController {
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
             @RequestParam() Long obraSocialId,
             @RequestParam() MultipartFile imagen,
-            @RequestParam() String especialidadId) {
+            @RequestParam() Integer especialidadId) {
         try {
 
         
@@ -76,7 +76,13 @@ public class ProfesionalController {
             ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido, sexo, ubicacion, tipoAtencion, telefono);
             
             profesional.setImagen( imagenServicio.guardar(imagen));
+           
+            profesional.setEspecialidad( especialidadServicio.buscarPorId(especialidadId));
             
+            
+            if (profesionalService.buscarPorDni(dni) != null) {
+                throw new Exception("DNI ya existe");
+            }
             profesionalService.guardarProfesional(profesional, true, obraSocialId);
 
         } catch (Exception e) {
@@ -122,7 +128,9 @@ public class ProfesionalController {
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
             @RequestParam(value = "obraSocialId") Long obraSocialId,
+            @RequestParam() Integer especialidadId ,
             @RequestParam() MultipartFile imagen) throws Exception {
+            
 
         ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
         profesional.setImagen(imagenServicio.guardar(imagen));
@@ -130,6 +138,7 @@ public class ProfesionalController {
         profesional.setUbicacion(ubicacion);
         profesional.setTelefono(telefono);
         profesional.setTipoAtencion(tipoAtencion);
+        profesional.setEspecialidad( especialidadServicio.buscarPorId(especialidadId));
 
         profesionalService.guardarProfesional(profesional,false, obraSocialId);
 
@@ -140,9 +149,11 @@ public class ProfesionalController {
     public String editarProfesional(ModelMap modelo, @RequestParam() Integer dni) {
 
         ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
+        List<EspecialidadEntidad> especialidades = especialidadServicio.obtenerEspecialidades();
+
         modelo.addAttribute("modo", "editar");
         modelo.addAttribute("datosProfesional", profesional);
-
+        modelo.addAttribute("especialidades", especialidades);
         List<ObraSocialEntidad> obras = new ArrayList();
         obras = obrasServicio.buscarTodas();
         modelo.addAttribute("obras", obras);

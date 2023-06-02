@@ -27,5 +27,10 @@ public class EspecialidadServicio {
         return especialidadRepositorio.findByName(nombre);
     }
     
+    public EspecialidadEntidad buscarPorId(Integer id){
+        return especialidadRepositorio.findById(id).get();
+                
+    } 
+    
 
 }

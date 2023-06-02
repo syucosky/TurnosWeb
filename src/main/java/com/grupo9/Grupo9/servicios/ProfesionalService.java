@@ -44,7 +44,6 @@ public class ProfesionalService implements UserDetailsService {
                 ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
                 profesional.getObraSocial().add(oSocial);
             }
-
             
             if (ok) {
                 String passCod = profesional.getPassword();

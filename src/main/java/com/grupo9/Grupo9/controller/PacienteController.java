@@ -36,8 +36,8 @@ public class PacienteController {
     ProfesionalService profesionalService;
     @Autowired
     TurnosService turnosService;
-     @Autowired
-    PacienteEntidad pacienteEntidad;
+
+    
     
     @GetMapping("/registro-paciente")
     public String registrarPaciente(ModelMap modelo){
@@ -93,7 +93,7 @@ public class PacienteController {
         modelo.addAttribute("datosPaciente", paciente);
 
        
-        return "registro-profesional.html";
+        return "registro-paciente.html";
     }
     
     
