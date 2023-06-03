@@ -247,7 +247,7 @@ public class ProfesionalService implements UserDetailsService {
     }
 
     public ProfesionalEntidad buscarPorDni(Integer dni) {
-        return profesionalRepositorio.findById(dni).get();
+        return profesionalRepositorio.findById(dni).orElse(null);
 
     }
 
