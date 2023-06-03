@@ -48,7 +48,7 @@ public class PacienteController {
     } 
     
     
-    @PostMapping("/editar/{dni}")
+    @PostMapping("/editar")
     public String editarPaciente(@PathVariable("dni")Integer dni,
                                  @RequestParam String nombre,
                                  @RequestParam String apellido,
@@ -90,6 +90,7 @@ public class PacienteController {
 
         PacienteEntidad paciente = pacienteServicio.buscarPorDNI(dni);
         modelo.addAttribute("modo", "editar");
+        
         modelo.addAttribute("datosPaciente", paciente);
 
        
