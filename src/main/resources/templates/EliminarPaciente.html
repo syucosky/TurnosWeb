@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Detalle del Paciente</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h1>Detalle del Paciente</h1>
+
+    <p>DNI: <span th:text="${paciente.dni}"></span></p>
+    <p>Nombre: <span th:text="${paciente.nombre}"></span></p>
+    <p>Apellido: <span th:text="${paciente.apellido}"></span></p>
+
+    <a th:href="@{../EliminarPaciente/{id}(id=${paciente.dni})}">Eliminar</a>
+    <a href="Pacientes.html">Cancelar</a>
+  </body>
+</html>

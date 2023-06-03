@@ -78,6 +78,11 @@ public class ProfesionalService implements UserDetailsService {
     public ProfesionalEntidad buscarPorEmail(String email) {
         return profesionalRepositorio.findByEmail(email);
     }
+    public List<ProfesionalEntidad> buscarProfesionales(String especialidad, String obraSocial){
+        return (List<ProfesionalEntidad>) profesionalRepositorio.getProfesionalesByEspecialidadAndOSocial(especialidad,obraSocial);
+   
+   }
+
 
     public void dardeAlta(Integer dni) {
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);

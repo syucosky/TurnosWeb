@@ -1,6 +1,7 @@
 package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.Filtro;
 import com.grupo9.Grupo9.entidades.ImagenEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,8 +91,16 @@ public class ProfesionalController {
 
         return "redirect:/profesional/perfil";
     }
+    @GetMapping("/filtrar")
+     public String inicio(@ModelAttribute("filtro")Filtro filtro, ModelMap modelo){
+	List<ProfesionalEntidad> listaFiltrada;
+        listaFiltrada = profesionalService.buscarProfesionales(filtro.getEspecialidad(), filtro.getObraSocial());
+	modelo.addAttribute("listaEspecialistas", listaFiltrada);
+	modelo.addAttribute("filtro", filtro);
+	return "inicio.html";
+     }
 
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/perfil")
     public String perfilProfesional(ModelMap modelo) {
         try {

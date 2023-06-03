@@ -1,24 +1,18 @@
  
 package com.grupo9.Grupo9.controller;
 
-import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
-import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
-import com.grupo9.Grupo9.entidades.PacienteEntidad;
+import com.grupo9.Grupo9.entidades.Filtro;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,6 +47,7 @@ public class IndexController {
     public String inicio(ModelMap modelo){
         List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();       
         modelo.addAttribute("profesionales", profesionales);
+        modelo.addAttribute("filtro", new Filtro());
         
         return "inicio.html";
     }
