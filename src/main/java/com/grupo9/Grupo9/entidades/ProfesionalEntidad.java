@@ -3,6 +3,7 @@ package com.grupo9.Grupo9.entidades;
 import com.grupo9.Grupo9.enumeraciones.Rol;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -30,13 +31,14 @@ import org.springframework.security.core.GrantedAuthority;
 public class ProfesionalEntidad implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer dni;
     private String nombre;
     private String apellido;
     private String email;
     private String password;
+    private String telefono;
     private String sexo;
+    
     @Enumerated(EnumType.STRING)
     private Rol rol;
     
@@ -58,7 +60,7 @@ public class ProfesionalEntidad implements Serializable{
             joinColumns = @JoinColumn(name = "profesional_id"),
             inverseJoinColumns = @JoinColumn(name = "osocial_id")
     )
-    private List<ObraSocialEntidad> obraSocial;
+    private List<ObraSocialEntidad> obraSocial = new ArrayList<ObraSocialEntidad>();
     
     @ManyToMany
     @JoinTable(
@@ -71,13 +73,17 @@ public class ProfesionalEntidad implements Serializable{
     private int puntosRecibidos; // SUMA DE LOS PUNTOS RECIBIDOS
     private int cantidadDeCalificaciones; // SUMA DE CADA PACIENTE QUE VOTO
     private int calificacion;  // PUNTAJE FINAL DEL PROFESIONAL
-
+    
+    @OneToOne
+    @JoinColumn(name = "imagen_id", referencedColumnName ="id")
+    private ImagenEntidad imagen;
+    private int precioConsulta;
     public ProfesionalEntidad() {
     }
                                                       
     public ProfesionalEntidad(Integer dni, String nombre, String email, 
                              String password, String apellido,
-                             String sexo, String ubicacion, String tipoAtencion) {
+                             String sexo, String ubicacion, String tipoAtencion, String telefono) {
         this.dni = dni;
         this.nombre = nombre;
         this.email = email;
@@ -87,7 +93,11 @@ public class ProfesionalEntidad implements Serializable{
         this.ubicacion = ubicacion;
         this.tipoAtencion = tipoAtencion;
         this.rol = Rol.PROFESIONALNOAPTO;
+        this.telefono = telefono;
+        
     }
+    
+    
 
     
 }
