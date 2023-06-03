@@ -57,7 +57,7 @@ public class ProfesionalController {
     }
 
     @PostMapping("/registro-profesional")
-    public String registrarProfesiona(@RequestParam(value = "dni") Integer dni,
+    public String registrarProfesiona(ModelMap modelo, @RequestParam(value = "dni") Integer dni,
             @RequestParam(value = "nombre") String nombre,
             @RequestParam(value = "apellido") String apellido,
             @RequestParam(value = "email") String email,
@@ -71,22 +71,20 @@ public class ProfesionalController {
             @RequestParam() Integer especialidadId) {
         try {
 
-        
-
             ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido, sexo, ubicacion, tipoAtencion, telefono);
-            
-            profesional.setImagen( imagenServicio.guardar(imagen));
+
+            profesional.setImagen(imagenServicio.guardar(imagen));
+
+            profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
            
-            profesional.setEspecialidad( especialidadServicio.buscarPorId(especialidadId));
-            
-            
             if (profesionalService.buscarPorDni(dni) != null) {
                 throw new Exception("DNI ya existe");
             }
             profesionalService.guardarProfesional(profesional, true, obraSocialId);
 
         } catch (Exception e) {
-
+            modelo.addAttribute("error", e.getMessage());
+            return "error";
         }
 
         return "redirect:/profesional/perfil";
@@ -115,7 +113,7 @@ public class ProfesionalController {
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
         EspecialidadEntidad espe = especialidadServicio.buscarPorNombre(especialidad);
         profesional.setEspecialidad(espe);
-        profesionalService.guardarProfesional(profesional, false,  null);
+        profesionalService.guardarProfesional(profesional, false, null);
 
         return "redirect:/profesional/perfil";
     }
@@ -128,9 +126,8 @@ public class ProfesionalController {
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
             @RequestParam(value = "obraSocialId") Long obraSocialId,
-            @RequestParam() Integer especialidadId ,
+            @RequestParam() Integer especialidadId,
             @RequestParam() MultipartFile imagen) throws Exception {
-            
 
         ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
         profesional.setImagen(imagenServicio.guardar(imagen));
@@ -138,9 +135,9 @@ public class ProfesionalController {
         profesional.setUbicacion(ubicacion);
         profesional.setTelefono(telefono);
         profesional.setTipoAtencion(tipoAtencion);
-        profesional.setEspecialidad( especialidadServicio.buscarPorId(especialidadId));
+        profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
 
-        profesionalService.guardarProfesional(profesional,false, obraSocialId);
+        profesionalService.guardarProfesional(profesional, false, obraSocialId);
 
         return "redirect:/";
     }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,9 +23,8 @@
                     <img th:src="${modo}== 'editar' ? '/img/registros/editarForm.png'  :'/img/registros/fondo.png' " class="img-fluid" />
                 </div>
                 <div class="col-7">
-                    <br>
+                    <br/>
                     <div class="row">
-
 
                         <div class="col-12">
                             <form
@@ -35,22 +34,24 @@
                                 enctype="multipart/form-data"
 
                                 >
-                                <h3 th:text="${modo}== 'editar'? 'Editar perfil':'Registar Profesional'"
+                                <h3 th:text="${modo}== 'editar'? 'Editar perfil':'Registar Paciente'"
                                     class="card-title text-center"></h3>
 
 
                                 <div class="form-group my-3">
                                     <label for="nombre" class="form-label">Nombres</label>
-                                    <input
+                                    <input th:value="${datosPaciente?.nombre}"                                       
+                                        th:readonly="${modo}=='editar'" 
                                         type="text"
                                         class="form-control"
                                         th:name="nombre"
                                         placeholder="ej. Juan"
-                                        required/>
+                                        required=true/>
                                 </div>
                                 <div class="form-group my-3">
                                     <label for="apellido" class="form-label">Apellidos</label>
-                                    <input
+                                    <input th:value="${datosPaciente?.apellido}"
+                                        th:readonly="${modo}=='editar'"
                                         type="text"
                                         class="form-control"
                                         th:name="apellido"
@@ -59,30 +60,31 @@
                                 </div>
                                 <div class="form-group my-3">
                                     <label for="dni" class="form-label">Documento</label>
-                                    <input
+                                    <input th:value="${datosPaciente?.dni}" th:readonly="${modo}=='editar'" 
                                         type="number"
                                         class="form-control"
                                         th:name="dni"
                                         placeholder="Dni"
                                         required/>
+
                                 </div>
 
                                 <!--                                Telefono-->
                                 <div class="form-group my-3">
                                     <label for="telefono" class="form-label">Teléfono</label>
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        th:name="telefono"
-                                        placeholder="Teléfono"
-                                        required/>
+                                    <input th:value="${modo}== 'editar' ? ${datosPaciente.telefono}:''"
+                                           type="number"
+                                           class="form-control"
+                                           th:name="telefono"
+                                           placeholder="Teléfono"
+                                           required/>
                                 </div>
 
 
                                 <!--                                    Email-->
                                 <div class="form-group my-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input
+                                    <input th:value="${modo}== 'editar' ? ${datosPaciente.email}:''"
                                         type="email"
                                         class="form-control"
                                         name="email"
@@ -112,7 +114,7 @@
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="form-group my-3">
                                     <label for="fechaNac" class="form-label">Fecha de nacimiento</label>
                                     <!-- Campo de entrada de fecha -->
