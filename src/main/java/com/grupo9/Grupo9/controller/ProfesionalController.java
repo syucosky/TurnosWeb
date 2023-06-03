@@ -68,7 +68,7 @@ public class ProfesionalController {
             @RequestParam(value = "telefono") String telefono,
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
-            @RequestParam() Long obraSocialId,
+            @RequestParam() Long[] obrasSocialesId,
             @RequestParam() MultipartFile imagen,
             @RequestParam() Integer especialidadId) {
         try {
@@ -82,7 +82,7 @@ public class ProfesionalController {
             if (profesionalService.buscarPorDni(dni) != null) {
                 throw new Exception("DNI ya existe");
             }
-            profesionalService.guardarProfesional(profesional, true, obraSocialId);
+            profesionalService.guardarProfesional(profesional, true, obrasSocialesId);
 
         } catch (Exception e) {
             modelo.addAttribute("error", e.getMessage());
@@ -135,7 +135,7 @@ public class ProfesionalController {
             @RequestParam(value = "telefono") String telefono,
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
-            @RequestParam(value = "obraSocialId") Long obraSocialId,
+            @RequestParam(value = "obrasSocialesId") Long[] obrasSocialesId,
             @RequestParam() Integer especialidadId,
             @RequestParam() MultipartFile imagen) throws Exception {
 
@@ -147,7 +147,7 @@ public class ProfesionalController {
         profesional.setTipoAtencion(tipoAtencion);
         profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
 
-        profesionalService.guardarProfesional(profesional, false, obraSocialId);
+        profesionalService.guardarProfesional(profesional, false, obrasSocialesId);
 
         return "redirect:/";
     }

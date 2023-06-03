@@ -37,14 +37,19 @@ public class ProfesionalService implements UserDetailsService {
     ImagenRepository imagenRepository;
 
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long obraSocialId) {
+    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long[] obrasSocialesId) {
         try {
 
-            if (obraSocialId != null) {
-                ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
-                profesional.getObraSocial().add(oSocial);
+            if (obrasSocialesId != null) {
+
+                // ELIMINO TODAS LAS OBRAS SOCIALES DEL PROFESIONAL
+                // PARA LUEGO AGREGAR O ELIMINAR LAS DE UI
+                profesional.getObraSocial().clear();
+                for (Long obraSocialId : obrasSocialesId) {
+                    ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
+                    profesional.getObraSocial().add(oSocial);
+                }
             }
-            
             if (ok) {
                 String passCod = profesional.getPassword();
                 profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
@@ -78,11 +83,11 @@ public class ProfesionalService implements UserDetailsService {
     public ProfesionalEntidad buscarPorEmail(String email) {
         return profesionalRepositorio.findByEmail(email);
     }
-    public List<ProfesionalEntidad> buscarProfesionales(String especialidad, String obraSocial){
-        return (List<ProfesionalEntidad>) profesionalRepositorio.getProfesionalesByEspecialidadAndOSocial(especialidad,obraSocial);
-   
-   }
 
+    public List<ProfesionalEntidad> buscarProfesionales(String especialidad, String obraSocial) {
+        return (List<ProfesionalEntidad>) profesionalRepositorio.getProfesionalesByEspecialidadAndOSocial(especialidad, obraSocial);
+
+    }
 
     public void dardeAlta(Integer dni) {
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
