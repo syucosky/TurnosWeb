@@ -120,14 +120,17 @@
 
                                 </div>
 
+
+
                                 <div class="form-group my-3">
-                                    <label for="obraSocialId" class="form-label">Obra Social:</label>
-                                    <select class="form-select" id="obraSocialId" name="obraSocialId" required="true">
-                                        <option value="0">Seleccionar</option>
-                                        <option th:selected="${datosProfesional?.obraSocial?.get(0)?.id} == ${obra.id}"
-                                                th:each="obra : ${obras}" th:value="${obra.id}" th:text="${obra.nombre}">
-                                        </option>
-                                    </select>
+                                    <label for="obraSocialId" class="form-label">Obras Sociales</label>
+
+                                    <div class="form-check" th:each="obra : ${obras}">
+                                        <input th:checked="${datosProfesional?.obraSocial?.contains(obra)}" name="obrasSocialesId" th:value="${obra.id}" class="form-check-input" type="checkbox"  id="flexCheckChecked" />
+                                        <label class="form-check-label" for="flexCheckChecked"  th:text="${obra.nombre}" >
+
+                                        </label>
+                                    </div>
                                 </div>
 
 
@@ -157,10 +160,10 @@
                                         </select>
                                     </div>
 
-                                                                        <div class="form-group my-3">
-                                                                            <label th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
-                                                                            <input type="file" name="imagen" accept="image/png, image/jpeg" />
-                                                                        </div>
+                                    <div class="form-group my-3">
+                                        <label th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
+                                        <input type="file" name="imagen" accept="image/png, image/jpeg" />
+                                    </div>
 
 
 
@@ -175,7 +178,7 @@
                                                 Guardar
                                             </button>
                                         </div>
-                                        
+
                                         </form>
 
                                         <div class="d-grid gap-2 col-6 mx-auto">
