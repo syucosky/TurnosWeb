@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <meta charset="utf-8" />
@@ -21,7 +21,7 @@
                     <img th:src="${modo}== 'editar' ? '/img/registros/editarForm.png'  :'/img/registros/fondo.png'" class="img-fluid " />
                 </div>
                 <div class="col-7">
-                    <br>
+                    <br/>
                     <div class="row">
 
 
@@ -39,35 +39,65 @@
 
                                 <div class="form-group my-3" th:if="${modo == 'registrar'}">
                                     <label for="nombre" class="form-label">Nombres</label>
-                                    <input type="text" class="form-control" name="nombre" placeholder="ej. Juan" required />
+                                    <input type="text" 
+                                           class="form-control" 
+                                           name="nombre" 
+                                           placeholder="ej. Juan" 
+                                           required="true"
+                                           />
                                 </div>
                                 <div class="form-group my-3" th:if="${modo == 'registrar'}">
                                     <label for="apellido" class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control" name="apellido" placeholder="ej. Aguirre"
-                                           required />
+                                    <input type="text" 
+                                           class="form-control" 
+                                           name="apellido" 
+                                           placeholder="ej. Aguirre"
+                                           required ="true"
+                                           />
                                 </div>
                                 <div class="form-group my-3" >
                                     <label for="dni" class="form-label">Documento</label>
-                                    <input th:value="${datosProfesional?.dni}" th:readonly="${modo}=='editar'" type="number" class="form-control" name="dni" placeholder="Dni" required />
+                                    <input th:value="${datosProfesional?.dni}" 
+                                           th:readonly="${modo}=='editar'" 
+                                           type="number" 
+                                           class="form-control" 
+                                           name="dni" 
+                                           placeholder="Dni" 
+                                           required ="true"
+                                           />
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="telefono" class="form-label">Teléfono</label>
-                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.telefono}:''" type="text"
-                                           class="form-control" name="telefono" placeholder="Teléfono" required />
+                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.telefono}:''" 
+                                           type="text"
+                                           class="form-control" 
+                                           name="telefono" 
+                                           placeholder="Teléfono" 
+                                           required="true" />
 
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="ubicacion" class="form-label">Ubicación</label>
-                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.ubicacion}:''" type="text"
-                                           class="form-control" name="ubicacion" placeholder="Dirección 123" required />
+                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.ubicacion}:''" 
+                                           type="text"
+                                           class="form-control" 
+                                           name="ubicacion" 
+                                           placeholder="Dirección 123" 
+                                           required ="true"
+                                           />
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" type="email"
-                                           class="form-control" name="email" placeholder="ejemplo@mail.com" required />
+                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" 
+                                           type="email"
+                                           class="form-control" 
+                                           name="email" 
+                                           placeholder="ejemplo@mail.com" 
+                                           required ="true"
+                                           />
                                 </div>
 
 
@@ -81,7 +111,7 @@
                                 <div class="form-group my-3">
 
                                     <label for="sexo" class="form-label">Genero</label>
-                                    <select class="form-select" id="sexo" name="obraSocialId" required>
+                                    <select class="form-select" id="sexo" name="sexo" required="true">
                                         <option >Seleccionar</option>
                                         <option>Femenino</option>
                                         <option>Masculino</option>
@@ -92,7 +122,7 @@
 
                                 <div class="form-group my-3">
                                     <label for="obraSocialId" class="form-label">Obra Social:</label>
-                                    <select class="form-select" id="obraSocialId" name="obraSocialId" required>
+                                    <select class="form-select" id="obraSocialId" name="obraSocialId" required="true">
                                         <option value="0">Seleccionar</option>
                                         <option th:selected="${datosProfesional?.obraSocial?.get(0)?.id} == ${obra.id}"
                                                 th:each="obra : ${obras}" th:value="${obra.id}" th:text="${obra.nombre}">
@@ -103,7 +133,7 @@
 
                                 <div class="form-group my-3">
                                     <label for="especialidadId" class="form-label" >Especialidad:</label>
-                                    <select class="form-select" name="especialidadId" required>
+                                    <select class="form-select" name="especialidadId" required="true">
                                         <option value="0">Seleccionar</option>
                                         <option th:selected="${datosProfesional?.especialidad?.id} == ${especialidad.id}"
                                                 th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.nombre}">
@@ -117,7 +147,7 @@
 
                                     <div class="form-group my-3">
                                         <label for="tipoAtencion" class="form-label" >Tipo de atención: </label>
-                                        <select class="form-select" id="tipoAtencion" name="tipoAtencion" required>
+                                        <select class="form-select" id="tipoAtencion" name="tipoAtencion" required="true">
                                             <option th:selected="${datosProfesional?.tipoAtencion=='Virtual'}"
                                                     value="Virtual">Virtual</option>
                                             <option th:selected="${datosProfesional?.tipoAtencion=='Presencial'}"
@@ -127,17 +157,17 @@
                                         </select>
                                     </div>
 
-                                    <!--                                    <div class="form-group my-3">
+                                                                        <div class="form-group my-3">
                                                                             <label th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
                                                                             <input type="file" name="imagen" accept="image/png, image/jpeg" />
-                                                                        </div>-->
+                                                                        </div>
 
 
 
 
                                     <div class="form-group my-3" th:if="${modo == 'registrar'}">
                                         <input type="password" class="form-control" name="password" placeholder="Contraseña"
-                                               required />
+                                               required="true" />
                                     </div>
                                     <div class="row">
                                         <div class="d-grid gap-2 col-6 mx-auto">
@@ -145,6 +175,7 @@
                                                 Guardar
                                             </button>
                                         </div>
+                                        
                                         </form>
 
                                         <div class="d-grid gap-2 col-6 mx-auto">
