@@ -1,6 +1,7 @@
 package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.EspecialidadEntidad;
+import com.grupo9.Grupo9.entidades.Filtro;
 import com.grupo9.Grupo9.entidades.ImagenEntidad;
 import com.grupo9.Grupo9.entidades.ObraSocialEntidad;
 import com.grupo9.Grupo9.entidades.PacienteEntidad;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,7 +59,7 @@ public class ProfesionalController {
     }
 
     @PostMapping("/registro-profesional")
-    public String registrarProfesiona(@RequestParam(value = "dni") Integer dni,
+    public String registrarProfesiona(ModelMap modelo, @RequestParam(value = "dni") Integer dni,
             @RequestParam(value = "nombre") String nombre,
             @RequestParam(value = "apellido") String apellido,
             @RequestParam(value = "email") String email,
@@ -71,28 +73,34 @@ public class ProfesionalController {
             @RequestParam() Integer especialidadId) {
         try {
 
-        
-
             ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido, sexo, ubicacion, tipoAtencion, telefono);
-            
-            profesional.setImagen( imagenServicio.guardar(imagen));
+
+            profesional.setImagen(imagenServicio.guardar(imagen));
+
+            profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
            
-            profesional.setEspecialidad( especialidadServicio.buscarPorId(especialidadId));
-            
-            
             if (profesionalService.buscarPorDni(dni) != null) {
                 throw new Exception("DNI ya existe");
             }
             profesionalService.guardarProfesional(profesional, true, obrasSocialesId);
 
         } catch (Exception e) {
-
+            modelo.addAttribute("error", e.getMessage());
+            return "error";
         }
 
         return "redirect:/profesional/perfil";
     }
+    @GetMapping("/filtrar")
+     public String inicio(@ModelAttribute("filtro")Filtro filtro, ModelMap modelo){
+	List<ProfesionalEntidad> listaFiltrada;
+        listaFiltrada = profesionalService.buscarProfesionales(filtro.getEspecialidad(), filtro.getObraSocial());
+	modelo.addAttribute("listaEspecialistas", listaFiltrada);
+	modelo.addAttribute("filtro", filtro);
+	return "inicio.html";
+     }
 
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/perfil")
     public String perfilProfesional(ModelMap modelo) {
         try {
@@ -115,7 +123,7 @@ public class ProfesionalController {
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(email);
         EspecialidadEntidad espe = especialidadServicio.buscarPorNombre(especialidad);
         profesional.setEspecialidad(espe);
-        profesionalService.guardarProfesional(profesional, false,  null);
+        profesionalService.guardarProfesional(profesional, false, null);
 
         return "redirect:/profesional/perfil";
     }
@@ -128,9 +136,8 @@ public class ProfesionalController {
             @RequestParam(value = "ubicacion") String ubicacion,
             @RequestParam(value = "tipoAtencion") String tipoAtencion,
             @RequestParam(value = "obrasSocialesId") Long[] obrasSocialesId,
-            @RequestParam() Integer especialidadId ,
+            @RequestParam() Integer especialidadId,
             @RequestParam() MultipartFile imagen) throws Exception {
-            
 
         ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
         profesional.setImagen(imagenServicio.guardar(imagen));
@@ -138,9 +145,9 @@ public class ProfesionalController {
         profesional.setUbicacion(ubicacion);
         profesional.setTelefono(telefono);
         profesional.setTipoAtencion(tipoAtencion);
-        profesional.setEspecialidad( especialidadServicio.buscarPorId(especialidadId));
+        profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
 
-        profesionalService.guardarProfesional(profesional,false, obrasSocialesId);
+        profesionalService.guardarProfesional(profesional, false, obrasSocialesId);
 
         return "redirect:/";
     }

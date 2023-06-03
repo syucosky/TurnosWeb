@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color:#dae2ff;
+}
+
+img{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 100px;
+    height: auto;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+/*    display: block;*/
+   
+    margin-bottom: 5px;
+}
+
+input[type="email"]{
+    width: 200px;
+    margin-bottom: 2em;
+    padding: 4px;
+    
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-block: 10em;
+    
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th{
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}

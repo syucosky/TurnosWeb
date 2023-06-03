@@ -9,7 +9,7 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
         <link rel="stylesheet" href="/css/registro-pacientes.css" />
     </head>
 
@@ -21,83 +21,53 @@
                     <img th:src="${modo}== 'editar' ? '/img/registros/editarForm.png'  :'/img/registros/fondo.png'" class="img-fluid " />
                 </div>
                 <div class="col-7">
-                    <br/>
+                    <br />
                     <div class="row">
 
 
                         <div class="col-12">
-                            <form class="formulario"
-                                  th:action="${modo}== 'editar' ? @{/profesional/editar} : @{/profesional/registro-profesional}"
-                                  method="POST" enctype="multipart/form-data">
+                            <form class="formulario" th:action="${modo}== 'editar' ? @{/profesional/editar} : @{/profesional/registro-profesional}"
+                                method="POST" enctype="multipart/form-data">
 
 
                                 <div class="form-group my-3">
 
-                                    <h3 th:text="${modo}== 'editar'? 'Editar perfil':'Registar Profesional'"
-                                        class="card-title text-center"></h3>
+                                    <h3 th:text="${modo}== 'editar'? 'Editar perfil':'Registar Profesional'" class="card-title text-center"></h3>
                                 </div>
 
-                                <div class="form-group my-3" th:if="${modo == 'registrar'}">
+                                <div class="form-group my-3">
                                     <label for="nombre" class="form-label">Nombres</label>
-                                    <input type="text" 
-                                           class="form-control" 
-                                           name="nombre" 
-                                           placeholder="ej. Juan" 
-                                           required="true"
-                                           />
+                                    <input th:value="${datosProfesional?.nombre}" th:readonly="${modo}=='editar'" type="text" class="form-control"
+                                        name="nombre" placeholder="ej. Juan" required="true" />
                                 </div>
-                                <div class="form-group my-3" th:if="${modo == 'registrar'}">
+                                <div class="form-group my-3">
                                     <label for="apellido" class="form-label">Apellidos</label>
-                                    <input type="text" 
-                                           class="form-control" 
-                                           name="apellido" 
-                                           placeholder="ej. Aguirre"
-                                           required ="true"
-                                           />
+                                    <input th:value="${datosProfesional?.apellido}" th:readonly="${modo}=='editar'" type="text" class="form-control"
+                                        name="apellido" placeholder="ej. Aguirre" required="true" />
                                 </div>
-                                <div class="form-group my-3" >
+                                <div class="form-group my-3">
                                     <label for="dni" class="form-label">Documento</label>
-                                    <input th:value="${datosProfesional?.dni}" 
-                                           th:readonly="${modo}=='editar'" 
-                                           type="number" 
-                                           class="form-control" 
-                                           name="dni" 
-                                           placeholder="Dni" 
-                                           required ="true"
-                                           />
+                                    <input th:value="${datosProfesional?.dni}" th:readonly="${modo}=='editar'" type="number" class="form-control"
+                                        name="dni" placeholder="Dni" required="true" />
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="telefono" class="form-label">Teléfono</label>
-                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.telefono}:''" 
-                                           type="text"
-                                           class="form-control" 
-                                           name="telefono" 
-                                           placeholder="Teléfono" 
-                                           required="true" />
+                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.telefono}:''" type="text" class="form-control"
+                                        name="telefono" placeholder="Teléfono" required="true" />
 
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="ubicacion" class="form-label">Ubicación</label>
-                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.ubicacion}:''" 
-                                           type="text"
-                                           class="form-control" 
-                                           name="ubicacion" 
-                                           placeholder="Dirección 123" 
-                                           required ="true"
-                                           />
+                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.ubicacion}:''" type="text" class="form-control"
+                                        name="ubicacion" placeholder="Dirección 123" required="true" />
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" 
-                                           type="email"
-                                           class="form-control" 
-                                           name="email" 
-                                           placeholder="ejemplo@mail.com" 
-                                           required ="true"
-                                           />
+                                    <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" type="email" class="form-control" name="email"
+                                        placeholder="ejemplo@mail.com" required="true" />
                                 </div>
 
 
@@ -112,7 +82,7 @@
 
                                     <label for="sexo" class="form-label">Genero</label>
                                     <select class="form-select" id="sexo" name="sexo" required="true">
-                                        <option >Seleccionar</option>
+                                        <option>Seleccionar</option>
                                         <option>Femenino</option>
                                         <option>Masculino</option>
                                         <option>No definido</option>
@@ -120,14 +90,13 @@
 
                                 </div>
 
-
-
                                 <div class="form-group my-3">
                                     <label for="obraSocialId" class="form-label">Obras Sociales</label>
 
                                     <div class="form-check" th:each="obra : ${obras}">
-                                        <input th:checked="${datosProfesional?.obraSocial?.contains(obra)}" name="obrasSocialesId" th:value="${obra.id}" class="form-check-input" type="checkbox"  id="flexCheckChecked" />
-                                        <label class="form-check-label" for="flexCheckChecked"  th:text="${obra.nombre}" >
+                                        <input th:checked="${datosProfesional?.obraSocial?.contains(obra)}" name="obrasSocialesId"
+                                            th:value="${obra.id}" class="form-check-input" type="checkbox" id="flexCheckChecked" />
+                                        <label class="form-check-label" for="flexCheckChecked" th:text="${obra.nombre}">
 
                                         </label>
                                     </div>
@@ -135,26 +104,25 @@
 
 
                                 <div class="form-group my-3">
-                                    <label for="especialidadId" class="form-label" >Especialidad:</label>
+                                    <label for="especialidadId" class="form-label">Especialidad:</label>
                                     <select class="form-select" name="especialidadId" required="true">
                                         <option value="0">Seleccionar</option>
                                         <option th:selected="${datosProfesional?.especialidad?.id} == ${especialidad.id}"
-                                                th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.nombre}">
+                                            th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.nombre}">
                                         </option>
                                     </select>
-                                </div>                             
+                                </div>
 
 
 
                                 <div class="form-group my-3">
 
                                     <div class="form-group my-3">
-                                        <label for="tipoAtencion" class="form-label" >Tipo de atención: </label>
+                                        <label for="tipoAtencion" class="form-label">Tipo de atención: </label>
                                         <select class="form-select" id="tipoAtencion" name="tipoAtencion" required="true">
-                                            <option th:selected="${datosProfesional?.tipoAtencion=='Virtual'}"
-                                                    value="Virtual">Virtual</option>
-                                            <option th:selected="${datosProfesional?.tipoAtencion=='Presencial'}"
-                                                    value="Presencial">Presencial</option>
+                                            <option th:selected="${datosProfesional?.tipoAtencion=='Virtual'}" value="Virtual">Virtual</option>
+                                            <option th:selected="${datosProfesional?.tipoAtencion=='Presencial'}" value="Presencial">Presencial
+                                            </option>
                                             <option th:selected="${datosProfesional?.tipoAtencion=='Ambas'}" value="Ambas">
                                                 Ambas</option>
                                         </select>
@@ -169,8 +137,7 @@
 
 
                                     <div class="form-group my-3" th:if="${modo == 'registrar'}">
-                                        <input type="password" class="form-control" name="password" placeholder="Contraseña"
-                                               required="true" />
+                                        <input type="password" class="form-control" name="password" placeholder="Contraseña" required="true" />
                                     </div>
                                     <div class="row">
                                         <div class="d-grid gap-2 col-6 mx-auto">
@@ -179,40 +146,39 @@
                                             </button>
                                         </div>
 
-                                        </form>
+                            </form>
 
-                                        <div class="d-grid gap-2 col-6 mx-auto">
-                                            <button class="btn btn-primary btn-lg" type="button">
-                                                <a th:href="@{../seleccion-usuario}" class="btn btn-primary" role="button">
-                                                    Volver</a>
-                                            </button>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button class="btn btn-primary btn-lg" type="button">
+                                    <a th:href="@{../seleccion-usuario}" class="btn btn-primary" role="button">
+                                        Volver</a>
+                                </button>
+                            </div>
 
                         </div>
 
                     </div>
 
-                    <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
-                        <div class="card-body">
-                            <h5 class="card-title">Error!</h5>
-                            <p class="card-text" th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div th:if="${exito != null}" class="card text-white bg-success mb-3 mt-3 mensajeExito">
-                        <div class="card-body">
-                            <h5 class="card-title">Exito!</h5>
-                            <p class="card-text" th:text="${exito}"></p>
-                        </div>
-                    </div>
 
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-                            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-                    crossorigin="anonymous"></script>
-                    </body>
+                </div>
 
-                    </html>
+            </div>
+
+            <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
+                <div class="card-body">
+                    <h5 class="card-title">Error!</h5>
+                    <p class="card-text" th:text="${error}"></p>
+                </div>
+            </div>
+            <div th:if="${exito != null}" class="card text-white bg-success mb-3 mt-3 mensajeExito">
+                <div class="card-body">
+                    <h5 class="card-title">Exito!</h5>
+                    <p class="card-text" th:text="${exito}"></p>
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    </body>
+
+</html>

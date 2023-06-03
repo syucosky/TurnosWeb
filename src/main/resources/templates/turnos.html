@@ -5,11 +5,13 @@
         <title>Turnos del profesional</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/turnos.css">
     </head>
     <body>       
         <h1>Turnos del profesional</h1>
         <h2 th:text="'Seleccione turno para el '+ ${profesional.especialidad.nombre} +' '+ ${profesional.nombre}">  </h2>
         </form><form th:action="@{/paciente/turnos/reservar}" method="post">
+         <img src="/img/registros/calendar.png" class="img" alt="">
             <table>
                 <tr>
                     <th>Día</th>

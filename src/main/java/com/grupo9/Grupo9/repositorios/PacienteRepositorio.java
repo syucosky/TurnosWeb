@@ -9,8 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PacienteRepositorio extends JpaRepository<PacienteEntidad, Integer>{
-       
+public interface PacienteRepositorio extends JpaRepository<PacienteEntidad, Integer> {
+  
+
+  
     @Query("SELECT p FROM PacienteEntidad p WHERE p.email = :email")
     public PacienteEntidad findByEmail(@Param("email") String email);
     
