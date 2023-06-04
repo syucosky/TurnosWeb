@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProfesionalService{
+public class ProfesionalService  {
     @Autowired
     ProfesionalRepository profesionalRepositorio;
     
@@ -72,4 +72,6 @@ public class ProfesionalService{
     public ProfesionalEntidad obtenerProfesionalPorId(Integer dni) {
         return profesionalRepositorio.findById(dni).get();
     }
+    
+ 
 }
