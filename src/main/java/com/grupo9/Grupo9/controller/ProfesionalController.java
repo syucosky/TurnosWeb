@@ -79,9 +79,9 @@ public class ProfesionalController {
 
             profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
            
-            if (profesionalService.buscarPorDni(dni) != null) {
-                throw new Exception("DNI ya existe");
-            }
+//            if (profesionalService.buscarPorDni(dni) != null) {
+//                throw new Exception("DNI ya existe");
+//            }
             profesionalService.guardarProfesional(profesional, true, obraSocialId);
 
         } catch (Exception e) {
@@ -91,11 +91,19 @@ public class ProfesionalController {
 
         return "redirect:/profesional/perfil";
     }
-    @GetMapping("/filtrar")
+  @GetMapping("/filtrar/especialidad")
      public String inicio(@ModelAttribute("filtro")Filtro filtro, ModelMap modelo){
 	List<ProfesionalEntidad> listaFiltrada;
-        listaFiltrada = profesionalService.buscarProfesionales(filtro.getEspecialidad(), filtro.getObraSocial());
-	modelo.addAttribute("listaEspecialistas", listaFiltrada);
+        listaFiltrada = profesionalService.buscarProfesionalesEspecialidad(filtro.getEspecialidad());
+	modelo.addAttribute("profesionales", listaFiltrada);
+	modelo.addAttribute("filtro", filtro);
+	return "inicio.html";
+     }
+     @GetMapping("/filtrar/obraSocial")
+     public String filtarPorObraSocial(@ModelAttribute("filtro")Filtro filtro, ModelMap modelo){
+	List<ProfesionalEntidad> listaFiltrada;
+        listaFiltrada = profesionalService.buscarProfesionalesPorObraSocial(filtro.getObraSocial());
+	modelo.addAttribute("profesionales", listaFiltrada);
 	modelo.addAttribute("filtro", filtro);
 	return "inicio.html";
      }
@@ -177,11 +185,11 @@ public class ProfesionalController {
         return "perfil-profesional.html";
     }
 
-    @DeleteMapping("/eliminar")
-    public String eliminarProfesional(ModelMap modelo, @RequestParam() Integer dni) {
-        profesionalService.eliminarProfesional(dni);
-        return "redirect:/";
-    }
+//    @DeleteMapping("/eliminar")
+//    public String eliminarProfesional(ModelMap modelo, @RequestParam() Integer dni) {
+//        profesionalService.eliminarProfesional(dni);
+//        return "redirect:/";
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @PostMapping("/turnosSeleccionados")

@@ -27,6 +27,14 @@ public class ObraSocialEntidad implements Serializable{
     @ManyToMany(mappedBy = "obraSocial", cascade = CascadeType.ALL)
     private List<ProfesionalEntidad> profesionales;
     
+  
+    
     @OneToMany(mappedBy="obraSocial")
     private Set<PacienteEntidad> pacientes;
+    
+      @Override
+    public String toString() {
+        return this.nombre;
+    
+    }
 }
