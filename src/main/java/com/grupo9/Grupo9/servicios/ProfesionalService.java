@@ -37,14 +37,20 @@ public class ProfesionalService {
     ImagenRepository imagenRepository;
 
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long obraSocialId) {
+    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long[] obrasSocialesId) {
         try {
 
-            if (obraSocialId != null) {
-                ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
-                profesional.getObraSocial().add(oSocial);
-            }
+           if (obrasSocialesId != null) {
 
+                // ELIMINO TODAS LAS OBRAS SOCIALES DEL PROFESIONAL
+                // PARA LUEGO AGREGAR O ELIMINAR LAS DE UI
+                profesional.getObraSocial().clear();
+                for (Long obraSocialId : obrasSocialesId) {
+                    ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
+                    profesional.getObraSocial().add(oSocial);
+                }
+            }
+            
             if (ok) {
                 String passCod = profesional.getPassword();
                 profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
@@ -103,13 +109,14 @@ public class ProfesionalService {
     public ProfesionalEntidad buscarPorDni(Integer dni) {
         return profesionalRepositorio.findById(dni).orElse(null);
     
+    /*DELETE*/
+    public void eliminarProfesional(Integer dni) {
+        profesionalRepositorio.deleteById(dni);
     }
 
-    public List<ProfesionalEntidad> buscarProfesionalesEspecialidad(String especialidad) {
-        return (List<ProfesionalEntidad>) profesionalRepositorio.getProfesionalesByEspecialidad(especialidad);
-    }
+    public ProfesionalEntidad buscarPorDni(Integer dni) {
+        return profesionalRepositorio.findById(dni).orElse(null);
 
-    public List<ProfesionalEntidad> buscarProfesionalesPorObraSocial(String obraSocial) {
-        return profesionalRepositorio.getProfesionalesByObraSocial(obraSocial);
     }
+ 
 }
