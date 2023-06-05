@@ -36,12 +36,18 @@ public class ProfesionalService  {
     ImagenRepository imagenRepository;
 
     @Transactional
-    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long obraSocialId) {
+    public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long[] obrasSocialesId) {
         try {
 
-            if (obraSocialId != null) {
-                ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
-                profesional.getObraSocial().add(oSocial);
+           if (obrasSocialesId != null) {
+
+                // ELIMINO TODAS LAS OBRAS SOCIALES DEL PROFESIONAL
+                // PARA LUEGO AGREGAR O ELIMINAR LAS DE UI
+                profesional.getObraSocial().clear();
+                for (Long obraSocialId : obrasSocialesId) {
+                    ObraSocialEntidad oSocial = obrasServicio.buscarPorId(obraSocialId);
+                    profesional.getObraSocial().add(oSocial);
+                }
             }
             
             if (ok) {
@@ -60,7 +66,7 @@ public class ProfesionalService  {
         return profesionalRepositorio.buscarPaciente(dni);
     }
 
-    @Override
+    //@Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ProfesionalEntidad profesional = profesionalRepositorio.findByEmail(email);
         if (profesional != null) {
@@ -104,5 +110,14 @@ public class ProfesionalService  {
         return profesionalRepositorio.findById(dni).get();
     }
     
+    /*DELETE*/
+    public void eliminarProfesional(Integer dni) {
+        profesionalRepositorio.deleteById(dni);
+    }
+
+    public ProfesionalEntidad buscarPorDni(Integer dni) {
+        return profesionalRepositorio.findById(dni).orElse(null);
+
+    }
  
 }

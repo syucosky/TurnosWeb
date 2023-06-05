@@ -35,7 +35,7 @@ public class ProfesionalEntidad implements Serializable {
 
     @Id
     @NotNull(message = "No puede estar vacío.")
-    @DniUniqueConstraint()
+    //@DniUniqueConstraint()
     private Integer dni;
     
     @NotEmpty(message = "No puede estar vacío.")
