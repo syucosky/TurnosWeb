@@ -2,12 +2,14 @@
 package com.grupo9.Grupo9.controller;
 
 import com.grupo9.Grupo9.entidades.Filtro;
+import com.grupo9.Grupo9.entidades.PacienteEntidad;
 import com.grupo9.Grupo9.entidades.ProfesionalEntidad;
 import com.grupo9.Grupo9.servicios.EspecialidadServicio;
 import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.PacienteServicio;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -48,8 +50,8 @@ public class IndexController {
         List<ProfesionalEntidad> profesionales = profesionalServicio.listarProfesionales();       
         modelo.addAttribute("profesionales", profesionales);
         modelo.addAttribute("filtro", new Filtro());
-        
-        return "inicio.html";
+
+            return "inicio.html";
     }
     
     @GetMapping("/seleccion-usuario")

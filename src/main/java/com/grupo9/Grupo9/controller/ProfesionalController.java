@@ -18,10 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,42 +49,48 @@ public class ProfesionalController {
     ImagenServicio imagenServicio;
 
     @GetMapping("/registro-profesionales")
-    public String registrarProfesional(ModelMap modelo) {
-        List<ObraSocialEntidad> obras = new ArrayList();
-        List<EspecialidadEntidad> especialidades = new ArrayList();
-        obras = obrasServicio.buscarTodas();
-        especialidades = especialidadServicio.obtenerEspecialidades();
-        modelo.addAttribute("obras", obras);
+    public String registrarProfesional(
+            @ModelAttribute("profesional") ProfesionalEntidad profesional,
+            ModelMap modelo) {
+        cargarModelo(modelo);
         modelo.addAttribute("modo", "registrar");
-        modelo.addAttribute("especialidades", especialidades);
         return "registro-profesional.html";
     }
 
     @PostMapping("/registro-profesional")
-    public String registrarProfesiona(ModelMap modelo, @RequestParam(value = "dni") Integer dni,
-            @RequestParam(value = "nombre") String nombre,
-            @RequestParam(value = "apellido") String apellido,
-            @RequestParam(value = "email") String email,
-            @RequestParam(value = "password") String password,
-            @RequestParam(value = "sexo") String sexo,
-            @RequestParam(value = "telefono") String telefono,
-            @RequestParam(value = "ubicacion") String ubicacion,
-            @RequestParam(value = "tipoAtencion") String tipoAtencion,
-            @RequestParam() Long obraSocialId,
-            @RequestParam() MultipartFile imagen,
+    public String registrarProfesiona(ModelMap modelo,
+            @Valid @ModelAttribute("profesional") ProfesionalEntidad profesional,
+            BindingResult result,
+            @RequestParam() Long[] obrasSocialesId,
+            @RequestParam() MultipartFile imagen_file,
             @RequestParam() Integer especialidadId) {
         try {
 
-            ProfesionalEntidad profesional = new ProfesionalEntidad(dni, nombre, email, password, apellido, sexo, ubicacion, tipoAtencion, telefono);
-
-            profesional.setImagen(imagenServicio.guardar(imagen));
-
-            profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
-           
-            if (profesionalService.buscarPorDni(dni) != null) {
-                throw new Exception("DNI ya existe");
+            if (result.hasErrors()) {
+                cargarModelo(modelo);
+                modelo.addAttribute("modo", "registrar");
+                profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+                for (Long obraSocialeId : obrasSocialesId) {
+                    profesional.getObraSocial().add(obrasServicio.buscarPorId(obraSocialeId));
+                }
+                return "registro-profesional.html";
             }
-            profesionalService.guardarProfesional(profesional, true, obraSocialId);
+            ProfesionalEntidad newProfesional = new ProfesionalEntidad(
+                    profesional.getDni(),
+                    profesional.getNombre(),
+                    profesional.getEmail(),
+                    profesional.getPassword(),
+                    profesional.getApellido(),
+                    profesional.getSexo(),
+                    profesional.getUbicacion(),
+                    profesional.getTipoAtencion(),
+                    profesional.getTelefono());
+
+            newProfesional.setImagen(imagenServicio.guardar(imagen_file));
+
+            newProfesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+
+            profesionalService.guardarProfesional(newProfesional, true, obrasSocialesId);
 
         } catch (Exception e) {
             modelo.addAttribute("error", e.getMessage());
@@ -91,14 +99,22 @@ public class ProfesionalController {
 
         return "redirect:/profesional/perfil";
     }
+
+    private void cargarModelo(ModelMap modelo) {
+        List<ObraSocialEntidad> obras = obrasServicio.buscarTodas();
+        List<EspecialidadEntidad> especialidades = especialidadServicio.obtenerEspecialidades();
+        modelo.addAttribute("obras", obras);
+        modelo.addAttribute("especialidades", especialidades);
+    }
+
     @GetMapping("/filtrar")
-     public String inicio(@ModelAttribute("filtro")Filtro filtro, ModelMap modelo){
-	List<ProfesionalEntidad> listaFiltrada;
+    public String inicio(@ModelAttribute("filtro") Filtro filtro, ModelMap modelo) {
+        List<ProfesionalEntidad> listaFiltrada;
         listaFiltrada = profesionalService.buscarProfesionales(filtro.getEspecialidad(), filtro.getObraSocial());
-	modelo.addAttribute("listaEspecialistas", listaFiltrada);
-	modelo.addAttribute("filtro", filtro);
-	return "inicio.html";
-     }
+        modelo.addAttribute("listaEspecialistas", listaFiltrada);
+        modelo.addAttribute("filtro", filtro);
+        return "inicio.html";
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/perfil")
@@ -130,40 +146,47 @@ public class ProfesionalController {
 
     @PostMapping("/editar")
     public String editarProfesional(
-            @RequestParam(value = "dni") Integer dni,
-            @RequestParam(value = "email") String email,
-            @RequestParam(value = "telefono") String telefono,
-            @RequestParam(value = "ubicacion") String ubicacion,
-            @RequestParam(value = "tipoAtencion") String tipoAtencion,
-            @RequestParam(value = "obraSocialId") Long obraSocialId,
+            ModelMap modelo,
+            @Valid @ModelAttribute("profesional") ProfesionalEntidad profesional,
+            BindingResult result,
+            @RequestParam() Long[] obrasSocialesId,
             @RequestParam() Integer especialidadId,
-            @RequestParam() MultipartFile imagen) throws Exception {
+            @RequestParam() MultipartFile imagen_file) throws Exception {
 
-        ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
-        profesional.setImagen(imagenServicio.guardar(imagen));
-        profesional.setEmail(email);
-        profesional.setUbicacion(ubicacion);
-        profesional.setTelefono(telefono);
-        profesional.setTipoAtencion(tipoAtencion);
-        profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+        if (result.hasErrors()) {
 
-        profesionalService.guardarProfesional(profesional, false, obraSocialId);
+            modelo.addAttribute("modo", "editar");
+            profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+            for (Long obraSocialeId : obrasSocialesId) {
+                profesional.getObraSocial().add(obrasServicio.buscarPorId(obraSocialeId));
+            }
+
+            modelo.addAttribute("profesional", profesional);
+            cargarModelo(modelo);
+            return "registro-profesional";
+        }
+        ProfesionalEntidad profesionalEdit = profesionalService.buscarPorDni(profesional.getDni());
+        profesionalEdit.setImagen(imagenServicio.guardar(imagen_file));
+        profesionalEdit.setEmail(profesional.getEmail());
+        profesionalEdit.setUbicacion(profesional.getUbicacion());
+        profesionalEdit.setTelefono(profesional.getTelefono());
+        profesionalEdit.setTipoAtencion(profesional.getTipoAtencion());
+        profesionalEdit.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+
+        profesionalService.guardarProfesional(profesionalEdit, false, obrasSocialesId);
 
         return "redirect:/";
     }
 
     @GetMapping("/editar")
-    public String editarProfesional(ModelMap modelo, @RequestParam() Integer dni) {
+    public String editarProfesional(
+            @ModelAttribute("profesional") ProfesionalEntidad profesional,
+            ModelMap modelo, @RequestParam() Integer dni) {
 
-        ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
-        List<EspecialidadEntidad> especialidades = especialidadServicio.obtenerEspecialidades();
-
+        profesional = profesionalService.buscarPorDni(dni);
         modelo.addAttribute("modo", "editar");
-        modelo.addAttribute("datosProfesional", profesional);
-        modelo.addAttribute("especialidades", especialidades);
-        List<ObraSocialEntidad> obras = new ArrayList();
-        obras = obrasServicio.buscarTodas();
-        modelo.addAttribute("obras", obras);
+        modelo.addAttribute("profesional", profesional);
+        cargarModelo(modelo);
         return "registro-profesional.html";
     }
 

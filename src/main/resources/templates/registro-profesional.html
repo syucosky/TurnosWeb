@@ -27,7 +27,7 @@
 
 
                     <div class="col-12">
-                        <form class="formulario"
+                        <form class="formulario" th:object="${profesional}"
                             th:action="${modo}== 'editar' ? @{/profesional/editar} : @{/profesional/registro-profesional}"
                             method="POST" enctype="multipart/form-data">
 
@@ -40,48 +40,47 @@
 
                             <div class="form-group my-3">
                                 <label for="nombre" class="form-label">Nombres</label>
-                                <input th:value="${datosProfesional?.nombre}" th:readonly="${modo}=='editar'"
-                                    type="text" class="form-control" name="nombre" placeholder="ej. Juan"
-                                    required="true" />
+                                <input th:field="*{nombre}" th:readonly="${modo}=='editar'" type="text"
+                                    class="form-control" placeholder="ej. Juan" />
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('nombre')}"
+                                    th:errors="*{nombre}"></div>
                             </div>
                             <div class="form-group my-3">
                                 <label for="apellido" class="form-label">Apellidos</label>
-                                <input th:value="${datosProfesional?.apellido}" th:readonly="${modo}=='editar'"
-                                    type="text" class="form-control" name="apellido" placeholder="ej. Aguirre"
-                                    required="true" />
+                                <input th:field="*{apellido}" th:readonly="${modo}=='editar'" type="text"
+                                    class="form-control" placeholder="ej. Aguirre" required="true" />
                             </div>
                             <div class="form-group my-3">
                                 <label for="dni" class="form-label">Documento</label>
-                                <input th:value="${datosProfesional?.dni}" th:readonly="${modo}=='editar'" type="number"
-                                    class="form-control" name="dni" placeholder="Dni" required="true" />
+                                <input th:field="*{dni}" th:readonly="${modo}=='editar'" type="number"
+                                    class="form-control" placeholder="Dni" required>
+
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">
+                                </div>
                             </div>
 
                             <div class="form-group my-3">
                                 <label for="telefono" class="form-label">Teléfono</label>
-                                <input th:value="${modo}== 'editar' ? ${datosProfesional.telefono}:''" type="text"
-                                    class="form-control" name="telefono" placeholder="Teléfono" required="true" />
-
+                                <input th:field="*{telefono}" type="text" class="form-control" placeholder="Teléfono" />
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('telefono')}"
+                                    th:errors="*{telefono}"></div>
                             </div>
 
                             <div class="form-group my-3">
                                 <label for="ubicacion" class="form-label">Ubicación</label>
-                                <input th:value="${modo}== 'editar' ? ${datosProfesional.ubicacion}:''" type="text"
-                                    class="form-control" name="ubicacion" placeholder="Dirección 123" required="true" />
+                                <input th:field="*{ubicacion}" type="text" class="form-control"
+                                    placeholder="Dirección 123" required="true" />
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('ubicacion')}"
+                                    th:errors="*{ubicacion}"></div>
                             </div>
 
                             <div class="form-group my-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input th:value="${modo}== 'editar' ? ${datosProfesional.email}:''" type="email"
-                                    class="form-control" name="email" placeholder="ejemplo@mail.com" required="true" />
+                                <input th:field="*{email}" type="email" class="form-control"
+                                    placeholder="ejemplo@mail.com" required="true" />
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}"
+                                    th:errors="*{email}"></div>
                             </div>
-
-
-
-
-
-
-
-
 
                             <div class="form-group my-3">
 
@@ -92,17 +91,23 @@
                                     <option>Masculino</option>
                                     <option>No definido</option>
                                 </select>
-
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('sexo')}"
+                                    th:errors="*{sexo}"></div>
                             </div>
 
                             <div class="form-group my-3">
-                                <label for="obraSocialId" class="form-label">Obra Social:</label>
-                                <select class="form-select" id="obraSocialId" name="obraSocialId" required="true">
-                                    <option value="0">Seleccionar</option>
-                                    <option th:selected="${datosProfesional?.obraSocial?.get(0)?.id} == ${obra.id}"
-                                        th:each="obra : ${obras}" th:value="${obra.id}" th:text="${obra.nombre}">
-                                    </option>
-                                </select>
+                                <label for="obraSocialId" class="form-label">Obras Sociales</label>
+
+                                <div class="form-check" th:each="obra : ${obras}">
+                                    <input th:checked="${profesional?.obraSocial?.contains(obra)}"
+                                        name="obrasSocialesId" th:value="${obra.id}" class="form-check-input"
+                                        type="checkbox" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked" th:text="${obra.nombre}">
+
+                                    </label>
+                                </div>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('obraSocial')}"
+                                    th:errors="*{obraSocial}"></div>
                             </div>
 
 
@@ -110,11 +115,13 @@
                                 <label for="especialidadId" class="form-label">Especialidad:</label>
                                 <select class="form-select" name="especialidadId" required="true">
                                     <option value="0">Seleccionar</option>
-                                    <option th:selected="${datosProfesional?.especialidad?.id} == ${especialidad.id}"
+                                    <option th:selected="${profesional?.especialidad?.id} == ${especialidad.id}"
                                         th:each="especialidad : ${especialidades}" th:value="${especialidad.id}"
                                         th:text="${especialidad.nombre}">
                                     </option>
                                 </select>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('especialidad')}"
+                                    th:errors="*{especialidad}"></div>
                             </div>
 
 
@@ -124,27 +131,30 @@
                                 <div class="form-group my-3">
                                     <label for="tipoAtencion" class="form-label">Tipo de atención: </label>
                                     <select class="form-select" id="tipoAtencion" name="tipoAtencion" required="true">
-                                        <option th:selected="${datosProfesional?.tipoAtencion=='Virtual'}"
-                                            value="Virtual">Virtual</option>
-                                        <option th:selected="${datosProfesional?.tipoAtencion=='Presencial'}"
+                                        <option th:selected="${profesional?.tipoAtencion=='Virtual'}" value="Virtual">
+                                            Virtual</option>
+                                        <option th:selected="${profesional?.tipoAtencion=='Presencial'}"
                                             value="Presencial">Presencial</option>
-                                        <option th:selected="${datosProfesional?.tipoAtencion=='Ambas'}" value="Ambas">
+                                        <option th:selected="${profesional?.tipoAtencion=='Ambas'}" value="Ambas">
                                             Ambas</option>
                                     </select>
+                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('tipoAtencion')}"
+                                        th:errors="*{tipoAtencion}"></div>
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label
                                         th:text="${modo}== 'editar' ? 'Actualizar foto de perfil':'Foto de perfil'"></label>
-                                    <input type="file" name="imagen" accept="image/png, image/jpeg" />
+                                    <input name="imagen_file" type="file" accept="image/png, image/jpeg" />
+                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('imagen')}"
+                                        th:errors="*{imagen}"></div>
                                 </div>
-
-
-
 
                                 <div class="form-group my-3" th:if="${modo == 'registrar'}">
                                     <input type="password" class="form-control" name="password" placeholder="Contraseña"
                                         required="true" />
+                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}"
+                                        th:errors="*{password}"></div>
                                 </div>
                                 <div class="row">
                                     <div class="d-grid gap-2 col-6 mx-auto">
@@ -170,7 +180,6 @@
             </div>
 
         </div>
-
         <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
             <div class="card-body">
                 <h5 class="card-title">Error!</h5>
