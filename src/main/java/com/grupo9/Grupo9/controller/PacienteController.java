@@ -141,9 +141,6 @@ public class PacienteController {
         ProfesionalEntidad profesional = profesionalService.buscarPorEmail(profe);
         List<TurnosEntidad> turnos = turnosService.turnosIdProf(profesional.getDni());
         List<Integer> pacienteTurno = pacienteServicio.turnosPorIdProf(profesional.getDni());
-        for (TurnosEntidad objeto : turnos) {
-            System.out.println("Imprimi antes del el iterator "+objeto.getId());
-        }
         Iterator<TurnosEntidad> iterator = turnos.iterator();
         while (iterator.hasNext()) {
             TurnosEntidad objeto = iterator.next();
@@ -151,12 +148,8 @@ public class PacienteController {
                 iterator.remove();
             }
         }
-        for (TurnosEntidad objeto : turnos) {
-            System.out.println("Imprimi dsp del el iterator "+objeto.getId());
-        }
-
             modelo.addAttribute("turnos",turnos);
-            modeloDos.addAttribute("profesional",profesional);
+            modeloDos.addAttribute("profesionales",profesional);
         
         return "turnos.html";  
     }
