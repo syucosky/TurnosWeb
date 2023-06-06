@@ -26,7 +26,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProfesionalService  {
+public class ProfesionalService {
+
     @Autowired
     ProfesionalRepository profesionalRepositorio;
 
@@ -39,7 +40,7 @@ public class ProfesionalService  {
     public void guardarProfesional(ProfesionalEntidad profesional, Boolean ok, Long[] obrasSocialesId) {
         try {
 
-           if (obrasSocialesId != null) {
+            if (obrasSocialesId != null) {
 
                 // ELIMINO TODAS LAS OBRAS SOCIALES DEL PROFESIONAL
                 // PARA LUEGO AGREGAR O ELIMINAR LAS DE UI
@@ -49,7 +50,7 @@ public class ProfesionalService  {
                     profesional.getObraSocial().add(oSocial);
                 }
             }
-            
+
             if (ok) {
                 String passCod = profesional.getPassword();
                 profesional.setPassword(new BCryptPasswordEncoder().encode(passCod));
@@ -83,11 +84,6 @@ public class ProfesionalService  {
     public ProfesionalEntidad buscarPorEmail(String email) {
         return profesionalRepositorio.findByEmail(email);
     }
-    public List<ProfesionalEntidad> buscarProfesionales(String especialidad, String obraSocial){
-        return (List<ProfesionalEntidad>) profesionalRepositorio.getProfesionalesByEspecialidadAndOSocial(especialidad,obraSocial);
-   
-   }
-
 
     public void dardeAlta(Integer dni) {
         profesionalRepositorio.altaProfesional(dni, Rol.PROFESIONALAPTO);
@@ -109,15 +105,17 @@ public class ProfesionalService  {
     public ProfesionalEntidad obtenerProfesionalPorId(Integer dni) {
         return profesionalRepositorio.findById(dni).get();
     }
-    
-    /*DELETE*/
-    public void eliminarProfesional(Integer dni) {
-        profesionalRepositorio.deleteById(dni);
-    }
 
     public ProfesionalEntidad buscarPorDni(Integer dni) {
         return profesionalRepositorio.findById(dni).orElse(null);
-
     }
- 
+        /*DELETE*/
+    public List<ProfesionalEntidad> buscarProfesionalesEspecialidad(String especialidad) {
+        return (List<ProfesionalEntidad>) profesionalRepositorio.getProfesionalesByEspecialidad(especialidad);
+    }
+
+    public List<ProfesionalEntidad> buscarProfesionalesPorObraSocial(String obraSocial) {
+        return profesionalRepositorio.getProfesionalesByObraSocial(obraSocial);
+    }
+
 }

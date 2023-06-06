@@ -71,27 +71,28 @@ public class ProfesionalController {
                 modelo.addAttribute("modo", "registrar");
                 profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
                 for (Long obraSocialeId : obrasSocialesId) {
-                    profesional.getObraSocial().add(obrasServicio.buscarPorId(obraSocialeId));
+//                    profesional.getObraSocial().add(obrasServicio.buscarPorId(obraSocialeId));
                 }
-                return "registro-profesional.html";
+//                return "registro-profesional.html";
+//            }
+                ProfesionalEntidad newProfesional = new ProfesionalEntidad(
+                        profesional.getDni(),
+                        profesional.getNombre(),
+                        profesional.getEmail(),
+                        profesional.getPassword(),
+                        profesional.getApellido(),
+                        profesional.getSexo(),
+                        profesional.getUbicacion(),
+                        profesional.getTipoAtencion(),
+                        profesional.getTelefono());
+
+                newProfesional.setImagen(imagenServicio.guardar(imagen_file));
+
+                newProfesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+
+                profesionalService.guardarProfesional(newProfesional, true, obrasSocialesId);
+
             }
-            ProfesionalEntidad newProfesional = new ProfesionalEntidad(
-                    profesional.getDni(),
-                    profesional.getNombre(),
-                    profesional.getEmail(),
-                    profesional.getPassword(),
-                    profesional.getApellido(),
-                    profesional.getSexo(),
-                    profesional.getUbicacion(),
-                    profesional.getTipoAtencion(),
-                    profesional.getTelefono());
-
-            newProfesional.setImagen(imagenServicio.guardar(imagen_file));
-
-            newProfesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
-
-            profesionalService.guardarProfesional(newProfesional, true, obrasSocialesId);
-
         } catch (Exception e) {
             modelo.addAttribute("error", e.getMessage());
             return "error";
@@ -110,7 +111,7 @@ public class ProfesionalController {
     @GetMapping("/filtrar")
     public String inicio(@ModelAttribute("filtro") Filtro filtro, ModelMap modelo) {
         List<ProfesionalEntidad> listaFiltrada;
-        listaFiltrada = profesionalService.buscarProfesionales(filtro.getEspecialidad(), filtro.getObraSocial());
+        listaFiltrada = profesionalService.buscarProfesionalesEspecialidad( filtro.getEspecialidad());
         modelo.addAttribute("listaEspecialistas", listaFiltrada);
         modelo.addAttribute("filtro", filtro);
         return "inicio.html";
@@ -200,12 +201,11 @@ public class ProfesionalController {
         return "perfil-profesional.html";
     }
 
-    @DeleteMapping("/eliminar")
-    public String eliminarProfesional(ModelMap modelo, @RequestParam() Integer dni) {
-        profesionalService.eliminarProfesional(dni);
-        return "redirect:/";
-    }
-
+//    @DeleteMapping("/eliminar")
+//    public String eliminarProfesional(ModelMap modelo, @RequestParam() Integer dni) {
+//        profesionalService.eliminarProfesional(dni);
+//        return "redirect:/";
+//    }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @PostMapping("/turnosSeleccionados")
     public String guardarTurnos(@RequestParam(value = "turnosSelec") List<String> turnosSelec,
