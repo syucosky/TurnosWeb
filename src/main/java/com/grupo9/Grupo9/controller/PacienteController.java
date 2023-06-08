@@ -149,7 +149,7 @@ public class PacienteController {
             }
         }
             modelo.addAttribute("turnos",turnos);
-            modeloDos.addAttribute("profesionales",profesional);
+            modeloDos.addAttribute("profesional",profesional);
         
         return "turnos.html";  
     }

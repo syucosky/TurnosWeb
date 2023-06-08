@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,20 +36,25 @@ public class HistorialClinicoEntidad {
     @Column(nullable = false)
     private String enfermedades;
     private LocalDate ultimoChequeo;
+    @OneToOne
+   private PacienteEntidad paciente;
     
-
+    @Column(nullable = true)
+    private String nombre;
+     
     public HistorialClinicoEntidad() {
     }
 
-    public HistorialClinicoEntidad(Integer id, Integer edad, String grupoSanguineo, Double peso, Integer altura, String enfermedades, LocalDate ultimoChequeo, PacienteEntidad paciente) {
-        this.id = id;
+    public HistorialClinicoEntidad(Integer edad, String nombre, String grupoSanguineo, Double peso, Integer altura, String enfermedades, LocalDate ultimoChequeo) {
         this.edad = edad;
         this.grupoSanguineo = grupoSanguineo;
         this.peso = peso;
         this.altura = altura;
         this.enfermedades = enfermedades;
         this.ultimoChequeo = ultimoChequeo;
+        this.nombre = nombre;
     }
-    
+
+   
     
 }
