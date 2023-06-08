@@ -67,7 +67,7 @@ th, td {
 }
 
 .btn {
-    display: inline-block;
+    display: flex;
     padding: 8px 12px;
     background-color: #007bff;
     color: white;
