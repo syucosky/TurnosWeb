@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8" >
+        <title>Ver HistoriasClinicas</title>
+        <link href="css/one-page-wonder.min.css" rel="stylesheet">
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" type="image/png" href="/img/icon.png">
+        <link rel="stylesheet" href="css/lista_pacientes.css">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+        <script src="/js/checkboxone.js"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navBar">
+            <div class="containerImg">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    <img class="logo" src="/img/login/fondo.jpg" alt="Img logo MediLab">
+                </a>
+            </div>
+        </nav>
+
+        <div class="container m-5" >
+
+            <h1>Lista de Historia Clínica</h1>
+          
+         
+            <form th:href="@{/historiaClinica/listar}" method="get"></form>
+         <table class="table">
+                    <thead>
+                        <tr> 
+
+                    <a class="btn btn-success"  th:href="@{/historiaClinica/nuevo}">Agregar Una Nueva Historia Clínica</a>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Grupo Sanguínio</th>
+                            <th>Peso</th>
+                            <th>Altura</th>
+                            <th>Enfermedades</th>
+                            <th>Ultimo Chequeo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="historiaClinica : ${historiaClinica}">
+                            <td th:text="${historiaClinica.id}"></td>
+                            <td th:text="${historiaClinica.nombre}"></td>
+                            <td th:text="${historiaClinica.edad}"></td>
+                             <td th:text="${historiaClinica.grupoSanguineo}"></td>
+                              <td th:text="${historiaClinica.peso}"></td>
+                               <td th:text="${historiaClinica.altura}"></td>
+                                <td th:text="${historiaClinica.enfermedades}"></td>
+                                 <td th:text="${historiaClinica.ultimoChequeo}"></td>
+                                 <td>
+                                     <a class="btn btn-warning" th:href="@{/historiaClinica/editar/__${historiaClinica.id}__}">Editar</a>
+                                     <a  class="btn btn-danger" th:href="@{/historiaClinica/eliminar/__${historiaClinica.id}__}" method="post" >Eliminar</a>
+                                 </td>
+                            <!-- Agrega aquí las columnas adicionales que necesites -->
+                
+                   
+                
+                        
+            
+        </tr>
+    </table>
+            <a  th:href="@{/logout}"  class="btn btn-primary btn-lg" type="button">
+                Cerrar sesión
+            </a>
+            <a  th:href="@{../profesional/perfil}"  class="btn btn-primary btn-lg" type="button">
+                Ir al perfil profesional
+            </a>
+            <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
+                <div class="card-body">
+                    <h5 class="card-title">Exito ð</h5>
+                    <p class="card-text" th:text="${exito}"></p>
+                </div>
+            </div>
+            <div th:if="${error}!=null" class="card text-white bg-danger mb-3 mensajeError" >
+                <div class="card-body">
+                    <h5 class="card-title">Error ð</h5>
+                    <p class="card-text" th:text="${error}"></p>
+                </div>
+            </div>
+       
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+        </html>
