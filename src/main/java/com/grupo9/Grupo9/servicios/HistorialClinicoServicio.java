@@ -38,12 +38,10 @@ public class HistorialClinicoServicio {
         hisCliRepository.deleteById(id); 
      
     }
- public HistorialClinicoEntidad buscarHistoriaClinicaPorID(Integer id){   
-     System.out.print(id);
-Optional<HistorialClinicoEntidad> resultado = hisCliRepository.findById(id);
-System.out.print(resultado);
-return resultado.isPresent() ? resultado.get() : null;
- }
+   public HistorialClinicoEntidad obtenerHistCliPorId(Integer id) {
+        Optional<HistorialClinicoEntidad> resultado = hisCliRepository.findById(id);
+        return resultado.orElse(null);
+    }
  
  
 }

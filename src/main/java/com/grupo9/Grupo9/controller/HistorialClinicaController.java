@@ -74,36 +74,34 @@ public class HistorialClinicaController {
         return "redirect:/historiaClinica/listar";
     }
     
-     
-    @PostMapping("/guardarEdicion")
-    public String guardarEdicion(
-                                      @RequestParam(value = "edad")Integer edad,
-                                      @RequestParam(value = "nombre")String nombre,
-                                      @RequestParam(value = "grupoSanguinio")String grupoSanguinio,
-                                      @RequestParam(value = "peso")Double peso,                                    
-                                      @RequestParam(value = "altura")Integer altura,
-                                      @RequestParam(value = "enfermedades")String enfermedades,
-                                      @RequestParam(value = "ultimoChequeo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate ultimoChequeo){
+    @GetMapping("/editar/{id}")
+    public String obtenerHistCliPorId(ModelMap model, @PathVariable Integer id) {
+        HistorialClinicoEntidad hisCliEditar = hisCliServicio.obtenerHistCliPorId(id);
+        model.addAttribute("hisCliEditar", hisCliEditar);
+        return "editar-historiaClinica.html";
+    }
+
+    @PostMapping("/guardarHistEdicion")
+    public String guardarHistEdicion(
+            @RequestParam(value = "id")Integer id,
+            @RequestParam(value = "nombre")String nombre,
+            @RequestParam(value = "edad")Integer edad,
+            @RequestParam(value = "grupoSanguinio")String grupoSanguinio,
+            @RequestParam(value = "peso")Double peso,
+            @RequestParam(value = "altura")Integer altura,
+            @RequestParam(value = "enfermedades")String enfermedades,
+            @RequestParam(value = "ultimoChequeo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate ultimoChequeo){
         try {
-            HistorialClinicoEntidad hisCliEn;
-            hisCliEn = new HistorialClinicoEntidad(edad, nombre, grupoSanguinio, peso, altura, enfermedades, ultimoChequeo);
-        hisCliServicio.guardarHistCli(hisCliEn ,true);
+            HistorialClinicoEntidad hisClien = new HistorialClinicoEntidad(edad, nombre, grupoSanguinio, peso, altura, enfermedades, ultimoChequeo);
+            hisClien.setId(id);
+            hisCliServicio.guardarHistCli(hisClien ,true);
 
         } catch (Exception e) {
-            
+
         }
-            
-        return "redirect:/historiaClinica/editar/{id}";
+
+        return "redirect:/historiaClinica/listar";
     }
-    @GetMapping("/editar/{id}")
-    public String mostrarFormularioEdicion(@PathVariable int id, Model model) {
-       HistorialClinicoEntidad histCliEditar = hisCliServicio.buscarHistoriaClinicaPorID(id);
-model.addAttribute("histCliEditar", histCliEditar);
-                return "editar-historiaClinica.html";
-    }
-    
-    
-    
     
     
     
