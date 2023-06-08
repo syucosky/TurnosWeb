@@ -63,7 +63,10 @@ public class IndexController {
         }
         
         //SI ES PROFESIONAL:
-        return "inicio.html";
+        
+        ProfesionalEntidad profesionalLogueado = profesionalServicio.buscarPorEmail(currectUser.getUsername());
+        
+        return "redirect:/profesional/perfil?dni="+profesionalLogueado.getDni();
 
     }
 
