@@ -24,11 +24,13 @@ public class ImagenServicio {
 
     public ImagenEntidad guardar(MultipartFile imagen) throws IOException, Exception {
 
-        if (imagen == null) {
+        if (imagen
+                == null) {
             throw new Exception("Imagen requerida");
         }
 
         ImagenEntidad img = new ImagenEntidad();
+
         img.setNombre(imagen.getName());
         img.setMime(imagen.getContentType());
         img.setContenido(imagen.getBytes());
@@ -36,4 +38,9 @@ public class ImagenServicio {
         ImagenEntidad imagenGuardada = imagenRepository.save(img);
         return imagenGuardada;
     }
+
+    public ImagenEntidad buscarPorId(Integer Id) {
+        return imagenRepository.findById(Id).orElse(null);
+    }
+
 }

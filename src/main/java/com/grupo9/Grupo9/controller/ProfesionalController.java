@@ -13,12 +13,17 @@ import com.grupo9.Grupo9.servicios.ObraSocialService;
 import com.grupo9.Grupo9.servicios.ProfesionalService;
 import com.grupo9.Grupo9.servicios.TurnosService;
 import com.grupo9.Grupo9.servicios.UsuarioServicio;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -47,6 +52,18 @@ public class ProfesionalController {
     TurnosService turnosService;
     @Autowired
     ImagenServicio imagenServicio;
+    
+    
+    @GetMapping("/imagen/{id}")
+    public void obtenerImagen(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+
+        response.setContentType("image/jpeg"); // Or whatever format you wanna use
+
+        ImagenEntidad imagen = imagenServicio.buscarPorId(id);
+
+        InputStream is = new ByteArrayInputStream(imagen.getContenido());
+        IOUtils.copy(is, response.getOutputStream());
+    }
 
     @GetMapping("/registro-profesionales")
     public String registrarProfesional(
@@ -119,18 +136,21 @@ public class ProfesionalController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/perfil")
-    public String perfilProfesional(ModelMap modelo) {
+     public String perfilProfesional(ModelMap modelo, @RequestParam Integer dni) {
         try {
+           ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
             List<EspecialidadEntidad> especialidades = new ArrayList();
             especialidades = especialidadServicio.obtenerEspecialidades();
             modelo.addAttribute("especialidades", especialidades);
             List<TurnosEntidad> turnos = turnosService.obtenerTurnos();
             modelo.addAttribute("turnos", turnos);
+            modelo.addAttribute("profesional", profesional);
         } catch (Exception e) {
             System.out.println("error");
         }
         return "perfil-profesional.html";
     }
+
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @PostMapping("/perfil")
