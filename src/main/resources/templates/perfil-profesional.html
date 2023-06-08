@@ -4,12 +4,16 @@
         <meta charset="UTF-8"> </meta>
         <title>Perfil Profesional</title>
         <link rel="stylesheet" href="/css/perfil-profesional.css">
+
     </head>
     <body>
         <a th:href="@{../logout}"  class="btn btn-primary btn-lg" type="button">
             Cerrar sesion</a>
-        <h1>Perfil Profesional</h1>
-        <img class="img" src="/img/Login/fondoPerfilProfesinal.png" alt="">
+        <h1>
+           <span th:text="${profesional.nombre}" /> 
+        </h1>
+
+        <img class="img" th:src="${'/profesional/imagen/' + profesional.imagen.id}" alt=""/>
 
         <!-- Formulario para seleccionar una especialidad -->
         <form th:action="@{/profesional/perfil}" method="POST">
@@ -21,7 +25,7 @@
             </div>
             <div>
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required="true"></input>
+                <input th:value="${profesional.email}" type="email" id="email" name="email" required="true"></input>
             </div>
             <button type="submit">Seleccionar Especialidad</button>
         </form>

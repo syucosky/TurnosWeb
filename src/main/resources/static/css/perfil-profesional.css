@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: lightblue;
+    background-color: #dae2ff;
     text-align: center;
 }
 
@@ -16,6 +16,11 @@ img{
     margin-left: 10px;
     width: 300px;
     height: auto;
+    border-radius: 20%;
+    border-style: solid;  
+    border-color: lightsteelblue;
+
+
 }
 
 
@@ -40,7 +45,7 @@ button[type="submit"] {
     color: white;
     border: none;
     cursor: pointer;
-    
+
 }
 
 button:hover{
