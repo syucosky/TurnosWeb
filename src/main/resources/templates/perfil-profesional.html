@@ -3,65 +3,98 @@
     <head>
         <meta charset="UTF-8"> </meta>
         <title>Perfil Profesional</title>
-        <link rel="stylesheet" href="/css/perfil-profesional.css">
-
+        <!--        <link rel="stylesheet" href="/css/perfil-profesional.css">-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
     </head>
     <body>
-        <a th:href="@{../logout}"  class="btn btn-primary btn-lg" type="button">
-            Cerrar sesion</a>
-        <h1>
-           <span th:text="${profesional.nombre}" /> 
-        </h1>
+        <div class="container mb-5">
 
-        <img class="img" th:src="${'/profesional/imagen/' + profesional.imagen.id}" alt=""/>
 
-        <!-- Formulario para seleccionar una especialidad -->
-        <form th:action="@{/profesional/perfil}" method="POST">
-            <div>
-                <label for="especialidad">Especialidad:</label>
-                <select id="especialidad" name="especialidad">
-                    <option th:each="especialidad : ${especialidades}" th:value="${especialidad.nombre}" th:text="${especialidad.nombre}"></option>
-                </select>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input th:value="${profesional.email}" type="email" id="email" name="email" required="true"></input>
-            </div>
-            <button type="submit">Seleccionar Especialidad</button>
-        </form>
-        <!--//-->
-        <!-- Formulario para crear una especialidad -->
-        <form th:action="@{/profesional/crearEspe}" method="post">
-            <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required="true"></input>
-            </div>
-            <button type="submit">Crear Especialidad</button>
-        </form>
-
-        <form th:action="@{/profesional/turnosSeleccionados}" method="post">
-            <table>
-                <tr>
-                    <th>Día</th>
-                    <th>Horario</th>
-                    <th>Seleccionar</th>
-                </tr>
-                <tr th:each="turno : ${turnos}">
-                    <td th:text="${turno.dia}"></td>
-                    <td>
-                        <span th:each="horario : ${turno.horario}">
-                            <label th:text="${horario}"></label>
-                            <input type="checkbox" th:name="turnosSelec" th:value="${turno.id}" />
-                        </span>
-                    </td>
-
-                </tr>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required="true"></input>
+            <div class=" d-flex flex-row-reverse">
+                <div class="p-5" width="500px">    
+                    <a th:href="@{/historiaClinica/listar}" class="btn btn-primary" type="button">
+                        Historia Clinica</a>
+                    <a th:href="@{../logout}"  class="btn btn-primary" type="button">
+                        Cerrar sesion</a>
                 </div>
-            </table>
-            <button type="submit">Guardar</button>
-        </form>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img class="img-thumbnail rounded" th:src="${'/profesional/imagen/' + profesional.imagen.id}" alt=""/>
+
+
+                </div>
+                <div class="col-9">
+                    <h1>
+                        <span th:text="${profesional.nombre}" /> 
+                    </h1>
+                    <div class="row">
+                        <div class="col-12">
+
+
+                            <!-- Formulario para seleccionar una especialidad -->
+                            <form th:action="@{/profesional/perfil}" method="POST">
+                                <div  class="form-group mb-3">
+                                    <label class="form-label" for="especialidad">Especialidad:</label>
+                                    <select class="form-select" id="especialidad" name="especialidad">
+                                        <option th:each="especialidad : ${especialidades}" th:value="${especialidad.nombre}" th:text="${especialidad.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="email">Email:</label>
+                                    <input class="form-control" th:value="${profesional.email}" type="email" id="email" name="email" required="true"></input>
+                                </div>
+                                <button class="btn btn-primary"  type="submit">Seleccionar Especialidad</button>
+                            </form>
+                            <!--//-->
+                            <!-- Formulario para crear una especialidad -->
+                            <form th:action="@{/profesional/crearEspe}" method="post">
+                                <div  class="form-group mb-3">
+                                    <label class="form-label" for="nombre">Nombre:</label>
+                                    <input class="form-control" type="text" id="nombre" name="nombre" required="true"></input>
+                                </div>
+                                <button class="btn btn-primary"  type="submit">Crear Especialidad</button>
+                            </form>
+
+                            <form th:action="@{/profesional/turnosSeleccionados}" method="post">
+                                <table  class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Día</th>
+                                            <th scope="col">Horario</th>
+                                            <th scope="col">Seleccionar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="turno : ${turnos}">
+                                            <td th:text="${turno.dia}"></td>
+                                            <td>
+                                                <span th:each="horario : ${turno.horario}">
+                                                    <label class="form-label" th:text="${horario}"></label>
+                                                    <input class="form-check-input" type="checkbox" th:name="turnosSelec" th:value="${turno.id}" />
+                                                </span>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                    <div>
+                                        <label class="form-label" for="email">Email:</label>
+                                        <input class="form-control" type="email" id="email" name="email" required="true"></input>
+                                    </div>
+                                </table>
+                                <button class="btn btn-primary"  type="submit">Guardar</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
     </body>
 </html>

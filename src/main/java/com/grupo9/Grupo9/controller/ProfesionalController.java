@@ -52,8 +52,7 @@ public class ProfesionalController {
     TurnosService turnosService;
     @Autowired
     ImagenServicio imagenServicio;
-    
-    
+
     @GetMapping("/imagen/{id}")
     public void obtenerImagen(@PathVariable Integer id, HttpServletResponse response) throws IOException {
 
@@ -88,34 +87,33 @@ public class ProfesionalController {
                 modelo.addAttribute("modo", "registrar");
                 profesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
                 for (Long obraSocialeId : obrasSocialesId) {
-//                    profesional.getObraSocial().add(obrasServicio.buscarPorId(obraSocialeId));
+                    profesional.getObraSocial().add(obrasServicio.buscarPorId(obraSocialeId));
                 }
-//                return "registro-profesional.html";
-//            }
-                ProfesionalEntidad newProfesional = new ProfesionalEntidad(
-                        profesional.getDni(),
-                        profesional.getNombre(),
-                        profesional.getEmail(),
-                        profesional.getPassword(),
-                        profesional.getApellido(),
-                        profesional.getSexo(),
-                        profesional.getUbicacion(),
-                        profesional.getTipoAtencion(),
-                        profesional.getTelefono());
-
-                newProfesional.setImagen(imagenServicio.guardar(imagen_file));
-
-                newProfesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
-
-                profesionalService.guardarProfesional(newProfesional, true, obrasSocialesId);
-
+                return "registro-profesional.html";
             }
+            ProfesionalEntidad newProfesional = new ProfesionalEntidad(
+                    profesional.getDni(),
+                    profesional.getNombre(),
+                    profesional.getEmail(),
+                    profesional.getPassword(),
+                    profesional.getApellido(),
+                    profesional.getSexo(),
+                    profesional.getUbicacion(),
+                    profesional.getTipoAtencion(),
+                    profesional.getTelefono());
+
+            newProfesional.setImagen(imagenServicio.guardar(imagen_file));
+
+            newProfesional.setEspecialidad(especialidadServicio.buscarPorId(especialidadId));
+
+            profesionalService.guardarProfesional(newProfesional, true, obrasSocialesId);
+
         } catch (Exception e) {
             modelo.addAttribute("error", e.getMessage());
             return "error";
         }
 
-        return "redirect:/profesional/perfil";
+        return "redirect:/profesional/perfil?dni="+profesional.getDni();
     }
 
     private void cargarModelo(ModelMap modelo) {
@@ -128,7 +126,7 @@ public class ProfesionalController {
     @GetMapping("/filtrar")
     public String inicio(@ModelAttribute("filtro") Filtro filtro, ModelMap modelo) {
         List<ProfesionalEntidad> listaFiltrada;
-        listaFiltrada = profesionalService.buscarProfesionalesEspecialidad( filtro.getEspecialidad());
+        listaFiltrada = profesionalService.buscarProfesionalesEspecialidad(filtro.getEspecialidad());
         modelo.addAttribute("listaEspecialistas", listaFiltrada);
         modelo.addAttribute("filtro", filtro);
         return "inicio.html";
@@ -136,9 +134,9 @@ public class ProfesionalController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @GetMapping("/perfil")
-     public String perfilProfesional(ModelMap modelo, @RequestParam Integer dni) {
+    public String perfilProfesional(ModelMap modelo, @RequestParam Integer dni) {
         try {
-           ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
+            ProfesionalEntidad profesional = profesionalService.buscarPorDni(dni);
             List<EspecialidadEntidad> especialidades = new ArrayList();
             especialidades = especialidadServicio.obtenerEspecialidades();
             modelo.addAttribute("especialidades", especialidades);
@@ -150,7 +148,6 @@ public class ProfesionalController {
         }
         return "perfil-profesional.html";
     }
-
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','PROFESIONALNOAPTO')")
     @PostMapping("/perfil")
